@@ -15,10 +15,10 @@ update-makefile-common:
 
 .PHONY: show-template-placeholder # show all the file content and filenames w template placeholder
 show-template-placeholder:
-	echo "File contents:"
-	rg -g "!.venv" -g "!.git" -g "!vendor" -uu ${TEMPLATE_PLACEHOLDER}
-	echo "Files:"
-	fd ${TEMPLATE_PLACEHOLDER}
+	@echo "File contents:"
+	@rg -g "!.venv" -g "!.git" -g "!vendor" -uu ${TEMPLATE_PLACEHOLDER}
+	@echo "Files:"
+	@fd ${TEMPLATE_PLACEHOLDER}
 
 .PHONY: help # Generate list of targets with descriptions
 help:
