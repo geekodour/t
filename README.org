@@ -1,6 +1,6 @@
 I use these when starting new projects/creating [[https://replit.com/templates][new repls]].
 - [[https://github.com/geekodour/template-base-go][base-go]] : A barebones cookiecutter for personal go projects
-- base-python : A barebones cookiecutter for personal python projects
+- [[https://github.com/geekodour/t-base-python][base-python]] : A barebones cookiecutter for personal python projects
 - base-c : A barebones cookiecutter for personal c projects
 - base-cpp : A barebones cookiecutter for personal cpp projects
 - web
