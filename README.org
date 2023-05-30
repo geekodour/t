@@ -1,7 +1,6 @@
 I use these when starting new projects/creating [[https://replit.com/templates][new repls]].
 - [[https://github.com/geekodour/template-base-go][base-go]] : cookiecutter for go
 - [[https://github.com/geekodour/t-base-python][base-python]] : cookiecutter for python
-- base-node : cookiecutter for node
+- [[https://github.com/geekodour/t-base-node-cjs][base-node-cjs]] : cookiecutter for node
 - web
-  - base-next : A barebones cookiecutter for personal react projects
-  - base-svelte : A barebones cookiecutter for personal svelte projects
+  - [[https://github.com/geekodour/t-base-svelte][base-svelte]] : A barebones cookiecutter for personal svelte projects
