@@ -1,0 +1,10 @@
+default:
+	@just --list
+
+
+## .clinerules is .gitignoredwe
+# copy relevant base .clinerules from our rule bank
+cline-copy-meta-rules:
+	cp ./docs/for_ai/rules/meta_memory_bank.md ./.clinerules/
+	cp ./docs/for_ai/rules/meta_rules_location.md ./.clinerules/
+	cp ./docs/for_ai/rules/meta_feature_brainstorming.md ./.clinerules/

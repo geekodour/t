@@ -1,0 +1,5691 @@
+./all.txt
+---
+
+
+---
+./dialects.md
+---
+# Dialects
+
+A dialect is the glue between Kysely and the underlying database engine. Check the [API docs](https://kysely-org.github.io/kysely-apidoc/interfaces/Dialect.html) to learn how to build your own.
+
+## Core dialects
+
+| Dialect | Link |
+| --- | --- |
+| PostgreSQL | https://kysely-org.github.io/kysely-apidoc/classes/PostgresDialect.html |
+| MySQL | https://kysely-org.github.io/kysely-apidoc/classes/MysqlDialect.html |
+| Microsoft SQL Server (MSSQL) | https://kysely-org.github.io/kysely-apidoc/classes/MssqlDialect.html |
+| SQLite | https://kysely-org.github.io/kysely-apidoc/classes/SqliteDialect.html |
+
+## Organization dialects
+
+| Dialect | Link |
+| --- | --- |
+| Postgres.js | https://github.com/kysely-org/kysely-postgres-js |
+| SingleStore Data API | https://github.com/kysely-org/kysely-singlestore |
+
+## Community dialects
+
+| Dialect                       | Link                                                                        |
+|-------------------------------|-----------------------------------------------------------------------------|
+| PlanetScale Serverless Driver | https://github.com/depot/kysely-planetscale                                 |
+| Cloudflare D1                 | https://github.com/aidenwallis/kysely-d1                                    |
+| AWS RDS Data API              | https://github.com/serverless-stack/kysely-data-api                         |
+| SurrealDB                     | https://github.com/igalklebanov/kysely-surrealdb                            |
+| Neon                          | https://github.com/seveibar/kysely-neon                                     |
+| Xata                          | https://github.com/xataio/client-ts/tree/main/packages/plugin-client-kysely |
+| AWS S3 Select                 | https://github.com/igalklebanov/kysely-s3-select                            |
+| libSQL/sqld                   | https://github.com/libsql/kysely-libsql                                     |
+| Fetch driver                  | https://github.com/andersgee/kysely-fetch-driver                            |
+| SQLite WASM                   | https://github.com/DallasHoff/sqlocal                                       |
+| Deno SQLite                   | https://gitlab.com/soapbox-pub/kysely-deno-sqlite                           |
+| TiDB Cloud Serverless Driver  | https://github.com/tidbcloud/kysely                                         |
+| Capacitor SQLite Kysely       | https://github.com/DawidWetzler/capacitor-sqlite-kysely                     |
+| BigQuery                      | https://github.com/maktouch/kysely-bigquery                                 |
+| Clickhouse                    | https://github.com/founderpathcom/kysely-clickhouse                         |
+| PGLite                        | https://github.com/czeidler/kysely-pglite-dialect                           |
+| Oracle                        | https://github.com/griffiths-waite/kysely-oracledb                          |
+
+
+---
+./generating-types.md
+---
+# Generating types
+
+To work with Kysely, you're required to provide a database schema type definition to the Kysely constructor.
+
+In many cases, defining your database schema definitions manually is good enough.
+
+However, when building production applications, it's best to stay aligned with the 
+database schema, by automatically generating the database schema type definitions.
+
+There are several ways to do this using third-party libraries:
+
+- [kysely-codegen](https://github.com/RobinBlomberg/kysely-codegen) - This library 
+generates Kysely database schema type definitions by connecting to and introspecting 
+your database. This library works with all built-in dialects.
+
+- [prisma-kysely](https://github.com/valtyr/prisma-kysely) - This library generates 
+Kysely database schema type definitions from your existing Prisma schemas.
+
+- [kanel-kysely](https://github.com/kristiandupont/kanel/tree/main/packages/kanel-kysely) - This
+library generates Kysely database schema type definitions by connecting to and introspecting 
+your database. This library extends Kanel which is a mature PostgreSQL-only type generator.
+
+- [kysely-schema-generator](https://github.com/deanc/kysely-schema-generator) - This library 
+generates Kysely database schema type definitions by connecting to and introspecting 
+your database. Current MySQL only.
+
+
+---
+./getting-started.mdx
+---
+---
+sidebar_position: 2
+title: 'Getting started'
+---
+
+import BrowserOnly from '@docusaurus/BrowserOnly'
+import Prerequisites from './getting-started/_prerequisites.mdx'
+import { Installation } from './getting-started/Installation'
+import Types from './getting-started/_types.mdx'
+import { Dialects } from './getting-started/Dialects'
+import { Instantiation } from './getting-started/Instantiation'
+import { Querying } from './getting-started/Querying'
+import { Summary } from './getting-started/Summary'
+
+# Getting started
+
+## Prerequisites
+
+<Prerequisites />
+
+## Installation
+
+<Installation />
+
+## Types
+
+<Types />
+
+## Dialects
+
+<BrowserOnly fallback={<div>Loading...</div>}>
+  {() => (
+    <Dialects
+      packageManager={new URLSearchParams(document.location.search).get(
+        'package-manager',
+      )}
+      packageManagersURL="#installation"
+    />
+  )}
+</BrowserOnly>
+
+## Instantiation
+
+<BrowserOnly fallback={<div>Loading...</div>}>
+  {() => (
+    <Instantiation
+      dialect={new URLSearchParams(document.location.search).get('dialect')}
+      dialectsURL="#dialects"
+      packageManager={new URLSearchParams(document.location.search).get(
+        'package-manager',
+      )}
+      packageManagersURL="#installation"
+    />
+  )}
+</BrowserOnly>
+
+## Querying
+
+<BrowserOnly fallback={<div>Loading...</div>}>
+  {() => (
+    <Querying
+      dialect={new URLSearchParams(document.location.search).get('dialect')}
+      dialectsURL="#dialects"
+    />
+  )}
+</BrowserOnly>
+
+## Summary
+
+<BrowserOnly fallback={<div>Loading...</div>}>
+  {() => (
+    <Summary
+      dialect={new URLSearchParams(document.location.search).get('dialect')}
+      dialectsURL="#dialects"
+    />
+  )}
+</BrowserOnly>
+
+
+---
+./intro.mdx
+---
+---
+sidebar_position: 1
+---
+
+import { DemoVideo } from '@site/src/components/DemoVideo'
+
+# Introduction
+
+Kysely (pronounced “Key-Seh-Lee”) is a type-safe and autocompletion-friendly TypeScript SQL query builder. Inspired by Knex. Mainly developed for [node.js](https://nodejs.org/en/) but also
+runs on all other JavaScript environments like [deno](https://deno.land/) and [bun](https://bun.sh/).
+
+<DemoVideo />
+
+Kysely makes sure you only refer to tables and columns that are visible to the part of the query you're writing. The result type only has the selected columns with correct types and aliases. As an added bonus you get autocompletion for all that stuff.
+
+As shown in the gif above, through the pure magic of modern TypeScript, Kysely is even able to parse the alias given to `pet.name` and add the `pet_name` column to the result row type. Kysely is able to infer column names, aliases and types from selected subqueries, joined subqueries, `with` statements and pretty much anything you can think of.
+
+Of course there are cases where things cannot be typed at compile time, and Kysely offers escape hatches for these situations. See the [sql template tag](https://kysely-org.github.io/kysely-apidoc/interfaces/Sql.html) and the [DynamicModule](https://kysely-org.github.io/kysely-apidoc/classes/DynamicModule.html#ref) for more info.
+
+All API documentation is written in the typing files and you can simply hover over the module, class or method you're using to see it in your IDE. The same documentation is also hosted [here](https://kysely-org.github.io/kysely-apidoc/).
+
+If you start using Kysely and can't find something you'd want to use, please open an issue or join our [Discord server](https://discord.gg/xyBJ3GwvAm).
+
+## Looking for help?
+
+If you start using Kysely and can't find something you'd want to use, please [open an issue](https://github.com/kysely-org/kysely/issues) or [join our Discord server](https://discord.gg/xyBJ3GwvAm).
+
+
+---
+./migrations.mdx
+---
+---
+sidebar_position: 4
+---
+
+# Migrations
+
+## Migration files
+
+Migration files should look like this:
+
+```ts
+import { Kysely } from 'kysely'
+
+export async function up(db: Kysely<any>): Promise<void> {
+  // Migration code
+}
+
+export async function down(db: Kysely<any>): Promise<void> {
+  // Migration code
+}
+```
+
+The `up` function is called when you update your database schema to the next version and `down` when you go back to previous version. The only argument for the functions is an instance of `Kysely<any>`. It's important to use `Kysely<any>` and not `Kysely<YourDatabase>`.
+
+Migrations should never depend on the current code of your app because they need to work even when the app changes. Migrations need to be "frozen in time".
+
+Migrations can use the `Kysely.schema` module to modify the schema. Migrations can also run normal queries to read/modify data.
+
+## Execution order
+
+Migrations will be run in the alpha-numeric order of your migration names. An excellent way to name your migrations is to prefix them with an ISO 8601 date string.
+
+By default, Kysely will also ensure this order matches the execution order of any previously executed migrations in your database. If the orders do not match (for example, a new migration was added alphabetically before a previously executed one), an error will be returned. This adds safety by always executing your migrations in the correct, alphanumeric order.
+
+There is also an `allowUnorderedMigrations` option. This option will allow new migrations to be run even if they are added alphabetically before ones that have already executed. Allowing unordered migrations works well in large teams where multiple team members may add migrations at the same time in parallel commits without knowing about the other migrations. Pending (unexecuted) migrations will be run in alpha-numeric order when migrating up. When migrating down, migrations will be undone in the opposite order in which they were executed (reverse sorted by execution timestamp).
+
+To allow unordered migrations, pass the `allowUnorderedMigrations` option to Migrator:
+
+```ts
+const migrator = new Migrator({
+  db,
+  provider: new FileMigrationProvider(...),
+  allowUnorderedMigrations: true
+})
+```
+
+## Single file vs multiple file migrations
+
+You don't need to store your migrations as separate files if you don't want to. You can easily implement your own MigrationProvider and give it to the Migrator class when you instantiate one.
+
+## PostgreSQL migration example
+
+```ts
+import { Kysely, sql } from 'kysely'
+
+export async function up(db: Kysely<any>): Promise<void> {
+  await db.schema
+    .createTable('person')
+    .addColumn('id', 'serial', (col) => col.primaryKey())
+    .addColumn('first_name', 'varchar', (col) => col.notNull())
+    .addColumn('last_name', 'varchar')
+    .addColumn('gender', 'varchar(50)', (col) => col.notNull())
+    .addColumn('created_at', 'timestamp', (col) =>
+      col.defaultTo(sql`now()`).notNull(),
+    )
+    .execute()
+
+  await db.schema
+    .createTable('pet')
+    .addColumn('id', 'serial', (col) => col.primaryKey())
+    .addColumn('name', 'varchar', (col) => col.notNull().unique())
+    .addColumn('owner_id', 'integer', (col) =>
+      col.references('person.id').onDelete('cascade').notNull(),
+    )
+    .addColumn('species', 'varchar', (col) => col.notNull())
+    .execute()
+
+  await db.schema
+    .createIndex('pet_owner_id_index')
+    .on('pet')
+    .column('owner_id')
+    .execute()
+}
+
+export async function down(db: Kysely<any>): Promise<void> {
+  await db.schema.dropTable('pet').execute()
+  await db.schema.dropTable('person').execute()
+}
+```
+
+## SQLite migration example
+
+```ts
+import { Kysely, sql } from 'kysely'
+
+export async function up(db: Kysely<any>): Promise<void> {
+  await db.schema
+    .createTable('person')
+    .addColumn('id', 'integer', (col) => col.primaryKey())
+    .addColumn('first_name', 'text', (col) => col.notNull())
+    .addColumn('last_name', 'text')
+    .addColumn('gender', 'text', (col) => col.notNull())
+    .addColumn('created_at', 'text', (col) =>
+      col.defaultTo(sql`CURRENT_TIMESTAMP`).notNull(),
+    )
+    .execute()
+
+  await db.schema
+    .createTable('pet')
+    .addColumn('id', 'integer', (col) => col.primaryKey())
+    .addColumn('name', 'text', (col) => col.notNull().unique())
+    .addColumn('owner_id', 'integer', (col) =>
+      col.references('person.id').onDelete('cascade').notNull(),
+    )
+    .addColumn('species', 'text', (col) => col.notNull())
+    .execute()
+
+  await db.schema
+    .createIndex('pet_owner_id_index')
+    .on('pet')
+    .column('owner_id')
+    .execute()
+}
+
+export async function down(db: Kysely<any>): Promise<void> {
+  await db.schema.dropTable('pet').execute()
+  await db.schema.dropTable('person').execute()
+}
+```
+
+## CLI (optional)
+
+Kysely offers a CLI you can use for migrations (and more). It can help you create and run migrations.
+It is not part of the core, and your mileage may vary.
+
+For more information, visit https://github.com/kysely-org/kysely-ctl.
+
+## Running migrations
+
+You can then use:
+
+```ts
+const migrator = new Migrator(migratorConfig)
+await migrator.migrateToLatest()
+```
+
+to run all migrations that have not yet been run. See the Migrator class's documentation for more info.
+
+You will probably want to add a simple migration script to your projects like this:
+
+```ts
+import * as path from 'path'
+import { Pool } from 'pg'
+import { promises as fs } from 'fs'
+import {
+  Kysely,
+  Migrator,
+  PostgresDialect,
+  FileMigrationProvider,
+} from 'kysely'
+import { Database } from './types'
+
+async function migrateToLatest() {
+  const db = new Kysely<Database>({
+    dialect: new PostgresDialect({
+      pool: new Pool({
+        host: 'localhost',
+        database: 'kysely_test',
+      }),
+    }),
+  })
+
+  const migrator = new Migrator({
+    db,
+    provider: new FileMigrationProvider({
+      fs,
+      path,
+      // This needs to be an absolute path.
+      migrationFolder: path.join(__dirname, 'some/path/to/migrations'),
+    }),
+  })
+
+  const { error, results } = await migrator.migrateToLatest()
+
+  results?.forEach((it) => {
+    if (it.status === 'Success') {
+      console.log(`migration "${it.migrationName}" was executed successfully`)
+    } else if (it.status === 'Error') {
+      console.error(`failed to execute migration "${it.migrationName}"`)
+    }
+  })
+
+  if (error) {
+    console.error('failed to migrate')
+    console.error(error)
+    process.exit(1)
+  }
+
+  await db.destroy()
+}
+
+migrateToLatest()
+```
+
+The migration methods use a lock on the database level and parallel calls are executed serially. This means that you can safely call migrateToLatest and other migration methods from multiple server instances simultaneously and the migrations are guaranteed to only be executed once. The locks are also automatically released if the migration process crashes or the connection to the database fails.
+
+## Reference documentation
+
+[Migrator](https://kysely-org.github.io/kysely-apidoc/classes/Migrator.html)
+
+
+---
+./playground.mdx
+---
+---
+sidebar_position: 3
+---
+
+# Playground
+
+[@wirekang](https://github.com/wirekang) has created a [playground for Kysely](https://kyse.link). You can use it to quickly test stuff out and for creating code examples for your issues, PRs and Discord messages.
+
+import { Playground } from '../src/components/Playground'
+
+<Playground
+  code={`const person = await db
+  .selectFrom('person')
+  .select(['id', 'first_name'])
+  .where('id', '=', 1)
+  .executeTakeFirst()
+`}
+/>
+
+## Codesandbox
+
+We also have a minimal [code sandbox example](https://codesandbox.io/s/kysely-demo-9l099t?file=/src/index.tsx:0-36).
+
+
+---
+./plugins.md
+---
+# Plugin system
+
+Plugins are classes that implement [KyselyPlugin](https://kysely-org.github.io/kysely-apidoc/interfaces/KyselyPlugin.html). Plugins are then added to the `Kysely` instance as follows:
+
+```ts
+const db = new Kysely<Database>({
+  dialect: new PostgresDialect({
+    database: 'kysely_test',
+    host: 'localhost',
+  }),
+  plugins: [new CamelCasePlugin()],
+})
+```
+
+## Built-in plugins
+
+### Camel case plugin
+
+A plugin that converts snake_case identifiers in the database into camelCase in the JavaScript side. [Learn more](https://kysely-org.github.io/kysely-apidoc/classes/CamelCasePlugin.html).
+
+### Deduplicate joins plugin
+
+A plugin that removes duplicate joins from queries. You can read more about it in the [examples](/docs/recipes/deduplicate-joins) section or check the [API docs](https://kysely-org.github.io/kysely-apidoc/classes/DeduplicateJoinsPlugin.html).
+
+### Handle `in ()` and `not in ()` plugin
+
+A plugin that allows handling `in ()` and `not in ()` with a chosen strategy. [Learn more](https://kysely-org.github.io/kysely-apidoc/classes/HandleEmptyWhereInListsPlugin.html).
+
+---
+./runtimes/_category_.json
+---
+{
+  "label": "Other runtimes",
+  "position": 10,
+  "link": {
+    "type": "generated-index",
+    "description": "Kysely works on the browser, Node.js and Deno. Here are some examples of how to use it."
+  }
+}
+
+
+---
+./runtimes/browser.md
+---
+# Browser
+
+Kysely also runs in the browser. Here's a minimal example:
+
+```ts
+import {
+  Kysely,
+  Generated,
+  DummyDriver,
+  SqliteAdapter,
+  SqliteIntrospector,
+  SqliteQueryCompiler,
+} from 'kysely'
+
+interface Person {
+  id: Generated<number>
+  first_name: string
+  last_name: string | null
+}
+
+interface Database {
+  person: Person
+}
+
+const db = new Kysely<Database>({
+  dialect: {
+    createAdapter() {
+      return new SqliteAdapter()
+    },
+    createDriver() {
+      return new DummyDriver()
+    },
+    createIntrospector(db: Kysely<unknown>) {
+      return new SqliteIntrospector(db)
+    },
+    createQueryCompiler() {
+      return new SqliteQueryCompiler()
+    },
+  },
+})
+
+window.addEventListener('load', () => {
+  const sql = db.selectFrom('person').select('id').compile()
+
+  const result = document.createElement('span')
+  result.id = 'result'
+  result.innerHTML = sql.sql
+
+  document.body.appendChild(result)
+})
+```
+
+
+---
+./runtimes/deno.mdx
+---
+---
+sidebar_position: 6
+title: 'Running on Deno'
+---
+
+# Running on Deno
+
+Kysely doesn't include drivers for Deno, but you can still use Kysely as a query builder or implement your own driver:
+
+```ts
+// We use jsdeliver to get Kysely from npm.
+import {
+  DummyDriver,
+  Generated,
+  Kysely,
+  PostgresAdapter,
+  PostgresIntrospector,
+  PostgresQueryCompiler,
+} from 'https://cdn.jsdelivr.net/npm/kysely/dist/esm/index.js'
+
+interface Person {
+  id: Generated<number>
+  first_name: string
+  last_name: string | null
+}
+
+interface Database {
+  person: Person
+}
+
+const db = new Kysely<Database>({
+  dialect: {
+    createAdapter() {
+      return new PostgresAdapter()
+    },
+    createDriver() {
+      // You need a driver to be able to execute queries. In this example
+      // we use the dummy driver that never does anything.
+      return new DummyDriver()
+    },
+    createIntrospector(db: Kysely<unknown>) {
+      return new PostgresIntrospector(db)
+    },
+    createQueryCompiler() {
+      return new PostgresQueryCompiler()
+    },
+  },
+})
+
+const query = db.selectFrom('person').select('id')
+const sql = query.compile()
+
+console.log(sql.sql)
+```
+
+
+---
+./getting-started/Dialects.tsx
+---
+import Admonition from '@theme/Admonition'
+import CodeBlock from '@theme/CodeBlock'
+import Heading from '@theme/Heading'
+import Link from '@docusaurus/Link'
+import TabItem from '@theme/TabItem'
+import Tabs from '@theme/Tabs'
+import { IUseADifferentPackageManager } from './IUseADifferentPackageManager'
+import {
+  getDriverNPMPackageNames,
+  getBashCommand,
+  getDenoCommand,
+  isDialectSupported,
+  POOL_NPM_PACKAGE_NAMES,
+  PRETTY_DIALECT_NAMES,
+  PRETTY_PACKAGE_MANAGER_NAMES,
+  type Dialect,
+  type PackageManager,
+} from './shared'
+
+export interface DialectsProps {
+  packageManager: PackageManager | undefined
+  packageManagersURL: string
+}
+
+interface BuiltInDialect {
+  value: Dialect
+  driverDocsURL: string
+  poolDocsURL?: string
+}
+
+const builtInDialects: BuiltInDialect[] = [
+  {
+    value: 'postgresql',
+    driverDocsURL: 'https://node-postgres.com/',
+  },
+  {
+    value: 'mysql',
+    driverDocsURL:
+      'https://github.com/sidorares/node-mysql2/tree/master/documentation',
+  },
+  {
+    value: 'mssql',
+    driverDocsURL: 'https://tediousjs.github.io/tedious/index.html',
+    poolDocsURL: 'https://github.com/vincit/tarn.js',
+  },
+  {
+    value: 'sqlite',
+    driverDocsURL:
+      'https://github.com/WiseLibs/better-sqlite3/blob/master/docs/api.md',
+  },
+]
+
+export function Dialects(props: DialectsProps) {
+  const packageManager = props.packageManager || 'npm'
+
+  return (
+    <>
+      <p>
+        For Kysely's query compilation and execution to work, it needs to
+        understand your database's SQL specification and how to communicate with
+        it. This requires a <code>Dialect</code> implementation.
+        <br />
+        <br />
+        There are 4 built-in dialects for PostgreSQL, MySQL, Microsoft SQL
+        Server (MSSQL), and SQLite. Additionally, the community has implemented
+        several dialects to choose from. Find out more at{' '}
+        <Link to="/docs/dialects">"Dialects"</Link>.
+      </p>
+      <Heading as="h3">Driver installation</Heading>
+      <p>
+        A <code>Dialect</code> implementation usually requires a database driver
+        library as a peer dependency. Let's install it using the same package
+        manager command from before:
+      </p>
+      {/* @ts-ignore For some odd reason, Tabs doesn't accept children in this file. */}
+      <Tabs queryString="dialect">
+        {builtInDialects.map(({ driverDocsURL, poolDocsURL, value }) => {
+          const driverNPMPackage = getDriverNPMPackageNames()[value]
+          const poolNPMPackage = POOL_NPM_PACKAGE_NAMES[value]
+          const prettyDialectName = PRETTY_DIALECT_NAMES[value]
+          const installationCommand =
+            packageManager === 'deno'
+              ? getDenoCommand({
+                  [driverNPMPackage]: `npm:${driverNPMPackage}`,
+                  [`${driverNPMPackage}-pool`]:
+                    driverNPMPackage === 'pg' ? 'npm:pg-pool' : undefined,
+                })
+              : getBashCommand(packageManager, driverNPMPackage, [
+                  poolNPMPackage,
+                ])
+
+          return (
+            // @ts-ignore For some odd reason, TabItem doesn't accept children in this file.
+            <TabItem key={value} value={value} label={prettyDialectName}>
+              {!isDialectSupported(value, packageManager) ? (
+                <UnsupportedDriver
+                  dialect={prettyDialectName}
+                  driverNPMPackage={driverNPMPackage}
+                  packageManager={packageManager}
+                />
+              ) : (
+                <>
+                  <p>
+                    Kysely's built-in {prettyDialectName} dialect uses the "
+                    {driverNPMPackage}" driver library under the hood. Please
+                    refer to its{' '}
+                    <Link to={driverDocsURL}>official documentation</Link> for
+                    configuration options.
+                  </p>
+                  {poolNPMPackage ? (
+                    <p>
+                      Additionally, Kysely's {prettyDialectName} dialect uses
+                      the "{poolNPMPackage}" resource pool package for
+                      connection pooling. Please refer to its{' '}
+                      <Link to={poolDocsURL}>official documentation</Link> for
+                      configuration options.
+                    </p>
+                  ) : null}
+                  <p>
+                    <strong>{installationCommand.intro}</strong>
+                  </p>
+                  <CodeBlock
+                    language={installationCommand.language}
+                    title={installationCommand.title}
+                  >
+                    {installationCommand.content}
+                  </CodeBlock>
+                </>
+              )}
+            </TabItem>
+          )
+        })}
+      </Tabs>
+      <IUseADifferentPackageManager {...props} />
+      <Admonition type="info" title="Driverless">
+        Kysely can also work in compile-only mode that doesn't require a
+        database driver. Find out more at{' '}
+        <Link to="/docs/recipes/splitting-query-building-and-execution">
+          "Splitting query building and execution"
+        </Link>
+        .
+      </Admonition>
+    </>
+  )
+}
+
+interface UnsupportedDriverProps {
+  dialect: string
+  driverNPMPackage: string
+  packageManager: PackageManager
+}
+
+function UnsupportedDriver(props: UnsupportedDriverProps) {
+  const { dialect, packageManager } = props
+
+  const packageManagerName =
+    PRETTY_PACKAGE_MANAGER_NAMES[packageManager || 'npm']
+
+  return (
+    <Admonition type="danger" title="Driver unsupported">
+      Kysely's built-in {dialect} dialect does not work in {packageManagerName}{' '}
+      because the driver library it uses, "{props.driverNPMPackage}", doesn't.
+      You have to use a community {dialect} dialect that works in{' '}
+      {packageManagerName}, or implement your own.
+    </Admonition>
+  )
+}
+
+
+---
+./getting-started/IUseADifferentDatabase.tsx
+---
+import Link from '@docusaurus/Link'
+import { PRETTY_DIALECT_NAMES, type PropsWithDialect } from './shared'
+
+export function IUseADifferentDatabase(props: PropsWithDialect) {
+  const dialectName = PRETTY_DIALECT_NAMES[props.dialect || 'postgresql']
+
+  return (
+    <p style={{ display: 'flex', justifyContent: 'end' }}>
+      <Link to={props.dialectsURL}>
+        I use a different database (not {dialectName})
+      </Link>
+    </p>
+  )
+}
+
+
+---
+./getting-started/IUseADifferentPackageManager.tsx
+---
+import Link from '@docusaurus/Link'
+import { PRETTY_PACKAGE_MANAGER_NAMES, type PackageManager } from './shared'
+
+export interface IUseADifferentPackageManagerProps {
+  packageManager: PackageManager | undefined
+  packageManagersURL: string
+}
+
+export function IUseADifferentPackageManager(
+  props: IUseADifferentPackageManagerProps,
+) {
+  const packageManagerName =
+    PRETTY_PACKAGE_MANAGER_NAMES[props.packageManager || 'npm']
+
+  return (
+    <p style={{ display: 'flex', justifyContent: 'end' }}>
+      <Link to={props.packageManagersURL}>
+        I use a different package manager (not {packageManagerName})
+      </Link>
+    </p>
+  )
+}
+
+
+---
+./getting-started/Installation.tsx
+---
+import type { ReactNode } from 'react'
+import CodeBlock from '@theme/CodeBlock'
+import Link from '@docusaurus/Link'
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
+import {
+  getBashCommand,
+  getDenoCommand,
+  PRETTY_PACKAGE_MANAGER_NAMES,
+  type Command,
+  type PackageManager,
+} from './shared'
+
+interface PackageManagerDetails {
+  value: PackageManager
+  description: ReactNode
+  command: Command
+}
+
+const JavaScriptLink = () => (
+  <Link to="https://developer.mozilla.org/en-US/docs/Web/JavaScript">
+    JavaScript
+  </Link>
+)
+const NodeJSLink = () => <Link to="https://nodejs.org">Node.js</Link>
+
+const packageManagers: PackageManagerDetails[] = [
+  {
+    value: 'npm',
+    description: (
+      <>
+        <Link to="https://npmjs.com">{PRETTY_PACKAGE_MANAGER_NAMES.npm}</Link>{' '}
+        is the default package manager for <NodeJSLink />, and to where Kysely
+        is published.
+        <br />
+        Your project is using {PRETTY_PACKAGE_MANAGER_NAMES.npm} if it has a{' '}
+        <code>package-lock.json</code> file in its root folder.
+      </>
+    ),
+    command: getBashCommand('npm', 'kysely'),
+  },
+  {
+    value: 'pnpm',
+    description: (
+      <>
+        <Link to="https://pnpm.io">{PRETTY_PACKAGE_MANAGER_NAMES.pnpm}</Link> is
+        a fast, disk space efficient package manager for <NodeJSLink />
+        .
+        <br />
+        Your project is using {PRETTY_PACKAGE_MANAGER_NAMES.pnpm} if it has a{' '}
+        <code>pnpm-lock.yaml</code> file in its root folder.
+      </>
+    ),
+    command: getBashCommand('pnpm', 'kysely'),
+  },
+  {
+    value: 'yarn',
+    description: (
+      <>
+        <Link to="https://yarnpkg.com">
+          {PRETTY_PACKAGE_MANAGER_NAMES.yarn}
+        </Link>{' '}
+        is a fast, reliable and secure dependency manager for <NodeJSLink />
+        .
+        <br />
+        Your project is using {PRETTY_PACKAGE_MANAGER_NAMES.yarn} if it has a{' '}
+        <code>yarn.lock</code> file in its root folder.
+      </>
+    ),
+    command: getBashCommand('yarn', 'kysely'),
+  },
+  {
+    value: 'deno',
+    description: (
+      <>
+        <Link to="https://deno.com/runtime">
+          {PRETTY_PACKAGE_MANAGER_NAMES.deno}
+        </Link>{' '}
+        is a secure runtime for <JavaScriptLink /> and{' '}
+        <Link to="https://www.typescriptlang.org">TypeScript</Link>.
+      </>
+    ),
+    command: getDenoCommand(),
+  },
+  {
+    value: 'bun',
+    description: (
+      <>
+        <Link to="https://bun.sh">{PRETTY_PACKAGE_MANAGER_NAMES.bun}</Link> is a
+        new <JavaScriptLink /> runtime built for speed, with a native bundler,
+        transpiler, test runner, and {PRETTY_PACKAGE_MANAGER_NAMES.npm}
+        -compatible package manager baked-in.
+      </>
+    ),
+    command: getBashCommand('bun', 'kysely'),
+  },
+]
+
+export function Installation() {
+  return (
+    <>
+      <p>
+        Kysely can be installed using any of the following package managers:
+      </p>
+      {/* @ts-ignore For some odd reason, Tabs doesn't accept children in this file. */}
+      <Tabs queryString="package-manager">
+        {packageManagers.map(({ command, value, ...packageManager }) => (
+          // @ts-ignore For some odd reason, TabItem doesn't accept children in this file.
+          <TabItem
+            key={value}
+            value={value}
+            label={PRETTY_PACKAGE_MANAGER_NAMES[value]}
+          >
+            <p>{packageManager.description}</p>
+            <p>
+              <strong>{command.intro}</strong>
+            </p>
+            <CodeBlock language={command.language} title={command.title}>
+              {command.content}
+            </CodeBlock>
+          </TabItem>
+        ))}
+      </Tabs>
+    </>
+  )
+}
+
+
+---
+./getting-started/Instantiation.tsx
+---
+import Admonition from '@theme/Admonition'
+import CodeBlock from '@theme/CodeBlock'
+import { IUseADifferentDatabase } from './IUseADifferentDatabase'
+import { IUseADifferentPackageManager } from './IUseADifferentPackageManager'
+import {
+  getDriverNPMPackageNames,
+  isDialectSupported,
+  POOL_NPM_PACKAGE_NAMES,
+  PRETTY_PACKAGE_MANAGER_NAMES,
+  type Dialect,
+  type PackageManager,
+  type PropsWithDialect,
+  DIALECT_CLASS_NAMES,
+  PRETTY_DIALECT_NAMES,
+} from './shared'
+
+function getNotSupportedCode(
+  dialect: Dialect,
+  packageManager: PackageManager,
+): string {
+  return `/* Kysely doesn't support ${PRETTY_DIALECT_NAMES[dialect]} + ${
+    PRETTY_PACKAGE_MANAGER_NAMES[packageManager || 'npm']
+  } out of the box. Import a community dialect that does here. */
+import { Kysely } from 'kysely'
+
+const dialect = /* instantiate the dialect here */`
+}
+
+function getDialectSpecificCodeSnippet(
+  dialect: Dialect,
+  packageManager: PackageManager,
+): string {
+  const driverNPMPackageName = getDriverNPMPackageNames(packageManager)[dialect]
+  const dialectClassName = DIALECT_CLASS_NAMES[dialect]
+  const poolClassName = 'Pool'
+  const poolClassImport =
+    packageManager === 'deno' ? poolClassName : `{ ${poolClassName} }`
+
+  if (dialect === 'postgresql') {
+    return `import ${poolClassImport} from '${driverNPMPackageName}'
+import { Kysely, ${dialectClassName} } from 'kysely'
+
+const dialect = new ${dialectClassName}({
+  pool: new ${poolClassName}({
+    database: 'test',
+    host: 'localhost',
+    user: 'admin',
+    port: 5434,
+    max: 10,
+  })
+})`
+  }
+
+  if (dialect === 'mysql') {
+    const poolFactoryName = 'createPool'
+
+    return `import { ${poolFactoryName} } from '${driverNPMPackageName}' // do not use 'mysql2/promises'!
+import { Kysely, ${dialectClassName} } from 'kysely'
+
+const dialect = new ${dialectClassName}({
+  pool: ${poolFactoryName}({
+    database: 'test',
+    host: 'localhost',
+    user: 'admin',
+    password: '123',
+    port: 3308,
+    connectionLimit: 10,
+  })
+})`
+  }
+
+  if (dialect === 'mssql') {
+    const poolPackageName = POOL_NPM_PACKAGE_NAMES.mssql
+
+    return `import * as ${driverNPMPackageName} from '${driverNPMPackageName}'
+import * as ${poolPackageName} from '${poolPackageName}'
+import { Kysely, ${dialectClassName} } from 'kysely'
+
+const dialect = new ${dialectClassName}({
+  ${poolPackageName}: {
+    ...${poolPackageName},
+    options: {
+      min: 0,
+      max: 10,
+    },
+  },
+  ${driverNPMPackageName}: {
+    ...${driverNPMPackageName},
+    connectionFactory: () => new ${driverNPMPackageName}.Connection({
+      authentication: {
+        options: {
+          password: 'password',
+          userName: 'username',
+        },
+        type: 'default',
+      },
+      options: {
+        database: 'some_db',
+        port: 1433,
+        trustServerCertificate: true,
+      },
+      server: 'localhost',
+    }),
+  },
+})`
+  }
+
+  if (dialect === 'sqlite') {
+    const driverImportName = 'SQLite'
+
+    return `import ${driverImportName} from '${driverNPMPackageName}'
+import { Kysely, ${dialectClassName} } from 'kysely'
+
+const dialect = new ${dialectClassName}({
+  database: new ${driverImportName}(':memory:'),
+})`
+  }
+
+  throw new Error(`Unsupported dialect: ${dialect}`)
+}
+
+export function Instantiation(
+  props: PropsWithDialect<{
+    packageManager: PackageManager | undefined
+    packageManagersURL: string
+  }>,
+) {
+  const dialect = props.dialect || 'postgresql'
+  const packageManager = props.packageManager || 'npm'
+
+  const dialectSpecificCodeSnippet = !isDialectSupported(
+    dialect,
+    packageManager,
+  )
+    ? getNotSupportedCode(dialect, packageManager)
+    : getDialectSpecificCodeSnippet(dialect, packageManager)
+  const dialectClassName = DIALECT_CLASS_NAMES[dialect]
+
+  return (
+    <>
+      <p>
+        <strong>Let's create a Kysely instance</strong>
+        {isDialectSupported(dialect, packageManager) ? (
+          <>
+            <strong> using the built-in </strong>
+            <code>{dialectClassName}</code>
+            <strong> dialect</strong>
+          </>
+        ) : (
+          <strong> assuming a compatible community dialect exists</strong>
+        )}
+        <strong>:</strong>
+      </p>
+      <CodeBlock language="ts" title="src/database.ts">
+        {`import { Database } from './types.ts' // this is the Database interface we defined earlier
+${dialectSpecificCodeSnippet}
+
+// Database interface is passed to Kysely's constructor, and from now on, Kysely 
+// knows your database structure.
+// Dialect is passed to Kysely's constructor, and from now on, Kysely knows how 
+// to communicate with your database.
+export const db = new Kysely<Database>({
+  dialect,
+})`}
+      </CodeBlock>
+      <p style={{ display: 'flex', gap: '25px', justifyContent: 'end' }}>
+        <IUseADifferentPackageManager {...props} />
+        <IUseADifferentDatabase {...props} />
+      </p>
+      <Admonition type="tip" title="Singleton">
+        In most cases, you should only create a single Kysely instance per
+        database. Most dialects use a connection pool internally, or no
+        connections at all, so there's no need to create a new instance for each
+        request.
+      </Admonition>
+      <Admonition type="warning" title="keeping secrets">
+        Use a secrets manager, environment variables (DO NOT commit `.env` files
+        to your repository), or a similar solution, to avoid hardcoding database
+        credentials in your code.
+      </Admonition>
+      <Admonition type="info" title="kill it with fire">
+        When needed, you can dispose of the Kysely instance, release resources
+        and close all connections by invoking the <code>db.destroy()</code>{' '}
+        function.
+      </Admonition>
+    </>
+  )
+}
+
+
+---
+./getting-started/Querying.tsx
+---
+import Admonition from '@theme/Admonition'
+import CodeBlock from '@theme/CodeBlock'
+import Link from '@docusaurus/Link'
+import { IUseADifferentDatabase } from './IUseADifferentDatabase'
+import type { Dialect, PropsWithDialect } from './shared'
+
+const postgresqlCodeSnippet = `export async function createPerson(person: NewPerson) {
+  return await db.insertInto('person')
+    .values(person)
+    .returningAll()
+    .executeTakeFirstOrThrow()
+}
+
+export async function deletePerson(id: number) {
+  return await db.deleteFrom('person').where('id', '=', id)
+    .returningAll()
+    .executeTakeFirst()
+}`
+
+const dialectSpecificCodeSnippets: Record<Dialect, string> = {
+  postgresql: postgresqlCodeSnippet,
+  mysql: `export async function createPerson(person: NewPerson) {
+  const { insertId } = await db.insertInto('person')
+    .values(person)
+    .executeTakeFirstOrThrow()
+
+  return await findPersonById(Number(insertId!))
+}
+
+export async function deletePerson(id: number) {
+  const person = await findPersonById(id)
+
+  if (person) {
+    await db.deleteFrom('person').where('id', '=', id).execute()
+  }
+
+  return person
+}`,
+  mssql: `// As of v0.27.0, Kysely doesn't support the \`OUTPUT\` clause. This will change
+// in the future. For now, the following implementations achieve the same results
+// as other dialects' examples, but with extra steps.
+
+export async function createPerson(person: NewPerson) {
+  const compiledQuery = db.insertInto('person').values(person).compile()
+
+  const {
+    rows: [{ id }],
+  } = await db.executeQuery<Pick<Person, 'id'>>({
+    ...compiledQuery,
+    sql: \`\${compiledQuery.sql}; select scope_identity() as id\`
+  })
+
+  return await findPersonById(id)
+}
+
+export async function deletePerson(id: number) {
+  const person = await findPersonById(id)
+
+  if (person) {
+    await db.deleteFrom('person').where('id', '=', id).execute()
+  }
+
+  return person
+}`,
+  sqlite: postgresqlCodeSnippet,
+  // TODO: Update to use output clause once #687 is completed
+}
+
+export function Querying(props: PropsWithDialect) {
+  const dialect = props.dialect || 'postgresql'
+
+  const dialectSpecificCodeSnippet = dialectSpecificCodeSnippets[dialect]
+
+  return (
+    <>
+      <p>
+        <strong>Let's implement the person repository:</strong>
+      </p>
+      <CodeBlock language="ts" title="src/PersonRepository.ts">
+        {`import { db } from './database'
+import { PersonUpdate, Person, NewPerson } from './types'
+
+export async function findPersonById(id: number) {
+  return await db.selectFrom('person')
+    .where('id', '=', id)
+    .selectAll()
+    .executeTakeFirst()
+}
+
+export async function findPeople(criteria: Partial<Person>) {
+  let query = db.selectFrom('person')
+
+  if (criteria.id) {
+    query = query.where('id', '=', criteria.id) // Kysely is immutable, you must re-assign!
+  }
+
+  if (criteria.first_name) {
+    query = query.where('first_name', '=', criteria.first_name)
+  }
+
+  if (criteria.last_name !== undefined) {
+    query = query.where(
+      'last_name',
+      criteria.last_name === null ? 'is' : '=',
+      criteria.last_name
+    )
+  }
+
+  if (criteria.gender) {
+    query = query.where('gender', '=', criteria.gender)
+  }
+
+  if (criteria.created_at) {
+    query = query.where('created_at', '=', criteria.created_at)
+  }
+
+  return await query.selectAll().execute()
+}
+
+export async function updatePerson(id: number, updateWith: PersonUpdate) {
+  await db.updateTable('person').set(updateWith).where('id', '=', id).execute()
+}
+
+${dialectSpecificCodeSnippet}`}
+      </CodeBlock>
+      <IUseADifferentDatabase {...props} />
+      <Admonition type="info" title="But wait, there's more!">
+        This is a simplified example with basic CRUD operations. Kysely supports
+        many more SQL features including: joins, subqueries, complex boolean
+        logic, set operations, CTEs, functions (aggregate and window functions
+        included), raw SQL, transactions, DDL queries, etc.
+        <br />
+        Find out more at <Link to="/docs/category/examples">Examples</Link>.
+      </Admonition>
+    </>
+  )
+}
+
+
+---
+./getting-started/Summary.tsx
+---
+import Admonition from '@theme/Admonition'
+import CodeBlock from '@theme/CodeBlock'
+import Link from '@docusaurus/Link'
+import { IUseADifferentDatabase } from './IUseADifferentDatabase'
+import {
+  PRETTY_DIALECT_NAMES,
+  type Dialect,
+  type PropsWithDialect,
+} from './shared'
+
+const dialectSpecificCodeSnippets: Record<Dialect, string> = {
+  postgresql: `    await db.schema.createTable('person')
+      .addColumn('id', 'serial', (cb) => cb.primaryKey())
+      .addColumn('first_name', 'varchar', (cb) => cb.notNull())
+      .addColumn('last_name', 'varchar')
+      .addColumn('gender', 'varchar(50)', (cb) => cb.notNull())
+      .addColumn('created_at', 'timestamp', (cb) =>
+        cb.notNull().defaultTo(sql\`now()\`)
+      )
+      .execute()`,
+  mysql: `    await db.schema.createTable('person')
+      .addColumn('id', 'integer', (cb) => cb.primaryKey().autoIncrement())
+      .addColumn('first_name', 'varchar(255)', (cb) => cb.notNull())
+      .addColumn('last_name', 'varchar(255)')
+      .addColumn('gender', 'varchar(50)', (cb) => cb.notNull())
+      .addColumn('created_at', 'timestamp', (cb) =>
+        cb.notNull().defaultTo(sql\`now()\`)
+      )
+      .execute()`,
+  // TODO: Update line 42's IDENTITY once identity(1,1) is added to core.
+  mssql: `    await db.schema.createTable('person')
+      .addColumn('id', 'integer', (cb) => cb.primaryKey().modifyEnd(sql\`identity\`))
+      .addColumn('first_name', 'varchar(255)', (cb) => cb.notNull())
+      .addColumn('last_name', 'varchar(255)')
+      .addColumn('gender', 'varchar(50)', (cb) => cb.notNull())
+      .addColumn('created_at', 'datetime', (cb) =>
+        cb.notNull().defaultTo(sql\`GETDATE()\`)
+      )
+      .execute()`,
+  sqlite: `    await db.schema.createTable('person')
+      .addColumn('id', 'integer', (cb) => cb.primaryKey().autoIncrement().notNull())
+      .addColumn('first_name', 'varchar(255)', (cb) => cb.notNull())
+      .addColumn('last_name', 'varchar(255)')
+      .addColumn('gender', 'varchar(50)', (cb) => cb.notNull())
+      .addColumn('created_at', 'timestamp', (cb) =>
+        cb.notNull().defaultTo(sql\`current_timestamp\`)
+      )
+      .execute()`,
+}
+
+const dialectSpecificTruncateSnippets: Record<Dialect, string> = {
+  postgresql: `await sql\`truncate table \${sql.table('person')}\`.execute(db)`,
+  mysql: `await sql\`truncate table \${sql.table('person')}\`.execute(db)`,
+  mssql: `await sql\`truncate table \${sql.table('person')}\`.execute(db)`,
+  sqlite: `await sql\`delete from \${sql.table('person')}\`.execute(db)`,
+}
+
+export function Summary(props: PropsWithDialect) {
+  const dialect = props.dialect || 'postgresql'
+
+  const dialectSpecificCodeSnippet = dialectSpecificCodeSnippets[dialect]
+  const dialectSpecificTruncateSnippet =
+    dialectSpecificTruncateSnippets[dialect]
+
+  return (
+    <>
+      <p>
+        We've seen how to install and instantiate Kysely, its dialects and
+        underlying drivers. We've also seen how to use Kysely to query a
+        database.
+        <br />
+        <br />
+        <strong>Let's put it all to the test:</strong>
+      </p>
+      <CodeBlock language="ts" title="src/PersonRepository.spec.ts">
+        {`import { sql } from 'kysely'
+import { db } from './database'
+import * as PersonRepository from './PersonRepository'
+
+describe('PersonRepository', () => {
+  before(async () => {
+${dialectSpecificCodeSnippet}
+  })
+    
+  afterEach(async () => {
+    ${dialectSpecificTruncateSnippet}
+  })
+    
+  after(async () => {
+    await db.schema.dropTable('person').execute()
+  })
+    
+  it('should find a person with a given id', async () => {
+    await PersonRepository.findPersonById(123)
+  })
+    
+  it('should find all people named Arnold', async () => {
+    await PersonRepository.findPeople({ first_name: 'Arnold' })
+  })
+    
+  it('should update gender of a person with a given id', async () => {
+    await PersonRepository.updatePerson(123, { gender: 'woman' })
+  })
+    
+  it('should create a person', async () => {
+    await PersonRepository.createPerson({
+      first_name: 'Jennifer',
+      last_name: 'Aniston',
+      gender: 'woman',
+    })
+  })
+    
+  it('should delete a person with a given id', async () => {
+    await PersonRepository.deletePerson(123)
+  })
+})`}
+      </CodeBlock>
+      <IUseADifferentDatabase {...props} />
+      <Admonition type="info" title="Migrations">
+        As you can see, Kysely supports DDL queries. It also supports classic
+        "up/down" migrations. Find out more at{' '}
+        <Link to="/docs/migrations">Migrations</Link>.
+      </Admonition>
+    </>
+  )
+}
+
+
+---
+./getting-started/_prerequisites.mdx
+---
+- [TypeScript](https://www.typescriptlang.org/) version 4.6 or later is supported for type-safety. For better autocompletion experience and compilation performance use version 5.3 or later.
+
+- You must enable `strict` mode in your `tsconfig.json` file's `compilerOptions`.
+
+  ```ts title="tsconfig.json"
+  {
+    // ...
+    "compilerOptions": {
+      // ...
+      "strict": true
+      // ...
+    }
+    // ...
+  }
+  ```
+
+
+---
+./getting-started/_types.mdx
+---
+For Kysely's type-safety and autocompletion to work, it needs to know your
+database structure. This requires a TypeScript <code>Database</code>
+interface, that contains table names as keys and table schema interfaces as
+values.
+
+**Let's define our first database interface:**
+
+```ts title="src/types.ts"
+import {
+  ColumnType,
+  Generated,
+  Insertable,
+  JSONColumnType,
+  Selectable,
+  Updateable,
+} from 'kysely'
+
+export interface Database {
+  person: PersonTable
+  pet: PetTable
+}
+
+// This interface describes the `person` table to Kysely. Table
+// interfaces should only be used in the `Database` type above
+// and never as a result type of a query!. See the `Person`,
+// `NewPerson` and `PersonUpdate` types below.
+export interface PersonTable {
+  // Columns that are generated by the database should be marked
+  // using the `Generated` type. This way they are automatically
+  // made optional in inserts and updates.
+  id: Generated<number>
+
+  first_name: string
+  gender: 'man' | 'woman' | 'other'
+
+  // If the column is nullable in the database, make its type nullable.
+  // Don't use optional properties. Optionality is always determined
+  // automatically by Kysely.
+  last_name: string | null
+
+  // You can specify a different type for each operation (select, insert and
+  // update) using the `ColumnType<SelectType, InsertType, UpdateType>`
+  // wrapper. Here we define a column `created_at` that is selected as
+  // a `Date`, can optionally be provided as a `string` in inserts and
+  // can never be updated:
+  created_at: ColumnType<Date, string | undefined, never>
+
+  // You can specify JSON columns using the `JSONColumnType` wrapper.
+  // It is a shorthand for `ColumnType<T, string, string>`, where T
+  // is the type of the JSON object/array retrieved from the database,
+  // and the insert and update types are always `string` since you're
+  // always stringifying insert/update values.
+  metadata: JSONColumnType<{
+    login_at: string
+    ip: string | null
+    agent: string | null
+    plan: 'free' | 'premium'
+  }>
+}
+
+// You should not use the table schema interfaces directly. Instead, you should
+// use the `Selectable`, `Insertable` and `Updateable` wrappers. These wrappers
+// make sure that the correct types are used in each operation.
+//
+// Most of the time you should trust the type inference and not use explicit
+// types at all. These types can be useful when typing function arguments.
+export type Person = Selectable<PersonTable>
+export type NewPerson = Insertable<PersonTable>
+export type PersonUpdate = Updateable<PersonTable>
+
+export interface PetTable {
+  id: Generated<number>
+  name: string
+  owner_id: number
+  species: 'dog' | 'cat'
+}
+
+export type Pet = Selectable<PetTable>
+export type NewPet = Insertable<PetTable>
+export type PetUpdate = Updateable<PetTable>
+```
+
+:::tip[Codegen]
+
+For production apps, it is recommended to automatically generate your <code>Database</code>
+interface by introspecting your production database or Prisma schemas. Generated types
+might differ in naming convention, internal order, etc. Find out more at ["Generating types"](https://kysely.dev/docs/generating-types).
+
+:::
+
+:::info[Runtime types]
+
+Kysely only deals with types in the TypeScript level. The runtime JavaScript types are decided
+by the underlying third-party driver such as `pg` or `mysql2` and it's up to you to select the correct
+TypeScript types in the database interface. Kysely never touches the runtime output types in
+any way. Find out more at ["Data types"](https://kysely.dev/docs/recipes/data-types).
+
+:::
+
+
+---
+./getting-started/shared.tsx
+---
+import type { ReactNode } from 'react'
+import packageJson from '../../package.json'
+
+export type Dialect = 'postgresql' | 'mysql' | 'sqlite' | 'mssql'
+
+export type PropsWithDialect<P = {}> = P & {
+  dialect: Dialect | undefined
+  dialectsURL: string
+}
+
+export type PackageManager = 'npm' | 'pnpm' | 'yarn' | 'deno' | 'bun'
+
+const PACKAGE_MANAGER_UNSUPPORTED_DIALECTS: Record<PackageManager, Dialect[]> =
+  {
+    bun: ['sqlite'],
+    deno: ['sqlite', 'mssql'],
+    npm: [],
+    pnpm: [],
+    yarn: [],
+  }
+
+export function isDialectSupported(
+  dialect: Dialect,
+  packageManager: PackageManager,
+): boolean {
+  return !PACKAGE_MANAGER_UNSUPPORTED_DIALECTS[packageManager].includes(dialect)
+}
+
+export const DIALECT_CLASS_NAMES = {
+  postgresql: 'PostgresDialect',
+  mysql: 'MysqlDialect',
+  mssql: 'MssqlDialect',
+  sqlite: 'SqliteDialect',
+} as const satisfies Record<Dialect, string>
+
+export const getDriverNPMPackageNames = (
+  packageManager: PackageManager = 'npm',
+) =>
+  ({
+    postgresql: packageManager === 'deno' ? 'pg-pool' : 'pg',
+    mysql: 'mysql2',
+    mssql: 'tedious',
+    sqlite: 'better-sqlite3',
+  }) as const satisfies Record<Dialect, string>
+
+export const POOL_NPM_PACKAGE_NAMES = {
+  mssql: 'tarn',
+} as const satisfies Partial<Record<Dialect, string>>
+
+export const PRETTY_DIALECT_NAMES = {
+  postgresql: 'PostgreSQL',
+  mysql: 'MySQL',
+  mssql: 'Microsoft SQL Server (MSSQL)',
+  sqlite: 'SQLite',
+} as const satisfies Record<Dialect, string>
+
+export const PRETTY_PACKAGE_MANAGER_NAMES = {
+  npm: 'npm',
+  pnpm: 'pnpm',
+  yarn: 'Yarn',
+  deno: 'Deno',
+  bun: 'Bun',
+} as const satisfies Record<PackageManager, string>
+
+const PACKAGE_MANAGER_INSTALL_COMMANDS = {
+  npm: 'npm install',
+  pnpm: 'pnpm install',
+  yarn: 'yarn add',
+  bun: 'bun install',
+} as const satisfies Omit<Record<PackageManager, string>, 'deno'>
+
+export interface Command {
+  content: ReactNode
+  intro: ReactNode
+  language: string
+  title: string
+}
+
+export function getBashCommand(
+  packageManager: PackageManager,
+  installedPackage: string,
+  additionalPackages?: string[],
+): Command {
+  if (packageManager === 'deno') {
+    throw new Error('Deno has no bash command')
+  }
+
+  return {
+    content: `${
+      PACKAGE_MANAGER_INSTALL_COMMANDS[packageManager]
+    } ${installedPackage}${
+      additionalPackages?.length ? ` ${additionalPackages.join(' ')}` : ''
+    }`,
+    intro: 'Run the following command in your terminal:',
+    language: 'bash',
+    title: 'terminal',
+  }
+}
+
+export function getDenoCommand(
+  additionalImports?: Record<string, string>,
+): Command {
+  return {
+    content: JSON.stringify(
+      {
+        imports: {
+          kysely: `npm:kysely@^${packageJson.version}`,
+          ...additionalImports,
+        },
+      },
+      null,
+      2,
+    ),
+    intro: (
+      <>
+        <strong>Your root </strong>
+        <code>deno.json</code>
+        <strong>
+          's "imports" field should include the following dependencies:
+        </strong>
+      </>
+    ),
+    language: 'json',
+    title: 'deno.json',
+  }
+}
+
+
+---
+./recipes/0001-relations.md
+---
+# Relations
+
+<h3>
+Kysely IS NOT an ORM. Kysely DOES NOT have the concept of relations.
+Kysely IS a query builder. Kysely DOES build the SQL you tell it to, nothing more, nothing less.
+</h3>
+
+Phew, glad we got that out the way..
+
+Having said all that, there are ways to nest related rows in your queries. You just have to do it
+using the tools SQL and the underlying dialect (e.g. PostgreSQL, MySQL, or SQLite) provide. In this recipe
+we show one way to do that when using the built-in PostgreSQL, MySQL, and SQLite dialects.
+
+This recipe is supported on MySQL versions starting from 8.0.14. This is due to the way subqueries use outer references in this recipe (cf. [MySQL 8.0.14 changelog](https://dev.mysql.com/doc/relnotes/mysql/8.0/en/news-8-0-14.html#mysqld-8-0-14-optimizer) | [MariaDB is not supported yet](https://jira.mariadb.org/browse/MDEV-19078)).
+
+## The `json` data type and functions
+
+PostgreSQL and MySQL have rich JSON support through their `json` data types and functions. `pg` and `mysql2`, the node drivers, automatically parse returned `json` columns as json objects. With the combination of these two things, we can write some super efficient queries with nested relations.
+
+:::info[Parsing JSON]
+The built in `SqliteDialect` and some third-party dialects don't parse the returned JSON columns to objects automatically.
+Not even if they use `PostgreSQL` or `MySQL` under the hood! Parsing is handled (or not handled) by the database driver
+that Kysely has no control over. If your JSON columns get returned as strings, you can use the `ParseJSONResultsPlugin`:
+
+```ts
+const db = new Kysely<DB>({
+  ...
+  plugins: [new ParseJSONResultsPlugin()]
+})
+```
+:::
+
+Let's start with some raw postgres SQL, and then see how we can write the query using Kysely in a nice type-safe way.
+
+In the following query, we fetch a list of people (from "person" table) and for each person, we nest the person's pets, and mother, into the returned objects:
+
+```sql
+SELECT
+  person.*,
+
+  -- Select person's pets as a json array
+  (
+    SELECT
+      COALESCE(JSON_AGG(pets), '[]')
+    FROM
+    (
+      SELECT
+        pet.id, pet.name
+      FROM
+        pet
+      WHERE
+        pet.owner_id = person.id
+      ORDER BY
+        pet.name
+    ) pets
+  ) pets,
+
+  -- Select person's mother as a json object
+  (
+    SELECT
+      TO_JSON(mother)
+    FROM
+    (
+      SELECT
+        mother.id, mother.first_name
+      FROM
+        person as mother
+      WHERE
+        mother.id = person.mother_id
+    ) mother
+  ) mother
+FROM
+  person
+```
+
+Simple right 😅. Yeah, not so much. But it does provide full control over the queries and a really good performance as long as you have indices (or indexes, we don't judge) for "pet.owner_id" and "person.mother_id".
+
+Fortunately we can improve and simplify this a lot using Kysely. First let's define a couple of helpers:
+
+```ts
+function jsonArrayFrom<O>(expr: Expression<O>) {
+  return sql<Simplify<O>[]>`(select coalesce(json_agg(agg), '[]') from ${expr} as agg)`
+}
+
+function jsonObjectFrom<O>(expr: Expression<O>) {
+  return sql<Simplify<O>>`(select to_json(obj) from ${expr} as obj)`
+}
+```
+
+These helpers are included in Kysely and you can import them from the `helpers` module like this:
+
+```ts
+import { jsonArrayFrom, jsonObjectFrom } from 'kysely/helpers/postgres'
+```
+
+MySQL and SQLite versions of the helpers are slightly different, but you can use them the same way. You can import them like this:
+
+```ts
+import { jsonArrayFrom, jsonObjectFrom } from 'kysely/helpers/mysql'
+```
+
+```ts
+import { jsonArrayFrom, jsonObjectFrom } from 'kysely/helpers/sqlite'
+```
+
+With these helpers, our example query already becomes a little more bearable to look at:
+
+```ts
+const persons = await db
+  .selectFrom('person')
+  .selectAll('person')
+  .select((eb) => [
+    // pets
+    jsonArrayFrom(
+      eb.selectFrom('pet')
+        .select(['pet.id', 'pet.name'])
+        .whereRef('pet.owner_id', '=', 'person.id')
+        .orderBy('pet.name')
+    ).as('pets'),
+
+    // mother
+    jsonObjectFrom(
+      eb.selectFrom('person as mother')
+        .select(['mother.id', 'mother.first_name'])
+        .whereRef('mother.id', '=', 'person.mother_id')
+    ).as('mother')
+  ])
+  .execute()
+
+console.log(persons[0].pets[0].name)
+console.log(persons[0].mother?.first_name)
+```
+
+That's better right? If you need to do this over and over in your codebase, you can create some helpers like these:
+
+```ts
+function pets(ownerId: Expression<string>) {
+  return jsonArrayFrom(
+    db.selectFrom('pet')
+      .select(['pet.id', 'pet.name'])
+      .where('pet.owner_id', '=', ownerId)
+      .orderBy('pet.name')
+  )
+}
+
+function mother(motherId: Expression<string>) {
+  return jsonObjectFrom(
+    db.selectFrom('person as mother')
+      .select(['mother.id', 'mother.first_name'])
+      .where('mother.id', '=', motherId)
+  )
+}
+```
+
+And now you get this:
+
+```ts
+const persons = await db
+  .selectFrom('person')
+  .selectAll('person')
+  .select(({ ref }) => [
+    pets(ref('person.id')).as('pets'),
+    mother(ref('person.mother_id')).as('mother')
+  ])
+  .execute()
+
+console.log(persons[0].pets[0].name)
+console.log(persons[0].mother?.first_name)
+```
+
+In some cases Kysely marks your selections as nullable if it's not able to know the related object
+always exists. If you have that information, you can mark the relation non-null using the
+`$notNull()` helper like this:
+
+```ts
+const persons = await db
+  .selectFrom('person')
+  .selectAll('person')
+  .select(({ ref }) => [
+    pets(ref('person.id')).as('pets'),
+    mother(ref('person.mother_id')).$notNull().as('mother')
+  ])
+  .execute()
+
+console.log(persons[0].pets[0].name)
+console.log(persons[0].mother.first_name)
+```
+
+If you need to select relations conditionally, `$if` is your friend:
+
+```ts
+const persons = await db
+  .selectFrom('person')
+  .selectAll('person')
+  .$if(includePets, (qb) => qb.select(
+    (eb) => pets(eb.ref('person.id')).as('pets')
+  ))
+  .$if(includeMom, (qb) => qb.select(
+    (eb) => mother(eb.ref('person.mother_id')).as('mother')
+  ))
+  .execute()
+```
+
+
+---
+./recipes/0001-reusable-helpers.md
+---
+# Reusable helpers
+
+:::info
+[Here's](https://kyse.link/qm67s) a playground link containing all the code in this recipe.
+:::
+
+Let's say you want to write the following query:
+
+```sql
+SELECT id, first_name
+FROM person
+WHERE upper(last_name) = $1
+```
+
+Kysely doesn't have a built-in `upper` function but there are at least three ways you could write this:
+
+```ts
+const lastName = 'STALLONE'
+
+const persons = await db
+  .selectFrom('person')
+  .select(['id', 'first_name'])
+  // 1. `sql` template tag. This is the least type-safe option.
+  // You're providing the column name without any type-checking,
+  // and plugins won't affect it.
+  .where(
+    sql<string>`upper(last_name)`, '=', lastName
+  )
+  // 2. `sql` template tag with `ref`. Anything passed to `ref`
+  // gets type-checked against the accumulated query context.
+  .where(({ eb, ref }) => eb(
+    sql<string>`upper(${ref('last_name')})`, '=', lastName
+  ))
+  // 3. The `fn` function helps you avoid missing parentheses/commas
+  // errors and uses refs as 1st class arguments.
+  .where(({ eb, fn }) => eb(
+    fn<string>('upper', ['last_name']), '=', lastName
+  ))
+  .execute()
+```
+
+but each option could be more readable or type-safe.
+
+Fortunately Kysely allows you to easily create composable, reusable and type-safe helper functions:
+
+```ts
+import { Expression, sql } from 'kysely'
+
+function upper(expr: Expression<string>) {
+  return sql<string>`upper(${expr})`
+}
+
+function lower(expr: Expression<string>) {
+  return sql<string>`lower(${expr})`
+}
+
+function concat(...exprs: Expression<string>[]) {
+  return sql.join<string>(exprs, sql`||`)
+}
+```
+
+Using the `upper` helper, our query would look like this:
+
+```ts
+const lastName = 'STALLONE'
+
+const persons = await db
+  .selectFrom('person')
+  .select(['id', 'first_name'])
+  .where(({ eb, ref }) => eb(
+    upper(ref('last_name')), '=', lastName
+  ))
+  .execute()
+```
+
+The recipe for helper functions is simple: take inputs as `Expression<T>` instances where `T` is the type of the expression. For example `upper` takes in any `string` expression since it transforms strings to upper case. If you implemented the `round` function, it'd take in `Expression<number>` since you can only round numbers.
+
+The helper functions should then use the inputs to create an output that's also an `Expression`. Everything you can create using the expression builder is an instance of `Expression`. So is the output of the `sql` template tag and all methods under the `sql` object. Same goes for `SelectQueryBuilder` and pretty much everything else in Kysely. Everything's an expression.
+
+See [this recipe](https://kysely.dev/docs/recipes/expressions) to learn more about expressions.
+
+So we've learned that everything's an expression and that expressions are composable. Let's put this idea to use:
+
+```ts
+const persons = await db
+  .selectFrom('person')
+  .select(['id', 'first_name'])
+  .where(({ eb, ref, val }) => eb(
+    concat(
+      lower(ref('first_name')),
+      val(' '),
+      upper(ref('last_name'))
+    ),
+    '=',
+    'sylvester STALLONE'
+  ))
+  .execute()
+```
+
+So far we've only used our helper functions in the first argument of `where` but you can use them anywhere:
+
+```ts
+const persons = await db
+  .selectFrom('person')
+  .innerJoin('pet', (join) => join.on(eb => eb(
+    'person.first_name', '=', lower(eb.ref('pet.name'))
+  )))
+  .select(({ ref, val }) => [
+    'first_name',
+    // If you use a helper in `select`, you need to always provide an explicit
+    // name for it using the `as` method.
+    concat(ref('person.first_name'), val(' '), ref('pet.name')).as('name_with_pet')
+  ])
+  .orderBy(({ ref }) => lower(ref('first_name')))
+  .execute()
+```
+
+## Reusable helpers using `ExpressionBuilder`
+
+Here's an example of a helper function that uses the expression builder instead of raw SQL:
+
+```ts
+import { Expression, expressionBuilder } from 'kysely'
+
+function idsOfPersonsThatHaveDogNamed(name: Expression<string>) {
+  const eb = expressionBuilder<DB>()
+
+  // A subquery that returns the identifiers of all persons
+  // that have a dog named `name`.
+  return eb
+    .selectFrom('pet')
+    .select('pet.owner_id')
+    .where('pet.species', '=', 'dog')
+    .where('pet.name', '=', name)
+}
+```
+
+And here's how you could use it:
+
+```ts
+const dogName = 'Doggo'
+
+const persons = await db
+  .selectFrom('person')
+  .selectAll('person')
+  .where((eb) => eb(
+    'person.id', 'in', idsOfPersonsThatHaveDogNamed(eb.val(dogName))
+  ))
+  .execute()
+```
+
+Note that `idsOfPersonsThatHaveDogNamed` doesn't execute a separate query but instead returns a subquery expression that's compiled as a part of the parent query:
+
+```sql
+select
+  person.*
+from
+  person
+where
+  person.id in (
+    select pet.owner_id
+    from pet
+    where pet.species = 'dog'
+    and pet.name = ?
+  )
+```
+
+In all our examples we've used the following syntax:
+
+```ts
+.where(eb => eb(left, operator, right))
+```
+
+When the expression builder `eb` is used as a function, it creates a binary expression. All binary expressions with a comparison operator are represented as a `Expression<SqlBool>`. You don't always need to return `eb(left, operator, right)` from the callback though. Since `Expressions` are composable and reusable, you can return any `Expression<SqlBool>`.
+
+This means you can create helpers like this:
+
+```ts
+function isOlderThan(age: Expression<number>) {
+  return sql<SqlBool>`age > ${age}`
+}
+```
+
+```ts
+const persons = await db
+  .selectFrom('person')
+  .select(['id', 'first_name'])
+  .where(({ val }) => isOlderThan(val(60)))
+  .execute()
+```
+
+## Dealing with nullable expressions
+
+If you want your helpers to work with nullable expressions (nullable columns etc.), you can do something like this:
+
+```ts
+import { Expression } from 'kysely'
+
+// This function accepts both nullable and non-nullable string expressions.
+function toInt<T extends string | null>(expr: Expression<T>) {
+  // This returns `Expression<number | null>` if `expr` is nullable
+  // and `Expression<number>` otherwise.
+  return sql<T extends null ? (number | null) : number>`(${expr})::integer`
+}
+```
+
+## Passing select queries as expressions
+
+Let's say we have the following query:
+
+```ts
+const expr: Expression<{ name: string }> = db
+  .selectFrom('pet')
+  .select('pet.name')
+```
+
+The expression type of our query is `Expression<{ name: string }>` but SQL allows you to use a query like that as an `Expression<string>`. In other words, SQL allows you to use single-column record types like scalars. Most of the time Kysely is able to automatically handle this case but with helper functions you need to use `$asScalar()` to convert the type. Here's an example:
+
+```ts
+const persons = await db
+  .selectFrom('person')
+  .select((eb) => [
+    'id',
+    'first_name',
+    upper(
+      eb.selectFrom('pet')
+        .select('name')
+        .whereRef('person.id', '=', 'pet.owner_id')
+        .limit(1)
+        .$asScalar() // <-- This is needed
+        .$notNull()
+    ).as('pet_name')
+  ])
+```
+
+The subquery is an `Expression<{ name: string }>` but our `upper` function only accepts `Expression<string>`. That's why we need to call `$asScalar()`. `$asScalar()` has no effect on the generated SQL. It's simply a type-level helper.
+
+We also used `$notNull()` in the example because our simple `upper` function doesn't support nullable expressions.
+
+---
+./recipes/0002-data-types.md
+---
+# Data types
+
+When talking about data types in Kysely we need to make a distinction between the two kinds of types:
+
+1. Typescript types
+2. Runtime JavaScript types
+
+## Typescript types
+
+In Kysely, you only define TypeScript types for your tables and columns. Since TypeScript is entirely a compile-time concept, TypeScript types __can't__ affect runtime JavaScript types. If you define your column to be a `string` in TypeScript but the database returns a `number`, the runtime type doesn't magically change to `string`. You'll see a `string` in the TypeScript code, but observe a number when you run the program.
+
+:::info
+It's up to **you** to select correct TypeScript types for your columns based on what the driver returns.
+:::
+
+## Runtime JavaScript types
+
+The database driver, such as `pg` or `mysql2`, decides the runtime JavaScript types the queries return. Kysely never touches the runtime types the driver returns. In fact, Kysely doesn't touch the data returned by the driver in any way. It simply executes the query and returns whatever the driver returns. An exception to this rule is when you use a plugin like `CamelCasePlugin`, in which case Kysely does change the column names.
+
+You need to read the underlying driver's documentation or otherwise figure out what the driver returns and then align the TypeScript types to match them.
+
+### Configuring runtime JavaScript types
+
+Most drivers provide a way to change the returned types. For example `pg` returns `bigint` and `numeric` types as strings by default, but often you want to configure it to return numbers instead.
+
+#### Postgres
+
+When using the `pg` driver, you can use the [pg-types](https://github.com/brianc/node-pg-types) package to configure the types. For example here's how you'd configure the `bigint` to be returned as a number:
+
+```ts
+import { Kysely, PostgresDialect } from 'kysely'
+import * as pg from 'pg'
+
+const int8TypeId = 20
+// Map int8 to number.
+pg.types.setTypeParser(int8TypeId, (val) => {
+  return parseInt(val, 10)
+})
+
+export const db = new Kysely<Database>({
+  dialect: new PostgresDialect({
+    pool: new pg.Pool(config),
+  }),
+})
+```
+
+See the documentation [here](https://github.com/brianc/node-pg-types) on how to figure out the correct type id.
+
+#### MySQL
+
+When using the `mysql2` driver, you an use the [typeCast](https://github.com/mysqljs/mysql?tab=readme-ov-file#custom-type-casting) pool property.
+
+For example here's how you'd map `tinyint(1)` to a boolean:
+
+```ts
+import { Kysely, MysqlDialect } from 'kysely'
+import { createPool } from 'mysql2'
+
+export const db = new Kysely<Database>({
+  dialect: new MysqlDialect({
+    pool: createPool({
+      ...config,
+      // Map tinyint(1) to boolean
+      typeCast(field, next) {
+        if (field.type === 'TINY' && field.length === 1) {
+          return field.string() === '1'
+        } else {
+          return next()
+        }
+      },
+    }),
+  }),
+})
+```
+
+## Type generators
+
+There are third-party type generators such as [kysely-codegen](https://github.com/RobinBlomberg/kysely-codegen) and [kanel-kysely](https://kristiandupont.github.io/kanel/kanel-kysely.html) that automatically generate TypeScript types based on the database schema. Find out more at ["Generating types"](https://kysely.dev/docs/generating-types).
+
+If these tools generate a type that doesn't match the runtime type you observe, please refer to their documentation or open an issue in their github. Kysely has no control over these libraries.
+
+---
+./recipes/0003-raw-sql.md
+---
+# Raw SQL
+
+You can execute raw SQL strings and pass raw SQL snippets to pretty much any method or function
+using the [sql template tag](https://kysely-org.github.io/kysely-apidoc/interfaces/Sql.html).
+
+
+---
+./recipes/0004-splitting-query-building-and-execution.md
+---
+# Splitting query building and execution
+
+Kysely is primarily a type-safe sql query builder.
+
+It also does query execution, migrations, etc. in order to align with Knex's "batteries
+included" approach.
+
+## "Cold" Kysely instances
+
+In order to use Kysely purely as a query builder without database driver dependencies,
+you can instantiate it with the built-in `DummyDriver` class:
+
+```ts
+import {
+  Generated,
+  DummyDriver,
+  Kysely,
+  PostgresAdapter,
+  PostgresIntrospector,
+  PostgresQueryCompiler,
+} from 'kysely'
+
+interface Person {
+  id: Generated<number>
+  first_name: string
+  last_name: string | null
+}
+
+interface Database {
+  person: Person
+}
+
+const db = new Kysely<Database>({
+  dialect: {
+    createAdapter: () => new PostgresAdapter(),
+    createDriver: () => new DummyDriver(),
+    createIntrospector: (db) => new PostgresIntrospector(db),
+    createQueryCompiler: () => new PostgresQueryCompiler(),
+  },
+})
+```
+
+This Kysely instance will compile to PostgreSQL sql dialect. You can brew "dummy"
+dialects to compile to all kinds of sql dialects (e.g. MySQL). Trying to execute
+queries using "cold" kysely instances will return empty results without communicating
+with a database.
+
+> "Cold" Kysely instances are not required for the following sections. You can
+use "hot" kysely instances, with real drivers, if you want to.
+
+## Compile a query
+
+To compile a query, simply call `.compile()` at the end of the query building chain:
+
+```ts
+const compiledQuery = db
+  .selectFrom('person')
+  .select('first_name')
+  .where('id', '=', id)
+  .compile()
+
+console.log(compiledQuery) // { sql: 'select "first_name" from "person" where "id" = $1', parameters: [1], query: { ... } }
+```
+
+The result of `.compile()` is a `CompiledQuery` object. It contains the query string
+(in `sql` field), parameters and the original Kysely-specific syntax tree used
+for compilation.
+
+This output alone can be used with any database driver that understands the sql
+dialect used (PostgreSQL in this example).
+
+Raw queries can be compiled as well:
+
+```ts
+import { Selectable, sql } from 'kysely'
+
+const compiledQuery = sql<Selectable<Person>>`select * from person where id = ${id}`.compile(db)
+
+console.log(compiledQuery) // { sql: 'select * from person where id = $1', parameters: [1], query: { ... } }
+```
+
+## Infer result type
+
+Kysely supports inferring a (compiled) query's result type even when detached from
+query building chains. This allows splitting query building, compilation and execution
+code without losing type-safety.
+
+```ts
+import { InferResult } from 'kysely'
+
+const query = db
+  .selectFrom('person')
+  .select('first_name')
+  .where('id', '=', id)
+
+type QueryReturnType = InferResult<typeof query> // { first_name: string }[]
+
+const compiledQuery = query.compile()
+
+type CompiledQueryReturnType = InferResult<typeof compiledQuery> // { first_name: string }[]
+```
+
+## Execute compiled queries
+
+The `CompiledQuery` object returned by `.compile()` can be executed
+via "hot" Kysely instances (real drivers in use):
+
+```ts
+const compiledQuery = db
+  .selectFrom('person')
+  .select('first_name')
+  .where('id', '=', id)
+  .compile()
+
+const results = await db.executeQuery(compiledQuery)
+```
+
+The `QueryResult` object returned by `.executeQuery()` contains the query results'
+rows, insertId and number of affected rows (if applicable).
+
+---
+./recipes/0005-conditional-selects.md
+---
+# Conditional selects
+
+Sometimes you may want to select some fields based on a runtime condition.
+Something like this:
+
+```ts
+async function getPerson(id: number, withLastName: boolean) {}
+```
+
+If `withLastName` is true the person object is returned with a `last_name`
+property, otherwise without it.
+
+Your first thought can be to simply do this:
+
+```ts
+async function getPerson(id: number, withLastName: boolean) {
+  let query = db.selectFrom('person').select('first_name').where('id', '=', id)
+
+  if (withLastName) {
+    // ❌ The type of `query` doesn't change here
+    query = query.select('last_name')
+  }
+
+  // ❌ Wrong return type { first_name: string }
+  return await query.executeTakeFirstOrThrow()
+}
+```
+
+While that _would_ compile, the result type would be `{ first_name: string }`
+without the `last_name` column, which is wrong. What happens is that the type
+of `query` when created is something, let's say `A`. The type of the query
+with `last_name` selection is `B` which extends `A` but also contains information
+about the new selection. When you assign an object of type `B` to `query` inside
+the `if` statement, the type gets downcast to `A`.
+
+:::info
+You _can_ write code like this to add conditional `where`, `groupBy`, `orderBy` etc.
+statements that don't change the type of the query builder, but it doesn't work
+with `select`, `returning`, `innerJoin` etc. that _do_ change the type of the
+query builder.
+:::
+
+In this simple case you could implement the method like this:
+
+```ts
+async function getPerson(id: number, withLastName: boolean) {
+  const query = db
+    .selectFrom('person')
+    .select('first_name')
+    .where('id', '=', id)
+
+  if (withLastName) {
+    // ✅ The return type is { first_name: string, last_name: string }
+    return await query.select('last_name').executeTakeFirstOrThrow()
+  }
+
+  // ✅ The return type is { first_name: string }
+  return await query.executeTakeFirstOrThrow()
+}
+```
+
+This works fine when you have one single condition. As soon as you have two or more
+conditions the amount of code explodes if you want to keep things type-safe. You need
+to create a separate branch for every possible combination of selections or otherwise
+the types won't be correct.
+
+This is where the [$if](https://kysely-org.github.io/kysely-apidoc/interfaces/SelectQueryBuilder.html#_if)
+method can help you:
+
+```ts
+async function getPerson(id: number, withLastName: boolean) {
+  // ✅ The return type is { first_name: string, last_name?: string }
+  return await db
+    .selectFrom('person')
+    .select('first_name')
+    .$if(withLastName, (qb) => qb.select('last_name'))
+    .where('id', '=', id)
+    .executeTakeFirstOrThrow()
+}
+```
+
+Any selections added inside the `if` callback will be added as optional fields to the
+output type since we can't know if the selections were actually made before running
+the code.
+
+
+---
+./recipes/0006-expressions.md
+---
+# Expressions
+
+An [`Expression<T>`](https://kysely-org.github.io/kysely-apidoc/interfaces/Expression.html) is the basic type-safe query building block in Kysely. Pretty much all methods accept expressions as inputs. Most internal classes like [SelectQueryBuilder](https://kysely-org.github.io/kysely-apidoc/interfaces/SelectQueryBuilder.html) and [RawBuilder](https://kysely-org.github.io/kysely-apidoc/interfaces/RawBuilder.html) (the return value of the [sql tag](https://kysely-org.github.io/kysely-apidoc/functions/sql-1.html)) are expressions themselves.
+
+`Expression<T>` represents an arbitrary SQL expression, like a binary expression (e.g. `a + b`), or a function call (e.g. `concat(arg1, ' ', arg2, ...)`). It can be any combination of those, no matter how complex. `T` is the output type of the expression.
+
+## Expression builder
+
+Expressions are usually built using an instance of [`ExpressionBuilder<DB, TB>`](https://kysely-org.github.io/kysely-apidoc/interfaces/ExpressionBuilder.html). `DB` is the same database type you give to `Kysely` when you create an instance. `TB` is the union of all table names that are visible in the context. For example `ExpressionBuilder<DB, 'person' | 'pet'>` means you can reference `person` and `pet` columns in the created expressions.
+
+You can get an instance of the expression builder using a callback:
+
+```ts
+const person = await db
+  .selectFrom('person')
+  // `eb` is an instance of ExpressionBuilder<DB, 'person'>
+  .select((eb) => [
+    // Call the `upper` function on `first_name`. There's a bunch of
+    // shortcuts to functions under the `fn` object such as
+    // `eb.fn.coalesce()` that provide a cleaner syntax.
+    eb.fn('upper', ['first_name']).as('upper_first_name'),
+
+    // Select a subquery
+    eb.selectFrom('pet')
+      .select('name')
+      .whereRef('pet.owner_id', '=', 'person.id')
+      .limit(1)
+      .as('pet_name'),
+
+    // Select a boolean expression
+    eb('first_name', '=', 'Jennifer').as('is_jennifer'),
+
+    // Select a static string value
+    eb.val('Some value').as('string_value'),
+
+    // Select a literal value
+    eb.lit(42).as('literal_value'),
+  ])
+  // You can also destructure the expression builder like this
+  .where(({ and, or, eb, not, exists, selectFrom }) => or([
+    and([
+      eb('first_name', '=', firstName),
+      eb('last_name', '=', lastName)
+    ]),
+    not(exists(
+      selectFrom('pet')
+        .select('pet.id')
+        .whereRef('pet.owner_id', '=', 'person.id')
+        .where('pet.species', 'in', ['dog', 'cat'])
+    ))
+  ]))
+  .executeTakeFirstOrThrow()
+
+console.log(person.upper_first_name)
+console.log(person.pet_name)
+console.log(person.is_jennifer)
+```
+
+The generated SQL:
+
+```sql
+select
+  upper("first_name") as "upper_first_name",
+
+  (
+    select "name"
+    from "pet"
+    where "pet"."owner_id" = "person"."id"
+    limit 1
+  ) as "pet_name",
+
+  "first_name" = $1 as "is_jennifer",
+  $2 as "string_value",
+  42 as "literal_value"
+from
+  "person"
+where (
+  (
+    "first_name" = $3
+    and "last_name" = $4
+  )
+  or not exists (
+    select "pet.id"
+    from "pet"
+    where "pet"."owner_id" = "person"."id"
+    and "pet"."species" in ($5, $6)
+  )
+)
+```
+
+In the above query we used the expression builder in `select` and `where` methods. You can use it the same way in other methods like `having`, `on`, `orderBy`, `groupBy` etc.
+
+All expressions are composable. You can pass expressions as arguments of any expression. All query builder methods in Kysely accept expressions and expression builder callbacks. All expression builder methods offer auto-completions and type-safety just like methods on the query builders.
+
+You might be wondering, "why do I need to use a callback to get the expression builder?". "Why not just create an instance using a global function?". The reason is that when you use a callback, Kysely is able to infer the context correctly. The expression builder's methods only auto-complete and accept column and table names that are available in the context. In other words, using a callback provides more type-safety!
+
+There's also a global function `expressionBuilder` you can use to create expression builders:
+
+```ts
+import { expressionBuilder } from 'kysely'
+
+// `eb1` has type `ExpressionBuilder<DB, never>` which means there are no tables in the
+// context. This variant should be used most of the time in helper functions since you
+// shouldn't make assumptions about the calling context.
+const eb1 = expressionBuilder<DB>()
+
+// `eb2` has type `ExpressionBuilder<DB, 'person'>`. You can reference `person` columns
+// directly in all expression builder methods.
+const eb2 = expressionBuilder<DB, 'person'>()
+
+// In this one you'd have access to tables `person` and `pet` and all their columns.
+const eb3 = expressionBuilder<DB, 'person' | 'pet'>()
+
+let qb = query
+  .selectFrom('person')
+  .innerJoin('movie as m', 'm.director_id', 'person.id')
+
+// You can also provide a query builder instance and the context is inferred automatically.
+// Type of `eb` is `ExpressionBuilder<DB & { m: Movie }, 'person' | 'm'>`
+const eb = expressionBuilder(qb)
+
+qb = qb.where(eb.not(eb.exists(
+  eb.selectFrom('pet')
+    .select('pet.id')
+    .whereRef('pet.name', '=', 'm.name')
+)))
+```
+
+## Creating reusable helpers
+
+The expression builder can be used to create reusable helper functions.
+Let's say we have a complex `where` expression we want to reuse in multiple queries:
+
+```ts
+function hasDogNamed(name: string): Expression<boolean> {
+  const eb = expressionBuilder<DB, 'person'>()
+
+  return eb.exists(
+    eb.selectFrom('pet')
+      .select('pet.id')
+      .whereRef('pet.owner_id', '=', 'person.id')
+      .where('pet.species', '=', 'dog')
+      .where('pet.name', '=', name)
+  )
+}
+```
+
+This helper can now be used in any query, and would work just fine if "person" table is in context:
+
+```ts
+const doggoPersons = await db
+  .selectFrom('person')
+  .selectAll('person')
+  .where(hasDogNamed('Doggo'))
+  .execute()
+```
+
+However, the above helper is not very type-safe. The following code would compile, but fail at runtime:
+
+```ts
+const bigFatFailure = await db
+  .selectFrom('movie') // <-- "person" table is not in context!
+  .selectAll('movie')
+  .where(hasDogNamed('Doggo')) // <-- but we're referring to "person.id" in our helper
+  .execute()
+```
+
+It's better to not make assumptions about the calling context and pass in all dependencies
+as arguments. In the following example we pass in the person's id as an expression. We also
+changed the type of `name` from `string` to `Expression<string>`, which allows us to pass
+in arbitrary expressions instead of just values.
+
+```ts
+function hasDogNamed(name: Expression<string>, ownerId: Expression<number>) {
+  // Create an expression builder without any tables in the context.
+  // This way we make no assumptions about the calling context.
+  const eb = expressionBuilder<DB>()
+
+  return eb.exists(
+    eb.selectFrom('pet')
+      .select('pet.id')
+      .where('pet.owner_id', '=', ownerId)
+      .where('pet.species', '=', 'dog')
+      .where('pet.name', '=', name)
+  )
+}
+```
+
+Here's how you'd use our brand new helper:
+
+```ts
+const doggoPersons = await db
+  .selectFrom('person')
+  .selectAll('person')
+  .where((eb) => hasDogNamed(eb.val('Doggo'), eb.ref('person.id')))
+  .execute()
+```
+
+Learn more about reusable helper functions [here](https://kysely.dev/docs/recipes/reusable-helpers).
+
+## Conditional expressions
+
+In the following, we'll only cover `where` expressions. The same logic applies to `having`, `on`, `orderBy`, `groupBy` etc.
+
+> This section should not be confused with conditional selections in `select` clauses, which is a whole 'nother topic we discuss in [this recipe](https://kysely.dev/docs/recipes/conditional-selects).
+
+Having a set of optional filters you want to combine using `and`, is the most basic and common use case of conditional `where` expressions.
+Since the `where`, `having` and other filter functions are additive, most of the time this is enough:
+
+```ts
+let query = db
+  .selectFrom('person')
+  .selectAll('person')
+
+if (firstName) {
+  // The query builder is immutable. Remember to replace the builder
+  // with the new one.
+  query = query.where('first_name', '=', firstName)
+}
+
+if (lastName) {
+  query = query.where('last_name', '=', lastName)
+}
+
+const persons = await query.execute()
+```
+
+The same query can be built using the expression builder like this:
+
+```ts
+const persons = await db
+  .selectFrom('person')
+  .selectAll('person')
+  .where((eb) => {
+    const filters: Expression<SqlBool>[] = []
+
+    if (firstName) {
+      filters.push(eb('first_name', '=', firstName))
+    }
+
+    if (lastName) {
+      filters.push(eb('last_name', '=', lastName))
+    }
+
+    return eb.and(filters)
+  })
+  .execute()
+```
+
+Using the latter design, you can build conditional expressions of any complexity.
+
+
+---
+./recipes/0007-schemas.md
+---
+# Working with schemas
+
+First of all, when we talk about schemas in this document, we mean custom
+schemas like [postgres schemas](https://www.postgresql.org/docs/14/ddl-schemas.html).
+
+There are two common ways to use schemas:
+
+1. To group a logical set of tables under the same "namespace". For example
+   all tables directly related to users could live under a `user` schema.
+
+2. To have a separate namespaced copy of a set of tables for each
+   tenant in a multitenant application.
+
+Kysely offers tools for both of these cases.
+
+## 1
+
+When you have an enumarable set of schemas, you can add them to your database interface
+like this:
+
+```ts
+interface Database {
+  'user.user': UserTable
+  'user.user_permission': UserPermissionTable
+  'user.permission': PermissionTable
+  pet: PetTable
+}
+```
+
+then you can refer to the tables just like you would a normal table:
+
+```ts
+db.selectFrom('user.user')
+  .where('username', '=', '')
+  // You can also include the full table name
+  .where('user.user.created_at', '>', createdAt)
+  .innerJoin('user.user_permission as up', 'up.user_id', 'user.user.id')
+  .innerJoin('user.permission as p', 'p.id', 'up.permission_id')
+  .selectAll()
+```
+
+## 2
+
+In the multitenant case you have a schema per tenant and you can't add each of them to the
+database interface, nor would it make sense to do so. In this case you can use the
+[withSchema](https://kysely-org.github.io/kysely-apidoc/classes/Kysely.html#withSchema) method.
+
+The `withSchema` method sets the default schema of all table references that don't explicitly
+specify a schema:
+
+```ts
+db.withSchema(tenant)
+  .selectFrom('user')
+  .innerJoin('user_permission as up', 'up.user_id', 'user.id')
+  .innerJoin('public.permission as p', 'p.id', 'up.permission_id')
+  .selectAll()
+```
+
+This is the generated SQL assuming `tenant` equals `'acme'`:
+
+```sql
+select * from "acme"."user"
+inner join "acme"."user_permission" as "up" on "up"."user_id" = "acme"."user"."id"
+inner join "public"."permission" as "p" on "p"."id" = "up"."permission_id"
+```
+
+In this example we also referred to a shared table `permission` in the `public` schema.
+Please note that you need to add a `'public.permission': PermissionTable` item in your
+database schema to be able to refer to the `public.permission` table:
+
+```ts
+interface Database {
+  // Add your tenant tables without any schema:
+  user: UserTable
+  user_permission: UserPermissionTable
+
+  // Add schemas and tables you need to explicitly reference like this:
+  'public.permission': PermissionTable
+
+  // You can also have other shared tables with or without schemas here.
+  // But keep in mind that if you want to refer to them from a `withSchema`
+  // query, you need the table name with the schema name.
+  pet: PetTable
+}
+```
+
+See the [first case](#1) for more info.
+
+
+---
+./recipes/0008-deduplicate-joins.md
+---
+# Deduplicate joins
+
+When building dynamic queries, you sometimes end up in situations where the same join
+could be added twice. Consider this query:
+
+```ts
+async function getPerson(
+  id: number,
+  withPetName: boolean,
+  withPetSpecies: boolean
+) {
+  return await db
+    .selectFrom('person')
+    .selectAll('person')
+    .$if(withPetName, (qb) =>
+      qb
+        .innerJoin('pet', 'pet.owner_id', 'person.id')
+        .select('pet.name as pet_name')
+    )
+    .$if(withPetSpecies, (qb) =>
+      qb
+        .innerJoin('pet', 'pet.owner_id', 'person.id')
+        .select('pet.species as pet_species')
+    )
+    .where('person.id', '=', id)
+    .executeTakeFirst()
+}
+```
+
+We have two optional selections `pet_name` and `pet_species`. Both of them require
+the `pet` table to be joined, but we don't want to add an unnecessary join if both
+`withPetName` and `withPetSpecies` are `false`.
+
+But if both `withPetName` and `withPetSpecies` are `true`, we end up with two identical
+joins which will cause an error in the database.
+
+To prevent the error from happening, you can install the
+[DeduplicateJoinsPlugin](https://kysely-org.github.io/kysely-apidoc/classes/DeduplicateJoinsPlugin.html).
+You can either install it globally by providing it in the configuration:
+
+```ts
+const db = new Kysely<Database>({
+  dialect,
+  plugins: [new DeduplicateJoinsPlugin()],
+})
+```
+
+or you can use it when needed:
+
+```ts
+async function getPerson(
+  id: number,
+  withPetName: boolean,
+  withPetSpecies: boolean
+) {
+  return await db
+    .withPlugin(new DeduplicateJoinsPlugin())
+    .selectFrom('person')
+    .selectAll('person')
+    .$if(withPetName, (qb) =>
+      qb
+        .innerJoin('pet', 'pet.owner_id', 'person.id')
+        .select('pet.name as pet_name')
+    )
+    .$if(withPetSpecies, (qb) =>
+      qb
+        .innerJoin('pet', 'pet.owner_id', 'person.id')
+        .select('pet.species as pet_species')
+    )
+    .where('person.id', '=', id)
+    .executeTakeFirst()
+}
+```
+
+You may wonder why this is a plugin and not the default behavior? The reason is that it's surprisingly
+difficult to detect if two joins are identical. It's trivial for simple joins like the ones in the
+example, but becomes quite complex with arbitrary joins with nested subqueries etc. There may be
+corner cases where the `DeduplicateJoinsPlugin` fails and we don't want it to affect people that
+don't need this deduplication (most people).
+
+See [this recipe](/docs/recipes/conditional-selects)
+if you are wondering why we are using the `$if` method.
+
+
+---
+./recipes/0009-excessively-deep-types.md
+---
+# Dealing with the `Type instantiation is excessively deep and possibly infinite` error
+
+Kysely uses complex type magic to achieve its type safety. This complexity is sometimes
+too much for TypeScript and you get errors like this:
+
+```
+error TS2589: Type instantiation is excessively deep and possibly infinite.
+```
+
+In these case you can often use the [$assertType](https://kysely-org.github.io/kysely-apidoc/interfaces/SelectQueryBuilder.html#_assertType)
+method to help TypeScript a little bit. When you use this method to assert the output type of a query, Kysely can drop the
+complex output type that consists of multiple nested helper types and replace it with the simple asserted type.
+
+Using this method doesn't reduce type safety at all. You have to pass in a type that is structurally equal to the current type.
+
+For example having more than 12 `with` statements in a query can lead to the `TS2589` error:
+
+```ts
+const res = await db
+  .with('w1', (qb) => qb.selectFrom('person').select('first_name as fn1'))
+  .with('w2', (qb) => qb.selectFrom('person').select('first_name as fn2'))
+  .with('w3', (qb) => qb.selectFrom('person').select('first_name as fn3'))
+  .with('w4', (qb) => qb.selectFrom('person').select('first_name as fn4'))
+  .with('w5', (qb) => qb.selectFrom('person').select('first_name as fn5'))
+  .with('w6', (qb) => qb.selectFrom('person').select('first_name as fn6'))
+  .with('w7', (qb) => qb.selectFrom('person').select('first_name as fn7'))
+  .with('w8', (qb) => qb.selectFrom('person').select('first_name as fn8'))
+  .with('w9', (qb) => qb.selectFrom('person').select('first_name as fn9'))
+  .with('w10', (qb) => qb.selectFrom('person').select('first_name as fn10'))
+  .with('w11', (qb) => qb.selectFrom('person').select('first_name as fn11'))
+  .with('w12', (qb) => qb.selectFrom('person').select('first_name as fn12'))
+  .with('w13', (qb) => qb.selectFrom('person').select('first_name as fn13'))
+  .selectFrom(['w1', 'w2', 'w3', 'w4', 'w5', 'w6', 'w7', 'w8', 'w9', 'w10', 'w11', 'w12', 'w13'])
+  .selectAll()
+  .executeTakeFirstOrThrow()
+```
+
+But if you simplify one or more of the `with` statements using `$assertType`, you get rid of the error:
+
+```ts
+const res = await db
+  .with('w1', (qb) => qb.selectFrom('person').select('first_name as fn1'))
+  .with('w2', (qb) => qb.selectFrom('person').select('first_name as fn2'))
+  .with('w3', (qb) => qb.selectFrom('person').select('first_name as fn3'))
+  .with('w4', (qb) => qb.selectFrom('person').select('first_name as fn4'))
+  .with('w5', (qb) => qb.selectFrom('person').select('first_name as fn5'))
+  .with('w6', (qb) => qb.selectFrom('person').select('first_name as fn6'))
+  .with('w7', (qb) => qb.selectFrom('person').select('first_name as fn7'))
+  .with('w8', (qb) => qb.selectFrom('person').select('first_name as fn8'))
+  .with('w9', (qb) => qb.selectFrom('person').select('first_name as fn9'))
+  .with('w10', (qb) => qb.selectFrom('person').select('first_name as fn10'))
+  .with('w11', (qb) => qb.selectFrom('person').select('first_name as fn11'))
+  .with('w12', (qb) =>
+    qb
+      .selectFrom('person')
+      .select('first_name as fn12')
+      .$assertType<{ fn12: string }>()
+  )
+  .with('w13', (qb) =>
+    qb
+      .selectFrom('person')
+      .select('first_name as fn13')
+      .$assertType<{ fn13: string }>()
+  )
+  .selectFrom(['w1', 'w2', 'w3', 'w4', 'w5', 'w6', 'w7', 'w8', 'w9', 'w10', 'w11', 'w12', 'w13'])
+  .selectAll()
+  .executeTakeFirstOrThrow()
+```
+
+The type you provide for `$assertType` must be structurally equal to the return type of the subquery. Therefore no type safety is lost.
+
+I know what you're thinking: "can't this be done automatically?" No, unfortunately it can't. There's no way to do this using current TypeScript features. Typescript drags along all the parts the type is built with. Even though it could simplify the type into a simple object, it doesn't. We need to explictly tell it to do that.
+
+"But there's this `Simplify` helper I've seen and it does exactly what you need". You mean this one:
+
+```ts
+export type Simplify<T> = { [K in keyof T]: T[K] } & {}
+```
+
+While that does simplify the type when you hover over it in your IDE, it doesn't actually drop the complex type underneath. You can try this yourself with the example above.
+
+
+---
+./recipes/0010-extending-kysely.md
+---
+# Extending kysely
+
+In many cases, Kysely doesn't provide a built-in type-safe method for a feature. It's often because adding
+that feature in a generic way that would work in all use cases is difficult or impossible.
+In many cases it's better to create little helper functions in your project that suit your use case.
+Kysely makes this simple.
+
+The Kysely API is designed around two interfaces [`Expression<T>`](https://kysely-org.github.io/kysely-apidoc/interfaces/Expression.html)
+and [`AliasedExpression<T, A>`](https://kysely-org.github.io/kysely-apidoc/interfaces/AliasedExpression.html).
+Almost every method accepts values that implement these interfaces and most Kysely internals achieve
+their "type magic" by implementing them.
+
+Most of the time you can create your helpers using the [sql template tag](https://kysely-org.github.io/kysely-apidoc/interfaces/Sql.html)
+and the `RawBuilder<T>` and `AliasedRawBuilder<T, A>` class instances it returns, but it's good to first understand how
+the underlying interfaces they implement, `Expression<T>` and `AliasedExpression<T, A>`, work.
+
+## Expression
+
+[`Expression<T>`](https://kysely-org.github.io/kysely-apidoc/interfaces/Expression.html) is a simple interface
+that has a type `T` and a single method `toOperationNode()`. `T` tells Kysely's type system the type of
+the expression. `toOperationNode()` returns instructions on what SQL should be produced once the
+expression is compiled.
+
+Here's an example of a custom expression for `JSON` or `JSONB` values on PostgreSQL:
+
+```ts
+import { Expression, Kysely, OperationNode, sql } from 'kysely'
+
+class JsonValue<T> implements Expression<T> {
+  #value: T
+
+  constructor(value: T) {
+    this.#value = value
+  }
+
+  // This is a mandatory getter. You must add it and always return `undefined`.
+  // The return type must always be `T | undefined`.
+  get expressionType(): T | undefined {
+    return undefined
+  }
+
+  toOperationNode(): OperationNode {
+    const json = JSON.stringify(this.#value)
+    // Most of the time you can use the `sql` template tag to build the returned node.
+    // The `sql` template tag takes care of passing the `json` string as a parameter, alongside the sql string, to the DB.
+    return sql`CAST(${json} AS JSONB)`.toOperationNode()
+  }
+}
+```
+
+Now you can use your new `JsonValue` expression pretty much anywhere _as a value_ in a type-safe way:
+
+```ts
+interface DB {
+  person: {
+    address: {
+      postalCode: string
+      street: string
+    }
+  }
+}
+
+async function test(db: Kysely<DB>) {
+  await db
+    .insertInto('person')
+    .values({
+      address: new JsonValue({
+        postalCode: '123456',
+        street: 'Kysely avenue 42',
+      }),
+    })
+    .execute()
+
+  await db
+    .selectFrom('person')
+    .selectAll()
+    .where(
+      'address',
+      '@>',
+      new JsonValue({ postalCode: '123456', street: 'Kysely avenue 42' })
+    )
+    .execute()
+}
+```
+
+Most of the time you don't need to create your own classes that implement the `Expression<T>` interface.
+You can simply wrap the [sql template tag](https://kysely-org.github.io/kysely-apidoc/interfaces/Sql.html) and
+the `RawBuilder<T>` class instance it returns in a function. `RawBuilder<T>`, like most things in Kysely,
+implements the `Expression<T>` interface.
+
+Our previous example would get simplified into this:
+
+```ts
+import { Kysely, RawBuilder, sql } from 'kysely'
+
+function json<T>(value: T): RawBuilder<T> {
+  return sql`CAST(${JSON.stringify(value)} AS JSONB)`
+}
+```
+
+And you'd use it like this:
+
+```ts
+interface DB {
+  person: {
+    address: {
+      postalCode: string
+      street: string
+    }
+  }
+}
+
+async function test(db: Kysely<DB>) {
+  await db
+    .insertInto('person')
+    .values({
+      address: json({
+        postalCode: '123456',
+        street: 'Kysely avenue 42',
+      }),
+    })
+    .execute()
+
+  await db
+    .selectFrom('person')
+    .selectAll()
+    .where(
+      'address',
+      '@>',
+      json({ postalCode: '123456', street: 'Kysely avenue 42' })
+    )
+    .execute()
+}
+```
+
+## AliasedExpression
+
+While `Expression<T>` holds the type and compilation instructions of an SQL expression,
+[`AliasedExpression<T, A>`](https://kysely-org.github.io/kysely-apidoc/interfaces/AliasedExpression.html)
+also holds an alias (a name) for that expression. `AliasedExpression<T, A>` can be used in places
+where you need a name for the expression, like in a `SELECT` statement or a `FROM` statement.
+`AliasedExpression<T, A>` is how kysely is able to infer the name and type of result columns.
+
+Let's expand the `JsonValue` example from the [previous section](#expression). We'll add an `as`
+method for the `JsonValue` class that can be used to turn an `Expression<T>` into an `AliasedExpression<T, A>`:
+
+```ts
+import {
+  Expression,
+  AliasedExpression,
+  Kysely,
+  OperationNode,
+  sql,
+  AliasNode,
+  IdentifierNode,
+} from 'kysely'
+
+class JsonValue<T> implements Expression<T> {
+  // ... Methods from the previous example ...
+
+  as<A extends string>(alias: A): AliasedJsonValue<T, A> {
+    return new AliasedJsonValue(this, alias)
+  }
+}
+
+class AliasedJsonValue<T, A extends string> implements AliasedExpression<T, A> {
+  #expression: Expression<T>
+  #alias: A
+
+  constructor(expression: Expression<T>, alias: A) {
+    this.#expression = expression
+    this.#alias = alias
+  }
+
+  get expression(): Expression<T> {
+    return this.#expression
+  }
+
+  get alias(): A {
+    return this.#alias
+  }
+
+  toOperationNode(): AliasNode {
+    return AliasNode.create(
+      this.#expression.toOperationNode(),
+      IdentifierNode.create(this.#alias)
+    )
+  }
+}
+```
+
+And now you can use `JsonValue` in `select` statements too with full type safety:
+
+```ts
+interface DB {
+  person: {
+    address: {
+      postalCode: string
+      street: string
+    }
+  }
+}
+
+async function test(db: Kysely<DB>) {
+  const result = await db
+    .selectFrom('person')
+    .select([new JsonValue({ someValue: 42 }).as('some_object'), 'address'])
+    .where(
+      'address',
+      '@>',
+      new JsonValue({ postalCode: '123456', street: 'Kysely avenue 42' })
+    )
+    .executeTakeFirstOrThrow()
+
+  console.log(result.some_object.someValue)
+  console.log(result.address.postalCode)
+}
+```
+
+Again, in most cases you don't need to implement your own `AliasedExpression<T, A>`.
+`RawBuilder` has a similar `as` method and we can use the three line long `json`
+function from our previous example:
+
+```ts
+function json<T>(value: T): RawBuilder<T> {
+  return sql`CAST(${JSON.stringify(value)} AS JSONB)`
+}
+```
+
+```ts
+interface DB {
+  person: {
+    address: {
+      postalCode: string
+      street: string
+    }
+  }
+}
+
+async function test(db: Kysely<DB>) {
+  const result = await db
+    .selectFrom('person')
+    .select([json({ someValue: 42 }).as('some_object'), 'address'])
+    .where(
+      'address',
+      '@>',
+      json({ postalCode: '123456', street: 'Kysely avenue 42' })
+    )
+    .executeTakeFirstOrThrow()
+
+  console.log(result.address.postalCode)
+  console.log(result.some_object.someValue)
+}
+```
+
+## A more complex example
+
+Consider this query:
+
+```sql
+insert into
+  t (t1, t2)
+select
+  v.v1,
+  j.j2
+from
+  (values ($1, $2, $3), ($4, $5, $6)) as v(id, v1, v2)
+inner join
+  j on v.id = j.vid
+```
+
+Kysely doesn't have built-in support for the `values` keyword in this context, but you can create
+a type-safe helper function like this:
+
+```ts
+function values<R extends Record<string, unknown>, A extends string>(
+  records: R[],
+  alias: A
+): AliasedRawBuilder<R, A> {
+  // Assume there's at least one record and all records
+  // have the same keys.
+  const keys = Object.keys(records[0])
+
+  // Transform the records into a list of lists such as
+  // ($1, $2, $3), ($4, $5, $6)
+  const values = sql.join(
+    records.map((r) => sql`(${sql.join(keys.map((k) => r[k]))})`)
+  )
+
+  // Create the alias `v(id, v1, v2)` that specifies the table alias
+  // AND a name for each column.
+  const wrappedAlias = sql.ref(alias)
+  const wrappedColumns = sql.join(keys.map(sql.ref))
+  const aliasSql = sql`${wrappedAlias}(${wrappedColumns})`
+
+  // Finally create a single `AliasedRawBuilder` instance of the
+  // whole thing. Note that we need to explicitly specify
+  // the alias type using `.as<A>` because we are using a
+  // raw sql snippet as the alias.
+  return sql<R>`(values ${values})`.as<A>(aliasSql)
+}
+```
+
+A lot is going on in this function, but it's all documented in the
+[sql template tag's documentation.](https://kysely-org.github.io/kysely-apidoc/interfaces/Sql.html)
+
+Most of the time a helper like this would return either an instance of `RawBuilder` or
+`AliasedRawBuilder` and you'd create an instance using the `sql` template tag. You'd return a
+`RawBuilder` instance when only the data type of a column/table is needed and an `AliasedRawBuilder`
+when also the name of the column/table is needed. Our example function creates kind of a temporary
+table, so we need to tell Kysely both the type of the table AND the name of the table.
+
+This is how you could now create our query using the `values` helper:
+
+```ts
+// This could come as an input from somewhere.
+const records = [
+  {
+    id: 1,
+    v1: 'foo',
+    v2: 'bar',
+  },
+  {
+    id: 2,
+    v1: 'baz',
+    v2: 'spam',
+  },
+]
+
+db.insertInto('t')
+  .columns(['t1', 't2'])
+  .expression(
+    // The `values` function automatically parses the column types
+    // from the records and you can refer to them through the table
+    // alias `v`. This works because Kysely is able to parse the
+    // AliasedRawBuilder<T, A> type.
+    db
+      .selectFrom(values(records, 'v'))
+      .innerJoin('j', 'v.id', 'j.vid')
+      .select(['v.v1', 'j.j2'])
+  )
+```
+
+## Extending using inheritance
+
+You usually don't want to do this because of the complexity of the types and TypeScript's limitations
+when it comes to inheritence and return types.
+You'll quickly run into problems.
+Even though Kysely uses classes, it is not designed from the OOP point of view.
+Classes are used because they are supported natively by TypeScript. They provide private
+variables and a nice discoverable API.
+
+## Extending using module augmentation
+
+> DISCLAIMER: We do not support this method. Use at your own risk.
+
+You can override and extend Kysely's builder classes via [Typescript module augmentation](https://www.typescriptlang.org/docs/handbook/declaration-merging.html#module-augmentation).
+
+The following example adds an `addIdColumn` method to `CreateTableBuilder`, which helps
+in adding a PostgreSQL UUID primary key column:
+
+```ts
+declare module 'kysely/dist/cjs/schema/create-table-builder' {
+  interface CreateTableBuilder<TB extends string, C extends string = never> {
+    addIdColumn<CN extends string = 'id'>(
+      col?: CN
+    ): CreateTableBuilder<TB, C | CN>
+  }
+}
+CreateTableBuilder.prototype.addIdColumn = function (
+  this: CreateTableBuilder<any, any>,
+  col?: string
+) {
+  return this.addColumn(col || 'id', 'uuid', (col) =>
+    col.primaryKey().defaultTo(sql`gen_random_uuid()`)
+  )
+}
+```
+
+Now you can use `addIdColumn` seamlessly to create several tables with a uniform
+primary key definition:
+
+```ts
+db.schema.createTable('person').addIdColumn().addColumn('name', 'varchar')
+db.schema.createTable('pet').addColumn('species', 'varchar').addIdColumn()
+```
+
+
+---
+./recipes/0011-introspecting-relation-metadata.md
+---
+# Introspecting relation metadata
+
+Extracting metadata about tables and views from your database schema in runtime is possible using the methods in the `instrospection` property of a `Kysely` instance.
+
+The example below uses a PostgreSQL connection to print information about all tables and views found in the database schema:
+
+```ts
+import { Kysely, PostgresDialect } from 'kysely'
+import pg from 'pg'
+const { Pool } = pg
+
+async function logDatabaseSchema() {
+  const db = new Kysely({
+    dialect: new PostgresDialect({
+      pool: new Pool({
+        connectionString: process.env.DATABASE_URL,
+      }),
+    }),
+  })
+
+  const tables = await db.introspection.getTables()
+  //        ^?  TableMetadata[]
+
+  console.log({ tables })
+}
+
+logDatabaseSchema()
+```
+
+For more information check the docs for details on the interfaces [DatabaseIntrospector](https://kysely-org.github.io/kysely-apidoc/interfaces/DatabaseIntrospector.html) and [TableMetadata](https://kysely-org.github.io/kysely-apidoc/interfaces/TableMetadata.html).
+
+
+---
+./recipes/0012-logging.md
+---
+# Logging
+
+It is possible to set up logs for all queries using the `log` property when instantiating `Kysely`.
+
+There are 2 ways to configure logging:
+
+## 1. Provide an array with log level/s
+
+You can provide an array of log levels to the `log` property when instantiating `Kysely`.
+
+When `'query'` is included in the array, `Kysely` will log all executed queries, not including parameter values.
+
+When `'error'` is included in the array, `Kysely` will log all errors.
+
+```ts
+const db = new Kysely({
+  ...
+  log: ['query', 'error']
+  ...
+});
+```
+
+## 2. Provide a custom logging function
+
+You can provide a custom logging function to the `log` property when instantiating `Kysely`. The custom logging function receives a log event as an argument.
+
+The `LogEvent` interface is defined as follows:
+
+```ts
+interface LogEvent {
+  level: 'query' | 'error';
+  query: CompiledQuery; // this object contains the raw SQL string, parameters, and Kysely's SQL syntax tree that helped output the raw SQL string.
+  queryDurationMillis: number; // the time in milliseconds it took for the query to execute and get a response from the database.
+  error: unknown; // only present if `level` is `'error'`.
+}
+```
+
+Example:
+
+```ts
+const db = new Kysely({
+  dialect: new PostgresDialect(postgresConfig),
+  log(event) {
+    if (event.level === "error") {
+        console.error("Query failed : ", {
+          durationMs: event.queryDurationMillis,
+          error: event.error,
+          sql: event.query.sql,
+          params: event.query.parameters.map(maskPII),
+        });
+    } else { // `'query'`
+      console.log("Query executed : ", {
+        durationMs: event.queryDurationMillis,
+        sql: event.query.sql,
+        params: event.query.parameters.map(maskPII),
+      });
+    }
+  }
+})
+```
+
+For more information check the docs for details on the interfaces [KyselyConfig](https://kysely-org.github.io/kysely-apidoc/interfaces/KyselyConfig.html).
+
+
+---
+./recipes/_category_.json
+---
+{
+  "label": "Recipes",
+  "position": 6,
+  "link": {
+    "type": "generated-index",
+    "description": "A list of guides or recipes explaning how to use various features of the library. These are more advanced topics, make sure you familiriaze yourself with the examples first."
+  }
+}
+
+
+---
+./examples/_category_.json
+---
+{
+  "label": "Examples",
+  "position": 5,
+  "link": {
+    "type": "generated-index",
+    "description": "Short and simple examples of how to use Kysely to achieve common tasks."
+  }
+}
+
+
+---
+./examples/insert/0010-single-row.js
+---
+export const singleRow = `const result = await db
+  .insertInto('person')
+  .values({
+    first_name: 'Jennifer',
+    last_name: 'Aniston',
+    age: 40
+  })
+  .executeTakeFirst()
+
+// \`insertId\` is only available on dialects that
+// automatically return the id of the inserted row
+// such as MySQL and SQLite. On PostgreSQL, for example,
+// you need to add a \`returning\` clause to the query to
+// get anything out. See the "returning data" example.
+console.log(result.insertId)`
+
+---
+./examples/insert/0010-single-row.mdx
+---
+---
+title: 'Single row'
+---
+
+# Single row
+
+Insert a single row:
+
+import { Playground } from '../../../src/components/Playground'
+
+import {
+  singleRow
+} from './0010-single-row'
+
+<div style={{ marginBottom: '1em' }}>
+  <Playground code={singleRow} />
+</div>
+
+:::info[More examples]
+The API documentation is packed with examples. The API docs are hosted [here](https://kysely-org.github.io/kysely-apidoc/),
+but you can access the same documentation by hovering over functions/methods/classes in your IDE. The examples are always
+just one hover away!
+
+For example, check out these sections:
+ - [values method](https://kysely-org.github.io/kysely-apidoc/classes/InsertQueryBuilder.html#values)
+ - [onConflict method](https://kysely-org.github.io/kysely-apidoc/classes/InsertQueryBuilder.html#onConflict)
+ - [returning method](https://kysely-org.github.io/kysely-apidoc/classes/InsertQueryBuilder.html#returning)
+ - [insertInto method](https://kysely-org.github.io/kysely-apidoc/classes/Kysely.html#insertInto)
+:::
+
+
+---
+./examples/insert/0020-multiple-rows.js
+---
+export const multipleRows = `await db
+  .insertInto('person')
+  .values([{
+    first_name: 'Jennifer',
+    last_name: 'Aniston',
+    age: 40,
+  }, {
+    first_name: 'Arnold',
+    last_name: 'Schwarzenegger',
+    age: 70,
+  }])
+  .execute()`
+
+---
+./examples/insert/0020-multiple-rows.mdx
+---
+---
+title: 'Multiple rows'
+---
+
+# Multiple rows
+
+On dialects that support it (for example PostgreSQL) you can insert multiple
+rows by providing an array. Note that the return value is once again very
+dialect-specific. Some databases may only return the id of the *last* inserted
+row and some return nothing at all unless you call `returning`.
+
+import { Playground } from '../../../src/components/Playground'
+
+import {
+  multipleRows
+} from './0020-multiple-rows'
+
+<div style={{ marginBottom: '1em' }}>
+  <Playground code={multipleRows} />
+</div>
+
+:::info[More examples]
+The API documentation is packed with examples. The API docs are hosted [here](https://kysely-org.github.io/kysely-apidoc/),
+but you can access the same documentation by hovering over functions/methods/classes in your IDE. The examples are always
+just one hover away!
+
+For example, check out these sections:
+ - [values method](https://kysely-org.github.io/kysely-apidoc/classes/InsertQueryBuilder.html#values)
+ - [onConflict method](https://kysely-org.github.io/kysely-apidoc/classes/InsertQueryBuilder.html#onConflict)
+ - [returning method](https://kysely-org.github.io/kysely-apidoc/classes/InsertQueryBuilder.html#returning)
+ - [insertInto method](https://kysely-org.github.io/kysely-apidoc/classes/Kysely.html#insertInto)
+:::
+
+
+---
+./examples/insert/0030-returning-data.js
+---
+export const returningData = `const result = await db
+  .insertInto('person')
+  .values({
+    first_name: 'Jennifer',
+    last_name: 'Aniston',
+    age: 40,
+  })
+  .returning(['id', 'first_name as name'])
+  .executeTakeFirstOrThrow()`
+
+---
+./examples/insert/0030-returning-data.mdx
+---
+---
+title: 'Returning data'
+---
+
+# Returning data
+
+On supported dialects like PostgreSQL you need to chain `returning` to the query to get
+the inserted row's columns (or any other expression) as the return value. `returning`
+works just like `select`. Refer to `select` method's examples and documentation for
+more info.
+
+import { Playground } from '../../../src/components/Playground'
+
+import {
+  returningData
+} from './0030-returning-data'
+
+<div style={{ marginBottom: '1em' }}>
+  <Playground code={returningData} />
+</div>
+
+:::info[More examples]
+The API documentation is packed with examples. The API docs are hosted [here](https://kysely-org.github.io/kysely-apidoc/),
+but you can access the same documentation by hovering over functions/methods/classes in your IDE. The examples are always
+just one hover away!
+
+For example, check out these sections:
+ - [values method](https://kysely-org.github.io/kysely-apidoc/classes/InsertQueryBuilder.html#values)
+ - [onConflict method](https://kysely-org.github.io/kysely-apidoc/classes/InsertQueryBuilder.html#onConflict)
+ - [returning method](https://kysely-org.github.io/kysely-apidoc/classes/InsertQueryBuilder.html#returning)
+ - [insertInto method](https://kysely-org.github.io/kysely-apidoc/classes/Kysely.html#insertInto)
+:::
+
+
+---
+./examples/insert/0040-complex-values.js
+---
+export const complexValues = `import { sql } from 'kysely'
+
+const ani = "Ani"
+const ston = "ston"
+
+const result = await db
+  .insertInto('person')
+  .values(({ ref, selectFrom, fn }) => ({
+    first_name: 'Jennifer',
+    last_name: sql<string>\`concat(\${ani}, \${ston})\`,
+    middle_name: ref('first_name'),
+    age: selectFrom('person')
+      .select(fn.avg<number>('age').as('avg_age')),
+  }))
+  .executeTakeFirst()`
+
+---
+./examples/insert/0040-complex-values.mdx
+---
+---
+title: 'Complex values'
+---
+
+# Complex values
+
+In addition to primitives, the values can also be arbitrary expressions.
+You can build the expressions by using a callback and calling the methods
+on the expression builder passed to it:
+
+import { Playground } from '../../../src/components/Playground'
+
+import {
+  complexValues
+} from './0040-complex-values'
+
+<div style={{ marginBottom: '1em' }}>
+  <Playground code={complexValues} />
+</div>
+
+:::info[More examples]
+The API documentation is packed with examples. The API docs are hosted [here](https://kysely-org.github.io/kysely-apidoc/),
+but you can access the same documentation by hovering over functions/methods/classes in your IDE. The examples are always
+just one hover away!
+
+For example, check out these sections:
+ - [values method](https://kysely-org.github.io/kysely-apidoc/classes/InsertQueryBuilder.html#values)
+ - [onConflict method](https://kysely-org.github.io/kysely-apidoc/classes/InsertQueryBuilder.html#onConflict)
+ - [returning method](https://kysely-org.github.io/kysely-apidoc/classes/InsertQueryBuilder.html#returning)
+ - [insertInto method](https://kysely-org.github.io/kysely-apidoc/classes/Kysely.html#insertInto)
+:::
+
+
+---
+./examples/insert/0050-insert-subquery.js
+---
+export const insertSubquery = `const result = await db.insertInto('person')
+  .columns(['first_name', 'last_name', 'age'])
+  .expression((eb) => eb
+    .selectFrom('pet')
+    .select((eb) => [
+      'pet.name',
+      eb.val('Petson').as('last_name'),
+      eb.lit(7).as('age'),
+    ])
+  )
+  .execute()`
+
+---
+./examples/insert/0050-insert-subquery.mdx
+---
+---
+title: 'Insert subquery'
+---
+
+# Insert subquery
+
+You can create an `INSERT INTO SELECT FROM` query using the `expression` method.
+This API doesn't follow our WYSIWYG principles and might be a bit difficult to
+remember. The reasons for this design stem from implementation difficulties.
+
+import { Playground } from '../../../src/components/Playground'
+
+import {
+  insertSubquery
+} from './0050-insert-subquery'
+
+<div style={{ marginBottom: '1em' }}>
+  <Playground code={insertSubquery} />
+</div>
+
+:::info[More examples]
+The API documentation is packed with examples. The API docs are hosted [here](https://kysely-org.github.io/kysely-apidoc/),
+but you can access the same documentation by hovering over functions/methods/classes in your IDE. The examples are always
+just one hover away!
+
+For example, check out these sections:
+ - [values method](https://kysely-org.github.io/kysely-apidoc/classes/InsertQueryBuilder.html#values)
+ - [onConflict method](https://kysely-org.github.io/kysely-apidoc/classes/InsertQueryBuilder.html#onConflict)
+ - [returning method](https://kysely-org.github.io/kysely-apidoc/classes/InsertQueryBuilder.html#returning)
+ - [insertInto method](https://kysely-org.github.io/kysely-apidoc/classes/Kysely.html#insertInto)
+:::
+
+
+---
+./examples/insert/_category_.json
+---
+{
+  "label": "INSERT",
+  "position": 4,
+  "link": {
+    "type": "generated-index",
+    "description": "Short and simple examples of how to write INSERT queries."
+  }
+}
+
+
+---
+./examples/join/0010-simple-inner-join.js
+---
+export const simpleInnerJoin = `const result = await db
+  .selectFrom('person')
+  .innerJoin('pet', 'pet.owner_id', 'person.id')
+  // \`select\` needs to come after the call to \`innerJoin\` so
+  // that you can select from the joined table.
+  .select(['person.id', 'pet.name as pet_name'])
+  .execute()`
+
+---
+./examples/join/0010-simple-inner-join.mdx
+---
+---
+title: 'Simple inner join'
+---
+
+# Simple inner join
+
+Simple `inner join`s can be done by providing a table name and two columns to join:
+
+import { Playground } from '../../../src/components/Playground'
+
+import {
+  simpleInnerJoin
+} from './0010-simple-inner-join'
+
+<div style={{ marginBottom: '1em' }}>
+  <Playground code={simpleInnerJoin} />
+</div>
+
+:::info[More examples]
+The API documentation is packed with examples. The API docs are hosted [here](https://kysely-org.github.io/kysely-apidoc/),
+but you can access the same documentation by hovering over functions/methods/classes in your IDE. The examples are always
+just one hover away!
+
+For example, check out these sections:
+ - [innerJoin method](https://kysely-org.github.io/kysely-apidoc/interfaces/SelectQueryBuilder.html#innerJoin)
+ - [leftJoin method](https://kysely-org.github.io/kysely-apidoc/interfaces/SelectQueryBuilder.html#leftJoin)
+ - [rightJoin method](https://kysely-org.github.io/kysely-apidoc/interfaces/SelectQueryBuilder.html#rightJoin)
+ - [fullJoin method](https://kysely-org.github.io/kysely-apidoc/interfaces/SelectQueryBuilder.html#fullJoin)
+:::
+
+
+---
+./examples/join/0020-aliased-inner-join.js
+---
+export const aliasedInnerJoin = `await db.selectFrom('person')
+  .innerJoin('pet as p', 'p.owner_id', 'person.id')
+  .where('p.name', '=', 'Doggo')
+  .selectAll()
+  .execute()`
+
+---
+./examples/join/0020-aliased-inner-join.mdx
+---
+---
+title: 'Aliased inner join'
+---
+
+# Aliased inner join
+
+You can give an alias for the joined table like this:
+
+import { Playground } from '../../../src/components/Playground'
+
+import {
+  aliasedInnerJoin
+} from './0020-aliased-inner-join'
+
+<div style={{ marginBottom: '1em' }}>
+  <Playground code={aliasedInnerJoin} />
+</div>
+
+:::info[More examples]
+The API documentation is packed with examples. The API docs are hosted [here](https://kysely-org.github.io/kysely-apidoc/),
+but you can access the same documentation by hovering over functions/methods/classes in your IDE. The examples are always
+just one hover away!
+
+For example, check out these sections:
+ - [innerJoin method](https://kysely-org.github.io/kysely-apidoc/interfaces/SelectQueryBuilder.html#innerJoin)
+ - [leftJoin method](https://kysely-org.github.io/kysely-apidoc/interfaces/SelectQueryBuilder.html#leftJoin)
+ - [rightJoin method](https://kysely-org.github.io/kysely-apidoc/interfaces/SelectQueryBuilder.html#rightJoin)
+ - [fullJoin method](https://kysely-org.github.io/kysely-apidoc/interfaces/SelectQueryBuilder.html#fullJoin)
+:::
+
+
+---
+./examples/join/0030-complex-join.js
+---
+export const complexJoin = `await db.selectFrom('person')
+  .innerJoin(
+    'pet',
+    (join) => join
+      .onRef('pet.owner_id', '=', 'person.id')
+      .on('pet.name', '=', 'Doggo')
+      .on((eb) => eb.or([
+        eb('person.age', '>', 18),
+        eb('person.age', '<', 100)
+      ]))
+  )
+  .selectAll()
+  .execute()`
+
+---
+./examples/join/0030-complex-join.mdx
+---
+---
+title: 'Complex join'
+---
+
+# Complex join
+
+You can provide a function as the second argument to get a join
+builder for creating more complex joins. The join builder has a
+bunch of `on*` methods for building the `on` clause of the join.
+There's basically an equivalent for every `where` method
+(`on`, `onRef` etc.).
+
+You can do all the same things with the
+`on` method that you can with the corresponding `where` method (like [OR expressions for example](https://kysely.dev/docs/examples/WHERE/or-where)).
+See the `where` method documentation for more examples.
+
+import { Playground } from '../../../src/components/Playground'
+
+import {
+  complexJoin
+} from './0030-complex-join'
+
+<div style={{ marginBottom: '1em' }}>
+  <Playground code={complexJoin} />
+</div>
+
+:::info[More examples]
+The API documentation is packed with examples. The API docs are hosted [here](https://kysely-org.github.io/kysely-apidoc/),
+but you can access the same documentation by hovering over functions/methods/classes in your IDE. The examples are always
+just one hover away!
+
+For example, check out these sections:
+ - [innerJoin method](https://kysely-org.github.io/kysely-apidoc/interfaces/SelectQueryBuilder.html#innerJoin)
+ - [leftJoin method](https://kysely-org.github.io/kysely-apidoc/interfaces/SelectQueryBuilder.html#leftJoin)
+ - [rightJoin method](https://kysely-org.github.io/kysely-apidoc/interfaces/SelectQueryBuilder.html#rightJoin)
+ - [fullJoin method](https://kysely-org.github.io/kysely-apidoc/interfaces/SelectQueryBuilder.html#fullJoin)
+:::
+
+
+---
+./examples/join/0040-subquery-join.js
+---
+export const subqueryJoin = `const result = await db.selectFrom('person')
+  .innerJoin(
+    (eb) => eb
+      .selectFrom('pet')
+      .select(['owner_id as owner', 'name'])
+      .where('name', '=', 'Doggo')
+      .as('doggos'),
+    (join) => join
+      .onRef('doggos.owner', '=', 'person.id'),
+  )
+  .selectAll('doggos')
+  .execute()`
+
+---
+./examples/join/0040-subquery-join.mdx
+---
+---
+title: 'Subquery join'
+---
+
+# Subquery join
+
+You can join a subquery by providing two callbacks:
+
+import { Playground } from '../../../src/components/Playground'
+
+import {
+  subqueryJoin
+} from './0040-subquery-join'
+
+<div style={{ marginBottom: '1em' }}>
+  <Playground code={subqueryJoin} />
+</div>
+
+:::info[More examples]
+The API documentation is packed with examples. The API docs are hosted [here](https://kysely-org.github.io/kysely-apidoc/),
+but you can access the same documentation by hovering over functions/methods/classes in your IDE. The examples are always
+just one hover away!
+
+For example, check out these sections:
+ - [innerJoin method](https://kysely-org.github.io/kysely-apidoc/interfaces/SelectQueryBuilder.html#innerJoin)
+ - [leftJoin method](https://kysely-org.github.io/kysely-apidoc/interfaces/SelectQueryBuilder.html#leftJoin)
+ - [rightJoin method](https://kysely-org.github.io/kysely-apidoc/interfaces/SelectQueryBuilder.html#rightJoin)
+ - [fullJoin method](https://kysely-org.github.io/kysely-apidoc/interfaces/SelectQueryBuilder.html#fullJoin)
+:::
+
+
+---
+./examples/join/_category_.json
+---
+{
+  "label": "JOIN",
+  "position": 3,
+  "link": {
+    "type": "generated-index",
+    "description": "Examples of queries that use JOINs."
+  }
+}
+
+
+---
+./examples/update/0010-single-row.js
+---
+export const singleRow = `const result = await db
+  .updateTable('person')
+  .set({
+    first_name: 'Jennifer',
+    last_name: 'Aniston'
+  })
+  .where('id', '=', 1)
+  .executeTakeFirst()`
+
+---
+./examples/update/0010-single-row.mdx
+---
+---
+title: 'Single row'
+---
+
+# Single row
+
+Update a row in `person` table:
+
+import { Playground } from '../../../src/components/Playground'
+
+import {
+  singleRow
+} from './0010-single-row'
+
+<div style={{ marginBottom: '1em' }}>
+  <Playground code={singleRow} />
+</div>
+
+:::info[More examples]
+The API documentation is packed with examples. The API docs are hosted [here](https://kysely-org.github.io/kysely-apidoc/),
+but you can access the same documentation by hovering over functions/methods/classes in your IDE. The examples are always
+just one hover away!
+
+For example, check out these sections:
+ - [set method](https://kysely-org.github.io/kysely-apidoc/classes/UpdateQueryBuilder.html#set)
+ - [returning method](https://kysely-org.github.io/kysely-apidoc/classes/UpdateQueryBuilder.html#returning)
+ - [updateTable method](https://kysely-org.github.io/kysely-apidoc/classes/Kysely.html#updateTable)
+:::
+
+
+---
+./examples/update/0020-complex-values.js
+---
+export const complexValues = `const result = await db
+  .updateTable('person')
+  .set((eb) => ({
+    age: eb('age', '+', 1),
+    first_name: eb.selectFrom('pet').select('name').limit(1),
+    last_name: 'updated',
+  }))
+  .where('id', '=', 1)
+  .executeTakeFirst()`
+
+---
+./examples/update/0020-complex-values.mdx
+---
+---
+title: 'Complex values'
+---
+
+# Complex values
+
+As always, you can provide a callback to the `set` method to get access
+to an expression builder:
+
+import { Playground } from '../../../src/components/Playground'
+
+import {
+  complexValues
+} from './0020-complex-values'
+
+<div style={{ marginBottom: '1em' }}>
+  <Playground code={complexValues} />
+</div>
+
+:::info[More examples]
+The API documentation is packed with examples. The API docs are hosted [here](https://kysely-org.github.io/kysely-apidoc/),
+but you can access the same documentation by hovering over functions/methods/classes in your IDE. The examples are always
+just one hover away!
+
+For example, check out these sections:
+ - [set method](https://kysely-org.github.io/kysely-apidoc/classes/UpdateQueryBuilder.html#set)
+ - [returning method](https://kysely-org.github.io/kysely-apidoc/classes/UpdateQueryBuilder.html#returning)
+ - [updateTable method](https://kysely-org.github.io/kysely-apidoc/classes/Kysely.html#updateTable)
+:::
+
+
+---
+./examples/update/0030-my-sql-joins.js
+---
+export const mySqlJoins = `const result = await db
+  .updateTable(['person', 'pet'])
+  .set('person.first_name', 'Updated person')
+  .set('pet.name', 'Updated doggo')
+  .whereRef('person.id', '=', 'pet.owner_id')
+  .where('person.id', '=', 1)
+  .executeTakeFirst()`
+
+---
+./examples/update/0030-my-sql-joins.mdx
+---
+---
+title: 'MySQL joins'
+---
+
+# MySQL joins
+
+MySQL allows you to join tables directly to the "main" table and update
+rows of all joined tables. This is possible by passing all tables to the
+`updateTable` method as a list and adding the `ON` conditions as `WHERE`
+statements. You can then use the `set(column, value)` variant to update
+columns using table qualified names.
+
+The `UpdateQueryBuilder` also has `innerJoin` etc. join methods, but those
+can only be used as part of a PostgreSQL `update set from join` query.
+Due to type complexity issues, we unfortunately can't make the same
+methods work in both cases.
+
+import { Playground } from '../../../src/components/Playground'
+
+import {
+  mySqlJoins
+} from './0030-my-sql-joins'
+
+<div style={{ marginBottom: '1em' }}>
+  <Playground code={mySqlJoins} />
+</div>
+
+:::info[More examples]
+The API documentation is packed with examples. The API docs are hosted [here](https://kysely-org.github.io/kysely-apidoc/),
+but you can access the same documentation by hovering over functions/methods/classes in your IDE. The examples are always
+just one hover away!
+
+For example, check out these sections:
+ - [set method](https://kysely-org.github.io/kysely-apidoc/classes/UpdateQueryBuilder.html#set)
+ - [returning method](https://kysely-org.github.io/kysely-apidoc/classes/UpdateQueryBuilder.html#returning)
+ - [updateTable method](https://kysely-org.github.io/kysely-apidoc/classes/Kysely.html#updateTable)
+:::
+
+
+---
+./examples/update/_category_.json
+---
+{
+  "label": "UPDATE",
+  "position": 5,
+  "link": {
+    "type": "generated-index",
+    "description": "Short and simple examples of how to write UPDATE queries."
+  }
+}
+
+
+---
+./examples/delete/0010-single-row.js
+---
+export const singleRow = `const result = await db
+  .deleteFrom('person')
+  .where('person.id', '=', 1)
+  .executeTakeFirst()
+
+console.log(result.numDeletedRows)`
+
+---
+./examples/delete/0010-single-row.mdx
+---
+---
+title: 'Single row'
+---
+
+# Single row
+
+Delete a single row:
+
+import { Playground } from '../../../src/components/Playground'
+
+import {
+  singleRow
+} from './0010-single-row'
+
+<div style={{ marginBottom: '1em' }}>
+  <Playground code={singleRow} />
+</div>
+
+:::info[More examples]
+The API documentation is packed with examples. The API docs are hosted [here](https://kysely-org.github.io/kysely-apidoc/),
+but you can access the same documentation by hovering over functions/methods/classes in your IDE. The examples are always
+just one hover away!
+
+For example, check out these sections:
+ - [deleteFrom method](https://kysely-org.github.io/kysely-apidoc/classes/Kysely.html#deleteFrom)
+ - [returning method](https://kysely-org.github.io/kysely-apidoc/classes/DeleteQueryBuilder.html#returning)
+:::
+
+
+---
+./examples/delete/_category_.json
+---
+{
+  "label": "DELETE",
+  "position": 6,
+  "link": {
+    "type": "generated-index",
+    "description": "Short and simple examples of how to write DELETE queries."
+  }
+}
+
+
+---
+./examples/merge/0010-source-row-existence.js
+---
+export const sourceRowExistence = `const result = await db
+  .mergeInto('person as target')
+  .using('pet as source', 'source.owner_id', 'target.id')
+  .whenMatchedAnd('target.has_pets', '!=', 'Y')
+  .thenUpdateSet({ has_pets: 'Y' })
+  .whenNotMatchedBySourceAnd('target.has_pets', '=', 'Y')
+  .thenUpdateSet({ has_pets: 'N' })
+  .executeTakeFirstOrThrow()
+
+console.log(result.numChangedRows)`
+
+---
+./examples/merge/0010-source-row-existence.mdx
+---
+---
+title: 'Source row existence'
+---
+
+# Source row existence
+
+Update a target column based on the existence of a source row:
+
+import { Playground } from '../../../src/components/Playground'
+
+import {
+  sourceRowExistence
+} from './0010-source-row-existence'
+
+<div style={{ marginBottom: '1em' }}>
+  <Playground code={sourceRowExistence} />
+</div>
+
+:::info[More examples]
+The API documentation is packed with examples. The API docs are hosted [here](https://kysely-org.github.io/kysely-apidoc/),
+but you can access the same documentation by hovering over functions/methods/classes in your IDE. The examples are always
+just one hover away!
+
+For example, check out these sections:
+ - [mergeInto method](https://kysely-org.github.io/kysely-apidoc/classes/Kysely.html#mergeInto)
+ - [using method](https://kysely-org.github.io/kysely-apidoc/classes/MergeQueryBuilder.html#using)
+ - [whenMatched method](https://kysely-org.github.io/kysely-apidoc/classes/WheneableMergeQueryBuilder.html#whenMatched)
+ - [thenUpdateSet method](https://kysely-org.github.io/kysely-apidoc/classes/MatchedThenableMergeQueryBuilder.html#thenUpdateSet)
+ - [thenDelete method](https://kysely-org.github.io/kysely-apidoc/classes/MatchedThenableMergeQueryBuilder.html#thenDelete)
+ - [thenDoNothing method](https://kysely-org.github.io/kysely-apidoc/classes/MatchedThenableMergeQueryBuilder.html#thenDoNothing)
+ - [whenNotMatched method](https://kysely-org.github.io/kysely-apidoc/classes/WheneableMergeQueryBuilder.html#whenNotMatched)
+ - [thenInsertValues method](https://kysely-org.github.io/kysely-apidoc/classes/NotMatchedThenableMergeQueryBuilder.html#thenInsertValues)
+:::
+
+
+---
+./examples/merge/0020-temporary-changes-table.js
+---
+export const temporaryChangesTable = `const result = await db
+  .mergeInto('wine as target')
+  .using(
+    'wine_stock_change as source',
+    'source.wine_name',
+    'target.name',
+  )
+  .whenNotMatchedAnd('source.stock_delta', '>', 0)
+  .thenInsertValues(({ ref }) => ({
+    name: ref('source.wine_name'),
+    stock: ref('source.stock_delta'),
+  }))
+  .whenMatchedAnd(
+    (eb) => eb('target.stock', '+', eb.ref('source.stock_delta')),
+    '>',
+    0,
+  )
+  .thenUpdateSet('stock', (eb) =>
+    eb('target.stock', '+', eb.ref('source.stock_delta')),
+  )
+  .whenMatched()
+  .thenDelete()
+  .executeTakeFirstOrThrow()`
+
+---
+./examples/merge/0020-temporary-changes-table.mdx
+---
+---
+title: 'Temporary changes table'
+---
+
+# Temporary changes table
+
+Merge new entries from a temporary changes table:
+
+import { Playground } from '../../../src/components/Playground'
+
+import {
+  temporaryChangesTable
+} from './0020-temporary-changes-table'
+
+<div style={{ marginBottom: '1em' }}>
+  <Playground code={temporaryChangesTable} />
+</div>
+
+:::info[More examples]
+The API documentation is packed with examples. The API docs are hosted [here](https://kysely-org.github.io/kysely-apidoc/),
+but you can access the same documentation by hovering over functions/methods/classes in your IDE. The examples are always
+just one hover away!
+
+For example, check out these sections:
+ - [mergeInto method](https://kysely-org.github.io/kysely-apidoc/classes/Kysely.html#mergeInto)
+ - [using method](https://kysely-org.github.io/kysely-apidoc/classes/MergeQueryBuilder.html#using)
+ - [whenMatched method](https://kysely-org.github.io/kysely-apidoc/classes/WheneableMergeQueryBuilder.html#whenMatched)
+ - [thenUpdateSet method](https://kysely-org.github.io/kysely-apidoc/classes/MatchedThenableMergeQueryBuilder.html#thenUpdateSet)
+ - [thenDelete method](https://kysely-org.github.io/kysely-apidoc/classes/MatchedThenableMergeQueryBuilder.html#thenDelete)
+ - [thenDoNothing method](https://kysely-org.github.io/kysely-apidoc/classes/MatchedThenableMergeQueryBuilder.html#thenDoNothing)
+ - [whenNotMatched method](https://kysely-org.github.io/kysely-apidoc/classes/WheneableMergeQueryBuilder.html#whenNotMatched)
+ - [thenInsertValues method](https://kysely-org.github.io/kysely-apidoc/classes/NotMatchedThenableMergeQueryBuilder.html#thenInsertValues)
+:::
+
+
+---
+./examples/merge/_category_.json
+---
+{
+  "label": "MERGE",
+  "position": 7,
+  "link": {
+    "type": "generated-index",
+    "description": "Short and simple examples of how to write MERGE queries."
+  }
+}
+
+
+---
+./examples/transactions/0010-simple-transaction.js
+---
+export const simpleTransaction = `const catto = await db.transaction().execute(async (trx) => {
+  const jennifer = await trx.insertInto('person')
+    .values({
+      first_name: 'Jennifer',
+      last_name: 'Aniston',
+      age: 40,
+    })
+    .returning('id')
+    .executeTakeFirstOrThrow()
+
+  return await trx.insertInto('pet')
+    .values({
+      owner_id: jennifer.id,
+      name: 'Catto',
+      species: 'cat',
+      is_favorite: false,
+    })
+    .returningAll()
+    .executeTakeFirst()
+})`
+
+---
+./examples/transactions/0010-simple-transaction.mdx
+---
+---
+title: 'Simple transaction'
+---
+
+# Simple transaction
+
+This example inserts two rows in a transaction. If an exception is thrown inside
+the callback passed to the `execute` method,
+1. the exception is caught,
+2. the transaction is rolled back, and
+3. the exception is thrown again.
+Otherwise the transaction is committed.
+
+import { Playground } from '../../../src/components/Playground'
+
+import {
+  simpleTransaction
+} from './0010-simple-transaction'
+
+<div style={{ marginBottom: '1em' }}>
+  <Playground code={simpleTransaction} />
+</div>
+
+:::info[More examples]
+The API documentation is packed with examples. The API docs are hosted [here](https://kysely-org.github.io/kysely-apidoc/),
+but you can access the same documentation by hovering over functions/methods/classes in your IDE. The examples are always
+just one hover away!
+
+For example, check out these sections:
+ - [transaction method](https://kysely-org.github.io/kysely-apidoc/classes/Kysely.html#transaction)
+:::
+
+
+---
+./examples/transactions/0011-controlled-transaction.js
+---
+export const controlledTransaction = `const trx = await db.startTransaction().execute()
+
+try {
+  const jennifer = await trx.insertInto('person')
+    .values({
+      first_name: 'Jennifer',
+      last_name: 'Aniston',
+      age: 40,
+    })
+    .returning('id')
+    .executeTakeFirstOrThrow()
+
+  const catto = await trx.insertInto('pet')
+    .values({
+      owner_id: jennifer.id,
+      name: 'Catto',
+      species: 'cat',
+      is_favorite: false,
+    })
+    .returningAll()
+    .executeTakeFirstOrThrow()
+
+  await trx.commit().execute()
+
+  // ...
+} catch (error) {
+  await trx.rollback().execute()
+}`
+
+---
+./examples/transactions/0011-controlled-transaction.mdx
+---
+---
+title: 'Controlled transaction'
+---
+
+# Controlled transaction
+
+A controlled transaction allows you to commit and rollback manually, execute
+savepoint commands, and queries in general.
+
+In this example we start a transaction, use it to insert two rows and then commit
+the transaction. If an error is thrown, we catch it and rollback the transaction.
+
+import { Playground } from '../../../src/components/Playground'
+
+import {
+  controlledTransaction
+} from './0011-controlled-transaction'
+
+<div style={{ marginBottom: '1em' }}>
+  <Playground code={controlledTransaction} />
+</div>
+
+:::info[More examples]
+The API documentation is packed with examples. The API docs are hosted [here](https://kysely-org.github.io/kysely-apidoc/),
+but you can access the same documentation by hovering over functions/methods/classes in your IDE. The examples are always
+just one hover away!
+
+For example, check out these sections:
+ - [transaction method](https://kysely-org.github.io/kysely-apidoc/classes/Kysely.html#transaction)
+:::
+
+
+---
+./examples/transactions/0012-controlled-transaction-w-savepoints.js
+---
+export const controlledTransactionWSavepoints = `const trx = await db.startTransaction().execute()
+
+try {
+  const jennifer = await trx
+    .insertInto('person')
+    .values({
+      first_name: 'Jennifer',
+      last_name: 'Aniston',
+      age: 40,
+    })
+    .returning('id')
+    .executeTakeFirstOrThrow()
+
+  const trxAfterJennifer = await trx.savepoint('after_jennifer').execute()
+
+  try {
+    const catto = await trxAfterJennifer
+      .insertInto('pet')
+      .values({
+        owner_id: jennifer.id,
+        name: 'Catto',
+        species: 'cat',
+      })
+      .returning('id')
+      .executeTakeFirstOrThrow()
+
+    await trxAfterJennifer
+      .insertInto('toy')
+      .values({ name: 'Bone', price: 1.99, pet_id: catto.id })
+      .execute()
+  } catch (error) {
+    await trxAfterJennifer.rollbackToSavepoint('after_jennifer').execute()
+  }
+
+  await trxAfterJennifer.releaseSavepoint('after_jennifer').execute()
+
+  await trx.insertInto('audit').values({ action: 'added Jennifer' }).execute()
+
+  await trx.commit().execute()
+} catch (error) {
+  await trx.rollback().execute()
+}`
+
+---
+./examples/transactions/0012-controlled-transaction-w-savepoints.mdx
+---
+---
+title: 'Controlled transaction /w savepoints'
+---
+
+# Controlled transaction /w savepoints
+
+A controlled transaction allows you to commit and rollback manually, execute
+savepoint commands, and queries in general.
+
+In this example we start a transaction, insert a person, create a savepoint,
+try inserting a toy and a pet, and if an error is thrown, we rollback to the
+savepoint. Eventually we release the savepoint, insert an audit record and
+commit the transaction. If an error is thrown, we catch it and rollback the
+transaction.
+
+import { Playground } from '../../../src/components/Playground'
+
+import {
+  controlledTransactionWSavepoints
+} from './0012-controlled-transaction-w-savepoints'
+
+<div style={{ marginBottom: '1em' }}>
+  <Playground code={controlledTransactionWSavepoints} />
+</div>
+
+:::info[More examples]
+The API documentation is packed with examples. The API docs are hosted [here](https://kysely-org.github.io/kysely-apidoc/),
+but you can access the same documentation by hovering over functions/methods/classes in your IDE. The examples are always
+just one hover away!
+
+For example, check out these sections:
+ - [transaction method](https://kysely-org.github.io/kysely-apidoc/classes/Kysely.html#transaction)
+:::
+
+
+---
+./examples/transactions/_category_.json
+---
+{
+  "label": "Transactions",
+  "position": 8,
+  "link": {
+    "type": "generated-index",
+    "description": "Short and simple examples of how to use transactions."
+  }
+}
+
+
+---
+./examples/select/0010-a-single-column.js
+---
+export const aSingleColumn = `const persons = await db
+  .selectFrom('person')
+  .select('id')
+  .where('first_name', '=', 'Arnold')
+  .execute()`
+
+---
+./examples/select/0010-a-single-column.mdx
+---
+---
+title: 'A single column'
+---
+
+# A single column
+
+Select a single column:
+
+import { Playground } from '../../../src/components/Playground'
+
+import {
+  aSingleColumn
+} from './0010-a-single-column'
+
+<div style={{ marginBottom: '1em' }}>
+  <Playground code={aSingleColumn} />
+</div>
+
+:::info[More examples]
+The API documentation is packed with examples. The API docs are hosted [here](https://kysely-org.github.io/kysely-apidoc/),
+but you can access the same documentation by hovering over functions/methods/classes in your IDE. The examples are always
+just one hover away!
+
+For example, check out these sections:
+ - [select method](https://kysely-org.github.io/kysely-apidoc/interfaces/SelectQueryBuilder.html#select)
+ - [selectAll method](https://kysely-org.github.io/kysely-apidoc/interfaces/SelectQueryBuilder.html#selectAll)
+ - [selectFrom method](https://kysely-org.github.io/kysely-apidoc/classes/Kysely.html#selectFrom)
+:::
+
+
+---
+./examples/select/0020-column-with-a-table.js
+---
+export const columnWithATable = `const persons = await db
+  .selectFrom(['person', 'pet'])
+  .select('person.id')
+  .execute()`
+
+---
+./examples/select/0020-column-with-a-table.mdx
+---
+---
+title: 'Column with a table'
+---
+
+# Column with a table
+
+Select a single column and specify a table:
+
+import { Playground } from '../../../src/components/Playground'
+
+import {
+  columnWithATable
+} from './0020-column-with-a-table'
+
+<div style={{ marginBottom: '1em' }}>
+  <Playground code={columnWithATable} />
+</div>
+
+:::info[More examples]
+The API documentation is packed with examples. The API docs are hosted [here](https://kysely-org.github.io/kysely-apidoc/),
+but you can access the same documentation by hovering over functions/methods/classes in your IDE. The examples are always
+just one hover away!
+
+For example, check out these sections:
+ - [select method](https://kysely-org.github.io/kysely-apidoc/interfaces/SelectQueryBuilder.html#select)
+ - [selectAll method](https://kysely-org.github.io/kysely-apidoc/interfaces/SelectQueryBuilder.html#selectAll)
+ - [selectFrom method](https://kysely-org.github.io/kysely-apidoc/classes/Kysely.html#selectFrom)
+:::
+
+
+---
+./examples/select/0030-multiple-columns.js
+---
+export const multipleColumns = `const persons = await db
+  .selectFrom('person')
+  .select(['person.id', 'first_name'])
+  .execute()`
+
+---
+./examples/select/0030-multiple-columns.mdx
+---
+---
+title: 'Multiple columns'
+---
+
+# Multiple columns
+
+Select multiple columns:
+
+import { Playground } from '../../../src/components/Playground'
+
+import {
+  multipleColumns
+} from './0030-multiple-columns'
+
+<div style={{ marginBottom: '1em' }}>
+  <Playground code={multipleColumns} />
+</div>
+
+:::info[More examples]
+The API documentation is packed with examples. The API docs are hosted [here](https://kysely-org.github.io/kysely-apidoc/),
+but you can access the same documentation by hovering over functions/methods/classes in your IDE. The examples are always
+just one hover away!
+
+For example, check out these sections:
+ - [select method](https://kysely-org.github.io/kysely-apidoc/interfaces/SelectQueryBuilder.html#select)
+ - [selectAll method](https://kysely-org.github.io/kysely-apidoc/interfaces/SelectQueryBuilder.html#selectAll)
+ - [selectFrom method](https://kysely-org.github.io/kysely-apidoc/classes/Kysely.html#selectFrom)
+:::
+
+
+---
+./examples/select/0040-aliases.js
+---
+export const aliases = `const persons = await db
+  .selectFrom('person as p')
+  .select([
+    'first_name as fn',
+    'p.last_name as ln'
+  ])
+  .execute()`
+
+---
+./examples/select/0040-aliases.mdx
+---
+---
+title: 'Aliases'
+---
+
+# Aliases
+
+You can give an alias for selections and tables by appending `as the_alias` to the name:
+
+import { Playground } from '../../../src/components/Playground'
+
+import {
+  aliases
+} from './0040-aliases'
+
+<div style={{ marginBottom: '1em' }}>
+  <Playground code={aliases} />
+</div>
+
+:::info[More examples]
+The API documentation is packed with examples. The API docs are hosted [here](https://kysely-org.github.io/kysely-apidoc/),
+but you can access the same documentation by hovering over functions/methods/classes in your IDE. The examples are always
+just one hover away!
+
+For example, check out these sections:
+ - [select method](https://kysely-org.github.io/kysely-apidoc/interfaces/SelectQueryBuilder.html#select)
+ - [selectAll method](https://kysely-org.github.io/kysely-apidoc/interfaces/SelectQueryBuilder.html#selectAll)
+ - [selectFrom method](https://kysely-org.github.io/kysely-apidoc/classes/Kysely.html#selectFrom)
+:::
+
+
+---
+./examples/select/0050-complex-selections.js
+---
+export const complexSelections = `import { sql } from 'kysely'
+
+const persons = await db.selectFrom('person')
+  .select(({ eb, selectFrom, or, val, lit }) => [
+    // Select a correlated subquery
+    selectFrom('pet')
+      .whereRef('person.id', '=', 'pet.owner_id')
+      .select('pet.name')
+      .orderBy('pet.name')
+      .limit(1)
+      .as('first_pet_name'),
+
+    // Build and select an expression using
+    // the expression builder
+    or([
+      eb('first_name', '=', 'Jennifer'),
+      eb('first_name', '=', 'Arnold')
+    ]).as('is_jennifer_or_arnold'),
+
+    // Select a raw sql expression
+    sql<string>\`concat(first_name, ' ', last_name)\`.as('full_name'),
+
+    // Select a static string value
+    val('Some value').as('string_value'),
+
+    // Select a literal value
+    lit(42).as('literal_value'),
+  ])
+  .execute()`
+
+---
+./examples/select/0050-complex-selections.mdx
+---
+---
+title: 'Complex selections'
+---
+
+# Complex selections
+
+You can select arbitrary expression including subqueries and raw sql snippets.
+When you do that, you need to give a name for the selections using the `as` method:
+
+import { Playground } from '../../../src/components/Playground'
+
+import {
+  complexSelections
+} from './0050-complex-selections'
+
+<div style={{ marginBottom: '1em' }}>
+  <Playground code={complexSelections} />
+</div>
+
+:::info[More examples]
+The API documentation is packed with examples. The API docs are hosted [here](https://kysely-org.github.io/kysely-apidoc/),
+but you can access the same documentation by hovering over functions/methods/classes in your IDE. The examples are always
+just one hover away!
+
+For example, check out these sections:
+ - [select method](https://kysely-org.github.io/kysely-apidoc/interfaces/SelectQueryBuilder.html#select)
+ - [selectAll method](https://kysely-org.github.io/kysely-apidoc/interfaces/SelectQueryBuilder.html#selectAll)
+ - [selectFrom method](https://kysely-org.github.io/kysely-apidoc/classes/Kysely.html#selectFrom)
+:::
+
+
+---
+./examples/select/0051-not-null.js
+---
+export const notNull = `import { NotNull } from 'kysely'
+import { jsonObjectFrom } from 'kysely/helpers/postgres'
+
+const persons = db
+  .selectFrom('person')
+  .select((eb) => [
+    'last_name',
+     // Let's assume we know the person has at least one
+     // pet. We can use the \`.$notNull()\` method to make
+     // the expression not null. You could just as well
+     // add \`pet\` to the \`$narrowType\` call below.
+     jsonObjectFrom(
+       eb.selectFrom('pet')
+         .selectAll()
+         .limit(1)
+         .whereRef('person.id', '=', 'pet.owner_id')
+     ).$notNull().as('pet')
+  ])
+  .where('last_name', 'is not', null)
+  // $narrowType can be used to narrow the output type.
+  // The special \`NotNull\` type can be used to make a
+  // selection not null. You could add \`pet: NotNull\`
+  // here and omit the \`$notNull()\` call on it.
+  // Use whichever way you prefer.
+  .$narrowType<{ last_name: NotNull }>()
+  .execute()`
+
+---
+./examples/select/0051-not-null.mdx
+---
+---
+title: 'Not null'
+---
+
+# Not null
+
+Sometimes you can be sure something's not null, but Kysely isn't able to infer
+it. For example calling `where('last_name', 'is not', null)` doesn't make
+`last_name` not null in the result type, but unless you have other where statements
+you can be sure it's never null.
+
+Kysely has a couple of helpers for dealing with these cases: `$notNull()` and `$narrowType`.
+Both are used in the following example:
+
+import { Playground } from '../../../src/components/Playground'
+
+import {
+  notNull
+} from './0051-not-null'
+
+<div style={{ marginBottom: '1em' }}>
+  <Playground code={notNull} />
+</div>
+
+:::info[More examples]
+The API documentation is packed with examples. The API docs are hosted [here](https://kysely-org.github.io/kysely-apidoc/),
+but you can access the same documentation by hovering over functions/methods/classes in your IDE. The examples are always
+just one hover away!
+
+For example, check out these sections:
+ - [select method](https://kysely-org.github.io/kysely-apidoc/interfaces/SelectQueryBuilder.html#select)
+ - [selectAll method](https://kysely-org.github.io/kysely-apidoc/interfaces/SelectQueryBuilder.html#selectAll)
+ - [selectFrom method](https://kysely-org.github.io/kysely-apidoc/classes/Kysely.html#selectFrom)
+:::
+
+
+---
+./examples/select/0060-function-calls.js
+---
+export const functionCalls = `import { sql } from 'kysely'
+
+const result = await db.selectFrom('person')
+  .innerJoin('pet', 'pet.owner_id', 'person.id')
+  .select(({ fn, val, ref }) => [
+    'person.id',
+
+    // The \`fn\` module contains the most common
+    // functions.
+    fn.count<number>('pet.id').as('pet_count'),
+
+    // You can call any function by calling \`fn\`
+    // directly. The arguments are treated as column
+    // references by default. If you want  to pass in
+    // values, use the \`val\` function.
+    fn<string>('concat', [
+      val('Ms. '),
+      'first_name',
+      val(' '),
+      'last_name'
+    ]).as('full_name_with_title'),
+
+    // You can call any aggregate function using the
+    // \`fn.agg\` function.
+    fn.agg<string[]>('array_agg', ['pet.name']).as('pet_names'),
+
+    // And once again, you can use the \`sql\`
+    // template tag. The template tag substitutions
+    // are treated as values by default. If you want
+    // to reference columns, you can use the \`ref\`
+    // function.
+    sql<string>\`concat(
+      \${ref('first_name')},
+      ' ',
+      \${ref('last_name')}
+    )\`.as('full_name')
+  ])
+  .groupBy('person.id')
+  .having((eb) => eb.fn.count('pet.id'), '>', 10)
+  .execute()`
+
+---
+./examples/select/0060-function-calls.mdx
+---
+---
+title: 'Function calls'
+---
+
+# Function calls
+
+This example shows how to create function calls. These examples also work in any
+other place (`where` calls, updates, inserts etc.). The only difference is that you
+leave out the alias (the `as` call) if you use these in any other place than `select`.
+
+import { Playground } from '../../../src/components/Playground'
+
+import {
+  functionCalls
+} from './0060-function-calls'
+
+<div style={{ marginBottom: '1em' }}>
+  <Playground code={functionCalls} />
+</div>
+
+:::info[More examples]
+The API documentation is packed with examples. The API docs are hosted [here](https://kysely-org.github.io/kysely-apidoc/),
+but you can access the same documentation by hovering over functions/methods/classes in your IDE. The examples are always
+just one hover away!
+
+For example, check out these sections:
+ - [select method](https://kysely-org.github.io/kysely-apidoc/interfaces/SelectQueryBuilder.html#select)
+ - [selectAll method](https://kysely-org.github.io/kysely-apidoc/interfaces/SelectQueryBuilder.html#selectAll)
+ - [selectFrom method](https://kysely-org.github.io/kysely-apidoc/classes/Kysely.html#selectFrom)
+:::
+
+
+---
+./examples/select/0070-distinct.js
+---
+export const distinct = `const persons = await db.selectFrom('person')
+  .select('first_name')
+  .distinct()
+  .execute()`
+
+---
+./examples/select/0070-distinct.mdx
+---
+---
+title: 'Distinct'
+---
+
+# Distinct
+
+import { Playground } from '../../../src/components/Playground'
+
+import {
+  distinct
+} from './0070-distinct'
+
+<div style={{ marginBottom: '1em' }}>
+  <Playground code={distinct} />
+</div>
+
+:::info[More examples]
+The API documentation is packed with examples. The API docs are hosted [here](https://kysely-org.github.io/kysely-apidoc/),
+but you can access the same documentation by hovering over functions/methods/classes in your IDE. The examples are always
+just one hover away!
+
+For example, check out these sections:
+ - [select method](https://kysely-org.github.io/kysely-apidoc/interfaces/SelectQueryBuilder.html#select)
+ - [selectAll method](https://kysely-org.github.io/kysely-apidoc/interfaces/SelectQueryBuilder.html#selectAll)
+ - [selectFrom method](https://kysely-org.github.io/kysely-apidoc/classes/Kysely.html#selectFrom)
+:::
+
+
+---
+./examples/select/0080-distinct-on.js
+---
+export const distinctOn = `const persons = await db.selectFrom('person')
+  .innerJoin('pet', 'pet.owner_id', 'person.id')
+  .where('pet.name', '=', 'Doggo')
+  .distinctOn('person.id')
+  .selectAll('person')
+  .execute()`
+
+---
+./examples/select/0080-distinct-on.mdx
+---
+---
+title: 'Distinct on'
+---
+
+# Distinct on
+
+import { Playground } from '../../../src/components/Playground'
+
+import {
+  distinctOn
+} from './0080-distinct-on'
+
+<div style={{ marginBottom: '1em' }}>
+  <Playground code={distinctOn} />
+</div>
+
+:::info[More examples]
+The API documentation is packed with examples. The API docs are hosted [here](https://kysely-org.github.io/kysely-apidoc/),
+but you can access the same documentation by hovering over functions/methods/classes in your IDE. The examples are always
+just one hover away!
+
+For example, check out these sections:
+ - [select method](https://kysely-org.github.io/kysely-apidoc/interfaces/SelectQueryBuilder.html#select)
+ - [selectAll method](https://kysely-org.github.io/kysely-apidoc/interfaces/SelectQueryBuilder.html#selectAll)
+ - [selectFrom method](https://kysely-org.github.io/kysely-apidoc/classes/Kysely.html#selectFrom)
+:::
+
+
+---
+./examples/select/0090-all-columns.js
+---
+export const allColumns = `const persons = await db
+  .selectFrom('person')
+  .selectAll()
+  .execute()`
+
+---
+./examples/select/0090-all-columns.mdx
+---
+---
+title: 'All columns'
+---
+
+# All columns
+
+The `selectAll` method generates `SELECT *`:
+
+import { Playground } from '../../../src/components/Playground'
+
+import {
+  allColumns
+} from './0090-all-columns'
+
+<div style={{ marginBottom: '1em' }}>
+  <Playground code={allColumns} />
+</div>
+
+:::info[More examples]
+The API documentation is packed with examples. The API docs are hosted [here](https://kysely-org.github.io/kysely-apidoc/),
+but you can access the same documentation by hovering over functions/methods/classes in your IDE. The examples are always
+just one hover away!
+
+For example, check out these sections:
+ - [select method](https://kysely-org.github.io/kysely-apidoc/interfaces/SelectQueryBuilder.html#select)
+ - [selectAll method](https://kysely-org.github.io/kysely-apidoc/interfaces/SelectQueryBuilder.html#selectAll)
+ - [selectFrom method](https://kysely-org.github.io/kysely-apidoc/classes/Kysely.html#selectFrom)
+:::
+
+
+---
+./examples/select/0100-all-columns-of-a-table.js
+---
+export const allColumnsOfATable = `const persons = await db
+  .selectFrom('person')
+  .selectAll('person')
+  .execute()`
+
+---
+./examples/select/0100-all-columns-of-a-table.mdx
+---
+---
+title: 'All columns of a table'
+---
+
+# All columns of a table
+
+Select all columns of a table:
+
+import { Playground } from '../../../src/components/Playground'
+
+import {
+  allColumnsOfATable
+} from './0100-all-columns-of-a-table'
+
+<div style={{ marginBottom: '1em' }}>
+  <Playground code={allColumnsOfATable} />
+</div>
+
+:::info[More examples]
+The API documentation is packed with examples. The API docs are hosted [here](https://kysely-org.github.io/kysely-apidoc/),
+but you can access the same documentation by hovering over functions/methods/classes in your IDE. The examples are always
+just one hover away!
+
+For example, check out these sections:
+ - [select method](https://kysely-org.github.io/kysely-apidoc/interfaces/SelectQueryBuilder.html#select)
+ - [selectAll method](https://kysely-org.github.io/kysely-apidoc/interfaces/SelectQueryBuilder.html#selectAll)
+ - [selectFrom method](https://kysely-org.github.io/kysely-apidoc/classes/Kysely.html#selectFrom)
+:::
+
+
+---
+./examples/select/0110-nested-array.js
+---
+export const nestedArray = `import { jsonArrayFrom } from 'kysely/helpers/postgres'
+
+const result = await db
+  .selectFrom('person')
+  .select((eb) => [
+    'id',
+    jsonArrayFrom(
+      eb.selectFrom('pet')
+        .select(['pet.id as pet_id', 'pet.name'])
+        .whereRef('pet.owner_id', '=', 'person.id')
+        .orderBy('pet.name')
+    ).as('pets')
+  ])
+  .execute()`
+
+---
+./examples/select/0110-nested-array.mdx
+---
+---
+title: 'Nested array'
+---
+
+# Nested array
+
+While kysely is not an ORM and it doesn't have the concept of relations, we do provide
+helpers for fetching nested objects and arrays in a single query. In this example we
+use the `jsonArrayFrom` helper to fetch person's pets along with the person's id.
+
+Please keep in mind that the helpers under the `kysely/helpers` folder, including
+`jsonArrayFrom`, are not guaranteed to work with third party dialects. In order for
+them to work, the dialect must automatically parse the `json` data type into
+JavaScript JSON values like objects and arrays. Some dialects might simply return
+the data as a JSON string. In these cases you can use the built in `ParseJSONResultsPlugin`
+to parse the results.
+
+import { Playground } from '../../../src/components/Playground'
+
+import {
+  nestedArray
+} from './0110-nested-array'
+
+<div style={{ marginBottom: '1em' }}>
+  <Playground code={nestedArray} />
+</div>
+
+:::info[More examples]
+The API documentation is packed with examples. The API docs are hosted [here](https://kysely-org.github.io/kysely-apidoc/),
+but you can access the same documentation by hovering over functions/methods/classes in your IDE. The examples are always
+just one hover away!
+
+For example, check out these sections:
+ - [select method](https://kysely-org.github.io/kysely-apidoc/interfaces/SelectQueryBuilder.html#select)
+ - [selectAll method](https://kysely-org.github.io/kysely-apidoc/interfaces/SelectQueryBuilder.html#selectAll)
+ - [selectFrom method](https://kysely-org.github.io/kysely-apidoc/classes/Kysely.html#selectFrom)
+:::
+
+
+---
+./examples/select/0120-nested-object.js
+---
+export const nestedObject = `import { jsonObjectFrom } from 'kysely/helpers/postgres'
+
+const result = await db
+  .selectFrom('person')
+  .select((eb) => [
+    'id',
+    jsonObjectFrom(
+      eb.selectFrom('pet')
+        .select(['pet.id as pet_id', 'pet.name'])
+        .whereRef('pet.owner_id', '=', 'person.id')
+        .where('pet.is_favorite', '=', true)
+    ).as('favorite_pet')
+  ])
+  .execute()`
+
+---
+./examples/select/0120-nested-object.mdx
+---
+---
+title: 'Nested object'
+---
+
+# Nested object
+
+While kysely is not an ORM and it doesn't have the concept of relations, we do provide
+helpers for fetching nested objects and arrays in a single query. In this example we
+use the `jsonObjectFrom` helper to fetch person's favorite pet along with the person's id.
+
+Please keep in mind that the helpers under the `kysely/helpers` folder, including
+`jsonObjectFrom`, are not guaranteed to work with third-party dialects. In order for
+them to work, the dialect must automatically parse the `json` data type into
+JavaScript JSON values like objects and arrays. Some dialects might simply return
+the data as a JSON string. In these cases you can use the built in `ParseJSONResultsPlugin`
+to parse the results.
+
+import { Playground } from '../../../src/components/Playground'
+
+import {
+  nestedObject
+} from './0120-nested-object'
+
+<div style={{ marginBottom: '1em' }}>
+  <Playground code={nestedObject} />
+</div>
+
+:::info[More examples]
+The API documentation is packed with examples. The API docs are hosted [here](https://kysely-org.github.io/kysely-apidoc/),
+but you can access the same documentation by hovering over functions/methods/classes in your IDE. The examples are always
+just one hover away!
+
+For example, check out these sections:
+ - [select method](https://kysely-org.github.io/kysely-apidoc/interfaces/SelectQueryBuilder.html#select)
+ - [selectAll method](https://kysely-org.github.io/kysely-apidoc/interfaces/SelectQueryBuilder.html#selectAll)
+ - [selectFrom method](https://kysely-org.github.io/kysely-apidoc/classes/Kysely.html#selectFrom)
+:::
+
+
+---
+./examples/select/0130-generic-find-query.js
+---
+export const genericFindQuery = `import { SelectType } from 'kysely'
+import { Database } from 'type-editor'
+
+async function getRowByColumn<
+  T extends keyof Database,
+  C extends keyof Database[T] & string,
+  V extends SelectType<Database[T][C]>,
+>(t: T, c: C, v: V) {
+  // We need to use the dynamic module since the table name
+  // is not known at compile time.
+  const { table, ref } = db.dynamic
+
+  return await db
+    .selectFrom(table(t).as('t'))
+    .selectAll()
+    .where(ref(c), '=', v)
+    .orderBy('t.id')
+    .executeTakeFirstOrThrow()
+}
+
+const person = await getRowByColumn('person', 'first_name', 'Arnold')`
+
+---
+./examples/select/0130-generic-find-query.mdx
+---
+---
+title: 'Generic find query'
+---
+
+# Generic find query
+
+A generic type-safe helper function for finding a row by a column value:
+
+import {
+  Playground,
+  exampleSetup,
+} from '../../../src/components/Playground'
+
+import {
+  genericFindQuery
+} from './0130-generic-find-query'
+
+<div style={{ marginBottom: '1em' }}>
+  <Playground code={genericFindQuery} setupCode={exampleSetup} />
+</div>
+
+:::info[More examples]
+The API documentation is packed with examples. The API docs are hosted [here](https://kysely-org.github.io/kysely-apidoc/),
+but you can access the same documentation by hovering over functions/methods/classes in your IDE. The examples are always
+just one hover away!
+
+For example, check out these sections:
+ - [select method](https://kysely-org.github.io/kysely-apidoc/interfaces/SelectQueryBuilder.html#select)
+ - [selectAll method](https://kysely-org.github.io/kysely-apidoc/interfaces/SelectQueryBuilder.html#selectAll)
+ - [selectFrom method](https://kysely-org.github.io/kysely-apidoc/classes/Kysely.html#selectFrom)
+:::
+
+
+---
+./examples/select/_category_.json
+---
+{
+  "label": "SELECT",
+  "position": 1,
+  "link": {
+    "type": "generated-index",
+    "description": "Short and simple examples of using the SELECT methods."
+  }
+}
+
+
+---
+./examples/cte/0010-simple-selects.js
+---
+export const simpleSelects = `const result = await db
+  // Create a CTE called \`jennifers\` that selects all
+  // persons named 'Jennifer'.
+  .with('jennifers', (db) => db
+    .selectFrom('person')
+    .where('first_name', '=', 'Jennifer')
+    .select(['id', 'age'])
+  )
+  // Select all rows from the \`jennifers\` CTE and
+  // further filter it.
+  .with('adult_jennifers', (db) => db
+    .selectFrom('jennifers')
+    .where('age', '>', 18)
+    .select(['id', 'age'])
+  )
+  // Finally select all adult jennifers that are
+  // also younger than 60.
+  .selectFrom('adult_jennifers')
+  .where('age', '<', 60)
+  .selectAll()
+  .execute()`
+
+---
+./examples/cte/0010-simple-selects.mdx
+---
+---
+title: 'Simple selects'
+---
+
+# Simple selects
+
+Common table expressions (CTE) are a great way to modularize complex queries.
+Essentially they allow you to run multiple separate queries within a
+single roundtrip to the DB.
+
+Since CTEs are a part of the main query, query optimizers inside DB
+engines are able to optimize the overall query. For example, postgres
+is able to inline the CTEs inside the using queries if it decides it's
+faster.
+
+import { Playground } from '../../../src/components/Playground'
+
+import {
+  simpleSelects
+} from './0010-simple-selects'
+
+<div style={{ marginBottom: '1em' }}>
+  <Playground code={simpleSelects} />
+</div>
+
+
+---
+./examples/cte/0020-inserts-updates-and-deletions.js
+---
+export const insertsUpdatesAndDeletions = `const result = await db
+  .with('new_person', (db) => db
+    .insertInto('person')
+    .values({
+      first_name: 'Jennifer',
+      age: 35,
+    })
+    .returning('id')
+  )
+  .with('new_pet', (db) => db
+    .insertInto('pet')
+    .values({
+      name: 'Doggo',
+      species: 'dog',
+      is_favorite: true,
+      // Use the id of the person we just inserted.
+      owner_id: db
+        .selectFrom('new_person')
+        .select('id')
+    })
+    .returning('id')
+  )
+  .selectFrom(['new_person', 'new_pet'])
+  .select([
+    'new_person.id as person_id',
+    'new_pet.id as pet_id'
+  ])
+  .execute()`
+
+---
+./examples/cte/0020-inserts-updates-and-deletions.mdx
+---
+---
+title: 'Inserts, updates and deletions'
+---
+
+# Inserts, updates and deletions
+
+Some databases like postgres also allow you to run other queries than selects
+in CTEs. On these databases CTEs are extremely powerful:
+
+import { Playground } from '../../../src/components/Playground'
+
+import {
+  insertsUpdatesAndDeletions
+} from './0020-inserts-updates-and-deletions'
+
+<div style={{ marginBottom: '1em' }}>
+  <Playground code={insertsUpdatesAndDeletions} />
+</div>
+
+
+---
+./examples/cte/_category_.json
+---
+{
+  "label": "CTE",
+  "position": 9,
+  "link": {
+    "type": "generated-index",
+    "description": "Short and simple examples of how to use Common Table Expressions (CTE) in queries."
+  }
+}
+
+
+---
+./examples/where/0010-simple-where-clause.js
+---
+export const simpleWhereClause = `const person = await db
+  .selectFrom('person')
+  .selectAll()
+  .where('first_name', '=', 'Jennifer')
+  .where('age', '>', 40)
+  .executeTakeFirst()`
+
+---
+./examples/where/0010-simple-where-clause.mdx
+---
+---
+title: 'Simple where clause'
+---
+
+# Simple where clause
+
+`where` method calls are combined with `AND`:
+
+import { Playground } from '../../../src/components/Playground'
+
+import {
+  simpleWhereClause
+} from './0010-simple-where-clause'
+
+<div style={{ marginBottom: '1em' }}>
+  <Playground code={simpleWhereClause} />
+</div>
+
+:::info[More examples]
+The API documentation is packed with examples. The API docs are hosted [here](https://kysely-org.github.io/kysely-apidoc/),
+but you can access the same documentation by hovering over functions/methods/classes in your IDE. The examples are always
+just one hover away!
+
+For example, check out these sections:
+ - [where method](https://kysely-org.github.io/kysely-apidoc/interfaces/SelectQueryBuilder.html#where)
+ - [whereRef method](https://kysely-org.github.io/kysely-apidoc/interfaces/SelectQueryBuilder.html#whereRef)
+:::
+
+
+---
+./examples/where/0020-where-in.js
+---
+export const whereIn = `const persons = await db
+  .selectFrom('person')
+  .selectAll()
+  .where('id', 'in', [1, 2, 3])
+  .execute()`
+
+---
+./examples/where/0020-where-in.mdx
+---
+---
+title: 'Where in'
+---
+
+# Where in
+
+Find multiple items using a list of identifiers:
+
+import { Playground } from '../../../src/components/Playground'
+
+import {
+  whereIn
+} from './0020-where-in'
+
+<div style={{ marginBottom: '1em' }}>
+  <Playground code={whereIn} />
+</div>
+
+:::info[More examples]
+The API documentation is packed with examples. The API docs are hosted [here](https://kysely-org.github.io/kysely-apidoc/),
+but you can access the same documentation by hovering over functions/methods/classes in your IDE. The examples are always
+just one hover away!
+
+For example, check out these sections:
+ - [where method](https://kysely-org.github.io/kysely-apidoc/interfaces/SelectQueryBuilder.html#where)
+ - [whereRef method](https://kysely-org.github.io/kysely-apidoc/interfaces/SelectQueryBuilder.html#whereRef)
+:::
+
+
+---
+./examples/where/0030-object-filter.js
+---
+export const objectFilter = `const persons = await db
+  .selectFrom('person')
+  .selectAll()
+  .where((eb) => eb.and({
+    first_name: 'Jennifer',
+    last_name: eb.ref('first_name')
+  }))
+  .execute()`
+
+---
+./examples/where/0030-object-filter.mdx
+---
+---
+title: 'Object filter'
+---
+
+# Object filter
+
+You can use the `and` function to create a simple equality
+filter using an object
+
+import { Playground } from '../../../src/components/Playground'
+
+import {
+  objectFilter
+} from './0030-object-filter'
+
+<div style={{ marginBottom: '1em' }}>
+  <Playground code={objectFilter} />
+</div>
+
+:::info[More examples]
+The API documentation is packed with examples. The API docs are hosted [here](https://kysely-org.github.io/kysely-apidoc/),
+but you can access the same documentation by hovering over functions/methods/classes in your IDE. The examples are always
+just one hover away!
+
+For example, check out these sections:
+ - [where method](https://kysely-org.github.io/kysely-apidoc/interfaces/SelectQueryBuilder.html#where)
+ - [whereRef method](https://kysely-org.github.io/kysely-apidoc/interfaces/SelectQueryBuilder.html#whereRef)
+:::
+
+
+---
+./examples/where/0040-or-where.js
+---
+export const orWhere = `const persons = await db
+  .selectFrom('person')
+  .selectAll()
+  // 1. Using the \`or\` method on the expression builder:
+  .where((eb) => eb.or([
+    eb('first_name', '=', 'Jennifer'),
+    eb('first_name', '=', 'Sylvester')
+  ]))
+  // 2. Chaining expressions using the \`or\` method on the
+  // created expressions:
+  .where((eb) =>
+    eb('last_name', '=', 'Aniston').or('last_name', '=', 'Stallone')
+  )
+  .execute()`
+
+---
+./examples/where/0040-or-where.mdx
+---
+---
+title: 'OR where'
+---
+
+# OR where
+
+To combine conditions using `OR`, you can use the expression builder.
+There are two ways to create `OR` expressions. Both are shown in this
+example:
+
+import { Playground } from '../../../src/components/Playground'
+
+import {
+  orWhere
+} from './0040-or-where'
+
+<div style={{ marginBottom: '1em' }}>
+  <Playground code={orWhere} />
+</div>
+
+:::info[More examples]
+The API documentation is packed with examples. The API docs are hosted [here](https://kysely-org.github.io/kysely-apidoc/),
+but you can access the same documentation by hovering over functions/methods/classes in your IDE. The examples are always
+just one hover away!
+
+For example, check out these sections:
+ - [where method](https://kysely-org.github.io/kysely-apidoc/interfaces/SelectQueryBuilder.html#where)
+ - [whereRef method](https://kysely-org.github.io/kysely-apidoc/interfaces/SelectQueryBuilder.html#whereRef)
+:::
+
+
+---
+./examples/where/0050-conditional-where-calls.js
+---
+export const conditionalWhereCalls = `import { Expression, SqlBool } from 'kysely'
+
+const firstName: string | undefined = 'Jennifer'
+const lastName: string | undefined = 'Aniston'
+const under18 = true
+const over60 = true
+
+let query = db
+  .selectFrom('person')
+  .selectAll()
+
+if (firstName) {
+  // The query builder is immutable. Remember to reassign
+  // the result back to the query variable.
+  query = query.where('first_name', '=', firstName)
+}
+
+if (lastName) {
+  query = query.where('last_name', '=', lastName)
+}
+
+if (under18 || over60) {
+  // Conditional OR expressions can be added like this.
+  query = query.where((eb) => {
+    const ors: Expression<SqlBool>[] = []
+
+    if (under18) {
+      ors.push(eb('age', '<', 18))
+    }
+
+    if (over60) {
+      ors.push(eb('age', '>', 60))
+    }
+
+    return eb.or(ors)
+  })
+}
+
+const persons = await query.execute()`
+
+---
+./examples/where/0050-conditional-where-calls.mdx
+---
+---
+title: 'Conditional where calls'
+---
+
+# Conditional where calls
+
+You can add expressions conditionally like this:
+
+import { Playground } from '../../../src/components/Playground'
+
+import {
+  conditionalWhereCalls
+} from './0050-conditional-where-calls'
+
+<div style={{ marginBottom: '1em' }}>
+  <Playground code={conditionalWhereCalls} />
+</div>
+
+:::info[More examples]
+The API documentation is packed with examples. The API docs are hosted [here](https://kysely-org.github.io/kysely-apidoc/),
+but you can access the same documentation by hovering over functions/methods/classes in your IDE. The examples are always
+just one hover away!
+
+For example, check out these sections:
+ - [where method](https://kysely-org.github.io/kysely-apidoc/interfaces/SelectQueryBuilder.html#where)
+ - [whereRef method](https://kysely-org.github.io/kysely-apidoc/interfaces/SelectQueryBuilder.html#whereRef)
+:::
+
+
+---
+./examples/where/0060-complex-where-clause.js
+---
+export const complexWhereClause = `const firstName = 'Jennifer'
+const maxAge = 60
+
+const persons = await db
+  .selectFrom('person')
+  .selectAll('person')
+  .where(({ eb, or, and, not, exists, selectFrom }) => and([
+    or([
+      eb('first_name', '=', firstName),
+      eb('age', '<', maxAge)
+    ]),
+    not(exists(
+      selectFrom('pet')
+        .select('pet.id')
+        .whereRef('pet.owner_id', '=', 'person.id')
+    ))
+  ]))
+  .execute()`
+
+---
+./examples/where/0060-complex-where-clause.mdx
+---
+---
+title: 'Complex where clause'
+---
+
+# Complex where clause
+
+For complex `where` expressions you can pass in a single callback and
+use the `ExpressionBuilder` to build your expression:
+
+import { Playground } from '../../../src/components/Playground'
+
+import {
+  complexWhereClause
+} from './0060-complex-where-clause'
+
+<div style={{ marginBottom: '1em' }}>
+  <Playground code={complexWhereClause} />
+</div>
+
+:::info[More examples]
+The API documentation is packed with examples. The API docs are hosted [here](https://kysely-org.github.io/kysely-apidoc/),
+but you can access the same documentation by hovering over functions/methods/classes in your IDE. The examples are always
+just one hover away!
+
+For example, check out these sections:
+ - [where method](https://kysely-org.github.io/kysely-apidoc/interfaces/SelectQueryBuilder.html#where)
+ - [whereRef method](https://kysely-org.github.io/kysely-apidoc/interfaces/SelectQueryBuilder.html#whereRef)
+:::
+
+
+---
+./examples/where/_category_.json
+---
+{
+  "label": "WHERE",
+  "position": 2,
+  "link": {
+    "type": "generated-index",
+    "description": "Short and simple examples of how to use the where method to add a WHERE statement. While most of the examples show a SELECT query, the where method works exactly the same in UPDATE and DELETE queries too."
+  }
+}
+
+
+---
