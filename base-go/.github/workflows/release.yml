@@ -1,0 +1,32 @@
+name: Release it 👏
+on:
+  push:
+    tags:
+      - "v*.*.*"
+      - "*.*.*"
+
+permissions:
+  contents: write
+
+jobs:
+  release_it:
+    strategy:
+      fail-fast: false
+      matrix:
+        go: ["1.20"]
+    runs-on: ubuntu-latest
+    name: Release from ${{ matrix.go }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-go@v4
+        with:
+          go-version: ${{ matrix.go }}
+      - name: Run GoReleaser
+        uses: goreleaser/goreleaser-action@v5
+        with:
+          version: latest
+          args: release --clean
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

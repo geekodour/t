@@ -1,0 +1,220 @@
+* About the template
+** Why this template?
+- Remove friction of setup of new project
+- Remove friction of writing the initial tests
+- Suitable for: Basic starter, CLI stuff
+*** Improving the template
+- https://github.com/sethvargo/go-envconfig#Extension
+- https://github.com/knadh/koanf
+
+** Project layout
+- Inspired by [[https://xeiaso.net/blog/within-go-repo-layout-2020-09-07][this layout]].
+- Essentials
+  - ~cmd/~ : executable commands
+  - ~docs/~ : human readable documentation
+  - ~internal/~ : code not intended to be used by others
+    - Contains code that others(other things inside the repo aswell outside) shouldn't consume.
+    - It isolates things in a way that files under the same import path can use it, exposing it is out of question. (??)
+  - ~scripts/~ : any scripts needed for meta-operations
+- Additional
+  - ~api/~ : OpenAPI/Swagger specs, JSON schema files, protocol definition files.
+  - ~configs/~ : Configuration file templates or default configs.
+  - ~tests/~ : Integration tests w data etc. Otherwise, test code lives in the same dir that its code is written in.
+  - ~tools/~ : Supporting tools for this project.
+* Style suggestions and other notes on Go
+** Workflow
+- Running tests in watch mode w gosumtest
+- Using go run instead of go build (use with entr): eg. ~git-entr go run main.go --some-flag~
+*** Debugging (dlv)
+- Usually use ~dlv test~ when you have a test file if you don't have a ~main~ func.
+- ~funcs~ : lists all functions. ~funcs [some_func]~ filters
+- setting breakpoints
+  - ~break [func_name]~
+- Location specifiers: https://github.com/go-delve/delve/blob/master/Documentation/cli/locspec.md
+- Use ~p~ to print symbols etc.
+*** Logging
+- Question: Is it okay to mix slog and log in same package? Eg. in some cases i'd like to avoid slog+osExit and simply use log.Fatal
+- slog doesn't pass values by map unlike say logurus, which makes this a little bit weird but passing maps [[https://news.ycombinator.com/item?id=37224651][has performance implications]] but you could use attrs if you want.
+- [[https://dave.cheney.net/2015/11/05/lets-talk-about-logging][Opinions]] on logging levels
+  - My opinion
+    - I think when using structured logging, using these levels has some merit unlike what the author suggests. Color coding, easy filtering etc.
+  - Warning: It’s either an informational message, or an error condition. (prefer not using)
+  - Fatal: In golang, it's similar to panic. Better to avoid it only. (prefer not using)
+  - Error: There's no point in logging the error, either handle it or pass it up the stack. (prefer not using)
+** Basics
+- [[https://dave.cheney.net/practical-go/presentations/gophercon-singapore-2019.html#_guiding_principles][Practical Go: Real world advice for writing maintainable Go programs]]
+- Naming & Comments
+  - Overall Docs should answer *why* not *how*, code is how, variables are code
+  - Variable & Constants
+    - Name: Should define its purpose(How). Do no mention the type in the name.
+    - Comment: Should describe the contents(Why) not the purpose(How)
+  - Getter&setters: ~Owner~ instead of ~GetOwner~, ~SetOwner~ is fine.
+  - Interface names have a ~-er~
+    - If methods of interface has name such as Read, Write, Close, Flush, String, try using the canonical signatures.
+    - If the functionality of a method is same as provided by std lib, keep name same. Eg. If method prints sring representation, call it ~String~ instead of ~ToString~
+  - Prefer single words for methods, interfaces, and packages.
+- Global variables become an invisible parameter to every function in your program!
+- Using ~Must~ as a prefix for function or method names to indicate that the operation is expected to ~succeed~ or ~panic~
+*** Organizing files
+- All Go code is organized into packages. And we organize code and types by their functional responsibilities.
+- Keep things close
+  - Keep types close to source, pref. in top of the file.
+  - Code should be as close to where it's used as possible. It might be tempting to put things into ~repo-root/internal~ but if it makes better sense, put it close to the source, maybe in its own ~/internal~.
+*** About ~main~
+- 3 things: ~package main~, ~main()~ and ~main.go~
+- Executable program you need an entry point
+  - ~package main~ + ~main()~ func is the entry point
+- The file with the ~main()~ inside the package ~main~, is conventionally named ~main.go~. But can be called anything else. But good to follow the convention.
+- i.e. Have a file(that we want to create an executable out of) inside a directory, name it ~main.go~ + ~package main~ + ~main()~ func. This will give us an executable when go build is run on it.
+- ~main~ packages are not importable, so don't export stuff from it.
+- If your project is just a package and not an executable, it doesn't need a ~main()~, hence doesn't need a ~main~ package at all.
+*** About ~init()~
+- Special function that is executed before ~main()~, usually to perform any initialization tasks
+- Can be defined in any package, multiple such functions can be defined in the same package
+- Nothing related to being an executable unlike ~main()~
+** Packages in Go
+*** Creating packages
+- Go only allows one package per directory
+- Package Name/Path
+  - What it provides, not what it contains.
+  - No plurals for package name. don’t name a package httputils, name it httputil
+  - Avoid overly broad package names like “common” and “util”.
+- Enforce vanity URLs. It ensures this package can only be imported via the mentioned path, even if the other url is serving it.
+  #+begin_src go
+package datastore // import "cloud.google.com/go/datastore"
+  #+end_src
+*** Exposing packages
+#+begin_src text
+// from xeiaso
+repo-root
+├── cmd
+│   ├── paperwork
+│   │   ├── create // exposed to other parts of the module and outside
+│   │   │   └── create.go
+│   │   └── main.go
+│   ├── hospital // not exposed cuz internal
+│   │   ├── internal
+│   │   │   └── operate.go
+│   │   └── main.go
+│   └── integrator // not exposed
+│       ├── integrate.go
+│       └── main.go
+├── internal // not exposed
+│   └── log_manipulate.go
+└── web // exposed to other parts of the module and outside
+    ├── error.go
+    └── instrument.go
+#+end_src
+- Things you don't want to expose
+  - Only internal use : ~/internal~ (subdirectories can have their own ~/internal~)
+  - Other things with ~main.go~ don't get exposed as it's typically used as an entry point for executable programs.
+- Things you want to expose
+  - If ~web~ is used all over your package. (~/repo-root/web~)
+  - From subdirectories/subpackage, close to the code. (~repo-root/cmd/paperwork/create~)
+  - If exposing a package to users, avoid exposing your custom repository structure to your users. i.e Avoid having src/, pkg/ sections in your import paths. So stick to the two points above^
+*** Vendoring
+- Why vendor?
+  - I sometimes work offline, so vendoring is important for me
+  - Helps to ensure that all files used for build are in a single file tree.
+  - No network access we can build stuff always (we supposed to push the vendor to vcs)
+- Default behavior is, if ~vendor/~ directory is present, the go command acts as if ~-mod=vendor~ otherwise ~-mod=readonly~. I think sane defaults.
+**** module cache
+- When ~-mod=mod~ (This is what ~go get~ and ~go mod tidy~ does, doesn't need the flag)
+- Downloaded ~modules~ are stored in ~GOMODCACHE~ and made ~read-only~. This cache may be shared by multiple Go projects developed on the same machine.
+**** vendor
+- When ~-mod=vendor~, go command will use the ~vendor/~ directory
+- Will *not* use the network or the ~module cache~
+- Useful things to know about vendoring
+  - Local changes should not be made to vendored packages. Workspaces can probably help here.
+  - go mod vendor omits go.mod and go.sum files for vendored dependencies
+  - go mod vendor records the go version for each deps in vendor/modules.txt
+  - ~go get, go mod download, go mod tidy~ will bypass vendor directory and download stuff as expected
+** Testing
+- Test code usually lives in the same dir as the code with ~<file>_test.go~
+- ~fmt.X~ work inside tests but it's not supposed to be used there, also it'll format itself weird in the output. For logging in tests, use ~t.Log~ etc.
+- Assertion are not popular in go and I do not plan to use them, but if I need, there's  [[https://github.com/stretchr/testify][testify]].
+- You don't want to test private functions, those are implementation details. Better focus on testing the behavior.
+- If the test has > 3 mocks, might be time to reconsider code
+*** Additional testing helper packages
+- unit tests & mocking : Go's testing framework and dependency injection via interfaces
+- Acceptance tests: Black box test/Functional tests
+  - These are usually separate packages or somthing that run against the running shit
+  - Usually great for working w legacy codebase or unknown ones
+- github.com/approvals/go-approval-tests : For goldens
+** HTTP related
+*** Service lifecycle
+- [[https://medium.com/@yardenlaif/go-sync-or-go-home-errgroup-f91a0ee72d3f][Waitgroups]], errgroup or oklog/run.
+- The later 2 are alternatives [[https://github.com/oklog/run/issues/9][trying to]] improve waitgroup's interface. Choose based on preference.
+*** Routers
+~mux~ is short for Multiplexer
+- ~http.ServeMux~
+  - Good to go with in most cases, but doesn't support variables in URL in which case you might consider something else
+  - Avoid using =http.DefaultServeMux=; any package you import can have access to it, eg. if anything imports =net/http/pprof=, clients will be able to get CPU profiles. Instead instantiate an =http.ServeMux= yourself and set it as the =Server.Handler=.
+  - A metric you'll want to monitor is the number of open file descriptors when dealing with webservers. One can use =Server.ConnState= hook to get more detailed metrics of what stage the connections are in.
+- ~go-chi/chi~
+  - for anything else go w chi
+- Use [[https://github.com/unrolled/secure][unrolled/secure]] for security headers
+- Additional notes
+  - Parsing body
+    - [[https://www.alexedwards.net/blog/how-to-properly-parse-a-json-request-body][How to Parse a JSON Request Body in Go – Alex Edwards]]
+    - https://gist.github.com/aodin/9493190
+    - https://ahmet.im/blog/golang-json-decoder-pitfalls/ (deprecated)
+  - Sending response
+  - Routing techniques
+    - [[https://benhoyt.com/writings/go-routing/][Different approaches to HTTP routing in Go]]
+    - [[https://eli.thegreenplace.net/2023/better-http-server-routing-in-go-122/][Better HTTP server routing in Go 1.22 - Eli Bendersky's website]]
+  - Middleware
+    - [[https://www.alexedwards.net/blog/making-and-using-middleware][Making and Using HTTP Middleware – Alex Edwards]]
+  - Management
+    - [[https://pace.dev/blog/2018/05/09/how-I-write-http-services-after-eight-years.html][How I write HTTP services after eight years by Mat Ryer - PACE.]]
+    - https://twitter.com/matryer/status/1445013230858952705
+    - https://www.reddit.com/r/golang/comments/sk05z2/how_i_write_http_services_after_eight_years/
+** Databases
+- I've written something about sqlite drivers in my wiki
+- Overall ~pgx~ + ~sqlc~ can be a good combination
+  - Transactions: [[https://stackoverflow.com/questions/76848733/is-there-a-way-for-sqlc-to-generate-code-that-can-use-pgxpool][Is there a way for sqlc to generate code that can use pgxpool]]
+    - Official docs has incomplete example
+      - https://github.com/sqlc-dev/sqlc/blob/v1.14.0/docs/howto/transactions.md
+      - https://github.com/sqlc-dev/sqlc/blob/main/docs/howto/transactions.md
+*** Interface
+- These interfaces do need a driver to work with
+- ~database/sql~
+  - See [[http://go-database-sql.org/][Go database/sql tutorial]]
+  - Basic usage
+    - Write a query, pass in the necessary arguments, and scan the results back into fields.
+    - Programmers are responsible for explicitly specifying the mapping between a SQL field and its value
+  - ~sqlx~
+    - Extensions on go's standard database/sql library. (superset of ~database/sql~) Eg. allows you to avoid manual column <-> field mapping etc.
+    - ~sqlx~ work only with the standard interface and not the native interface of ~pgx~. So ~sqlx~ can be used with ~pgx~ with stdlib compatibility.
+- ORMs
+  - [[https://en.wikipedia.org/wiki/Object%E2%80%93relational_impedance_mismatch][Object–relational impedance mismatch - Wikipedia]]
+  - https://gorm.io/
+*** Drivers
+- ~pgx~ (for postgres)
+  - If needed, it still can be used with [[https://github.com/jackc/pgx#choosing-between-the-pgx-and-databasesql-interfaces][database/sql]], [[https://github.com/sqlc-dev/sqlc/issues/1823][sqlc]], [[https://stackoverflow.com/questions/74348652/what-driver-name-do-i-use-to-connect-go-sqlx-to-postgres-using-the-pgx-driver][sqlx]] etc. But usually, if you're only dealing with postgres, you don't really need these additional layers. Simply ~pgx~'s native interface, it can handle most things.
+  - ~pgx~'s native interface works with [[https://github.com/georgysavva/scany][scany]]
+  - It has postgree specific optimizations that are impossible in the standard driver. (for example support for Native Postgres types: arrays, json etc)
+  - Alternatives are ~lib/pq~ etc. but ~pgx~ is good.
+*** SQL query builders/code generators/mappers
+- These basically convert go's syntax into pure SQL.
+- Example: [[https://github.com/Masterminds/squirrel][squirrel]], [[https://github.com/go-jet/jet][jet]](preferred), [[https://github.com/volatiletech/sqlboiler#getting-started][sqlboiler]]
+- ~sqlc~
+  - It's NOT a go package, it's a cli tool
+  - From SQL -> Go code
+  - See [[https://conroy.org/introducing-sqlc][Compile SQL queries to type-safe Go]]
+  - See [[https://brandur.org/sqlc][How We Went All In on sqlc/pgx for Postgres + Go]]
+  - Works [[https://docs.sqlc.dev/en/stable/guides/using-go-and-pgx.html][with pgx]]
+  - It does not use struct tags, hand-written mapper functions, unnecessary reflection etc.
+  - It's the opposite of sql query builders
+  - It generates type-safe code for your raw SQL schema and queries.
+*** Transaction and Request cancellation
+- See [[https://medium.com/avitotech/how-to-work-with-postgres-in-go-bad2dabd13e4][How to work with Postgres in Go. Using Postgres from Golang]]
+*** Pooling for postgres
+- See [[https://www.reddit.com/r/PostgreSQL/comments/p9vwun/pgbouncer_vs_application_side_pooler/][Application side vs Server side]]
+**** Why pgxpool?
+- Usually it's preferred to go with server side pooling than to even worry about client side pooling.
+- But if you're using ~pgx~ in a concurrent application, eg. webserver where each web session will create a new database connection then you must you [[https://pkg.go.dev/github.com/jackc/pgx/v5/pgxpool][pgxpool]] [[https://github.com/jackc/pgx/issues/970][whether]] or not you're using ~pgbouncer~ on the [[https://github.com/jackc/pgx/discussions/1784][server side]] because pgx.conn by itself is not threadsafe, i.e multiple goroutines cannot safely access it.
+- With pgxpool is you can have long [[https://github.com/jackc/pgx/issues/1780][standing connections]] with db and pgxpool also tries to restablish connections if they are closed due to environment factors. You don't get it with plain ~pgx.Conn~
+- By default pgx automatically uses prepared statements. Prepared statements are incompaptible with PgBouncer. This can be disabled by setting a different QueryExecMode in ConnConfig.DefaultQueryExecMode.
+  - This has changed! See [[https://www.crunchydata.com/blog/prepared-statements-in-transaction-mode-for-pgbouncer#how-much-faster-are-prepared-statements][Prepared Statements in Transaction Mode for... | Crunchy Data Blog]]
+  - Also see ~PreferSimpleProtocol~ (v4)

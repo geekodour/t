@@ -1,0 +1,56 @@
+before:
+  hooks:
+    - go mod tidy
+builds:
+  - main: ./cmd/bake
+    id: bake
+    binary: bake
+    env:
+      - CGO_ENABLED=0
+    flags:
+      - -trimpath
+    ldflags:
+      - -s -w -X main.VersionString={{.Version}}
+    goos:
+      - linux
+      - windows
+      - darwin
+    goarch:
+      - amd64
+      - arm
+      - arm64
+    goarm:
+      - "5"
+    ignore:
+      - goos: windows
+        goarch: arm
+      - goos: windows
+        goarch: arm64
+archives:
+  - id: default
+    format: tar.gz
+    rlcp: true
+    files:
+      - LICENSE
+      - README.org
+    name_template: >-
+      {{ .ProjectName }}_
+      {{- .Version }}_
+      {{- if eq .Os "darwin" }}mac{{ else }}{{ .Os }}{{ end }}_
+      {{- if eq .Arch "amd64" }}x86_64
+      {{- else if eq .Arch "386" }}i386
+      {{- else }}{{ .Arch }}{{ end }}
+      {{- if .Arm }}v{{ .Arm }}{{ end }}
+    format_overrides:
+      - goos: windows
+        format: zip
+checksum:
+  name_template: "checksums.txt"
+snapshot:
+  name_template: "{{ incpatch .Version }}-snapshot"
+
+release:
+  prerelease: auto
+  draft: true
+  mode: append
+# yaml-language-server: $schema=https://goreleaser.com/static/schema.json
