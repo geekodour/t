@@ -1,0 +1,7 @@
+* About the template
+** Why this template?
+- Remove friction of setup of new project
+- Remove friction of writing the initial tests
+** Notes
+- This is CommonJS ONLY. Does not support esm.
+- So ESM modules like vitest will not work (they will work but importing vitest etc will not work)

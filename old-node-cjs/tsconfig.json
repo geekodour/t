@@ -1,0 +1,49 @@
+{
+    "include": ["src"],
+    "exclude": ["node_modules", "dist"],
+    "compilerOptions": {
+        // See https://github.com/tsconfig/bases
+
+        /* Language and Environment */
+        "target": "es2022", // what to compile to, options: [es2022..es2015]
+        // lib
+        // - declaration files(.d.ts) of runtime to be made available
+        // - default value is based on "target", but we can set custom
+        // - lookup order allows you to have pinned types for runtime APIs (using @types packages)
+        // - lookup order: node_modules/@typescript/lib-*, bundled into typescript
+        "lib": ["es2022"], // options: [es2022..es2015]
+
+        /* Modules */
+        // module
+        // - The underlying module system, does not affect how you import/export. TS handles that.
+        // - For now we with nodejs, we want to keep using commonjs
+        // - node16:  uses either commonjs or es2020 output depending "type" in package.json
+        "module": "node16", // options: [none, commonjs, amd, umd, system, es2015, es2020, es2022, esnext, node16, nodenext]
+        "moduleResolution": "node", // options: [node/node10 (commonjs), node16/nodenext(esm)]
+
+        /* Javascript */
+        "allowJs": true,
+        "checkJs": true,
+        "resolveJsonModule": true,
+        "sourceMap": true,
+
+        /* Emit */
+        "rootDir": "./src", // all non-declaration input files
+        "outDir": "./dist", // for all emitted files (tsup by default does this, not tsc)
+
+        /* Interop Constraints */
+        "isolatedModules": true, // Ensure that each file can be safely transpiled without relying on other imports.
+        "esModuleInterop": true, // better support commonjs
+        "forceConsistentCasingInFileNames": true,
+
+        /* Type Checking */
+        "strict": true, // Enable all strict type-checking (strict* are actually un-nessassary after this)
+        "noImplicitAny": true, // no any
+        "strictNullChecks": true, // null and undefined are different types
+        "noUnusedLocals": true,
+
+        /* Completeness */
+        "allowSyntheticDefaultImports": true,
+        "skipLibCheck": true // Skip type checking all .d.ts files
+    }
+}
