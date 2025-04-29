@@ -1,6 +1,0 @@
-I use these when starting new projects/creating [[https://replit.com/templates][new repls]].
-- [[https://github.com/geekodour/template-base-go][base-go]] : cookiecutter for go
-- [[https://github.com/geekodour/t-base-python][base-python]] : cookiecutter for python
-- [[https://github.com/geekodour/t-base-node-cjs][base-node-cjs]] : cookiecutter for node
-- web
-  - [[https://github.com/geekodour/t-base-svelte][base-svelte]] : A barebones cookiecutter for personal svelte projects

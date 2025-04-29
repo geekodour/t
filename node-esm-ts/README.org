@@ -1,0 +1,17 @@
+* node-esm-ts cookie
+#+begin_quote
+This cookie is useful for building backend/services. For frontend, just run the framework specific thing(if svelte, then sveltekit, if react then react-router(previously remix)).
+#+end_quote
+
+** Linting, Formatting etc
+#+begin_quote
+- Don’t put into linter what Typescript can handle.
+- Don’t put into linter what Prettier can handle
+#+end_quote
+** Database
+- For postgres: https://github.com/porsager/postgres
+- For sqlite: https://github.com/tursodatabase/libsql-client-ts
+  - This does not work properly with ~deno~ or ~bun~ so we have to keep using oldschool node.
+- Both have kysely dialects
+  - https://github.com/kysely-org/kysely-postgres-js (postgres)
+  - https://github.com/tursodatabase/kysely-libsql (sqlite)

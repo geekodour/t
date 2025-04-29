@@ -1,0 +1,33 @@
+default:
+	@just --list
+
+# check everything
+spin: test build lint format
+
+# build
+build:
+	npm run build
+
+# dev
+dev:
+	npm run dev
+
+# run tests
+test:
+	npm run test
+
+# run tests in watch mode
+test-watch:
+	npm run test:watch
+
+# lint
+lint:
+	npm run lint
+
+# format
+format:
+	npm run format:write
+
+# outdated deps
+deps-check:
+	pnpx taze major
