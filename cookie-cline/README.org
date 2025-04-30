@@ -149,6 +149,8 @@ Use the `docs/for_ai/reference/feature_brainstorm/*.md` rule
 - My current idea is I will maintain a separate llmtxt(either official or made by me) in the reference for any dependency that I know that the AI won't be fully aware of
 - I then feed these llmtxt into notebookLM as sources (I could possibly use a selfhosted rag solution here aswell), then query when needed.
 
+* TODO ADDITIONAL: MCP servers
+
 * Maintenance tips
 - Basic: Keep them context updated, keep them versioned, removed outdated context.
 - It's important what "your action" is the model gets something "right"/"lets you down".
