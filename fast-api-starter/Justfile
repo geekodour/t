@@ -1,0 +1,15 @@
+default:
+	@just --list
+
+# Spin up any long running jobs for the local dev setup (eg.db)
+# Once this is running we should be able to
+# NOTE: You might need to run pgdirs(fish alias)
+# access it using: pgcli  -U postgres (env vars to be set correctly)
+localpg:
+  nix run .#localpg
+
+# .clinerules is .gitignored
+# copy relevant base .clinerules from our rule bank
+cline-copy-meta-rules:
+	mkdir -p .clinerules
+	cp ./docs/for_ai/rules/meta_* ./.clinerules/

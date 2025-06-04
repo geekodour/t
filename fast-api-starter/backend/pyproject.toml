@@ -1,0 +1,30 @@
+[project]
+name = "pasoli"
+version = "0.1.0"
+description = "Pasoli Backend API"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi>=0.110.0",
+    "uvicorn>=0.27.0",
+    "pydantic>=2.6.0",
+    "structlog>=25.4.0",
+    "pydantic-settings>=2.9.1",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/pasoli"]
+
+[project.scripts]
+pasoli_server = "pasoli.main:start"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = "test_*.py"
+python_classes = "Test*"
+python_functions = "test_*"
+asyncio_mode = "auto"
+mock_use_standalone_module = true
